@@ -31,6 +31,15 @@ Feature: Private Share
       |  item   |   group    |  user_in_group |
       |  Files  |   test     |     user2      |
 
+  Scenario Outline: Correct federated share
+    When user selects <item> to share with <user>
+    Then share is created on <item> with the following fields
+      | user | <user> |
+
+    Examples:
+      |  item             |   user                     |
+      |  textExample.txt  |   demo@demo.owncloud.com   |
+
   Scenario Outline: Edit existing share, removing permissions
     Given the item <item> is already shared with <user>
     When user selects to share the item <item>

@@ -20,19 +20,17 @@ import static org.junit.Assert.assertTrue;
 public class LoginSteps {
 
     //Involved pages
-    //private WizardPage wizardPage = new WizardPage();
     private LoginPage loginPage = new LoginPage();
     private CommonAPI commonAPI = new CommonAPI();
     private FileListPage fileListPage = new FileListPage();
 
-    @Given("^wizard is skipped$")
-    public void wizard_skipped()
+    @Given("^app is launched for the first time$")
+    public void first_launch()
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
                 new Object(){}.getClass().getEnclosingMethod().getName());
-        //In case it is installed, we remove to execute logon tests
+        //In case it is installed, we remove to execute login tests
         loginPage.reinstallApp();
-        //wizardPage.skip();
     }
 
     @Given("^user1 is logged$")
@@ -40,7 +38,6 @@ public class LoginSteps {
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
                 new Object(){}.getClass().getEnclosingMethod().getName());
-        //wizardPage.skip();
         if (loginPage.notLoggedIn()) {
             String authMethod = commonAPI.checkAuthMethod();
             String username = LocProperties.getProperties().getProperty("userName1");

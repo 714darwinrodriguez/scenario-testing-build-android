@@ -4,8 +4,8 @@ Feature: Login
   As an user, i want to be able to login in my account basic, OAuth2 or OIDC
   so that i can manage the content inside
 
-  Background: Skipping wizard
-    Given wizard is skipped
+  Background: App is installed from scratch
+    Given app is launched for the first time
 
   @smoke
   Scenario Outline: A valid login in basic auth
@@ -50,7 +50,8 @@ Feature: Login
       | username |   password   |
       |  admin   |    admin     |
 
-  Scenario: An invalid login @smoke
+  @smoke
+  Scenario: An invalid login
     When server with basic auth is available
     And user logins as user1 with password as as basic auth credentials
     Then user sees an error message
