@@ -73,7 +73,7 @@ then
 else
   ./gradlew test \
   --info \
-  -Dcucumber.options="--tags $tags" \
+  -Dcucumber.filter.tags=$tags \
   -Dappium=$appium \
   -Ddevice=$device \
   -Dserver=$oc

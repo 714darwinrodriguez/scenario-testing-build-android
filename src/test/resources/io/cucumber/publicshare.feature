@@ -64,6 +64,7 @@ Feature: Public Share
       |  item       |  name    | expiration    |
       |  Documents  |  link1   |    4          |
 
+  @editshare
   Scenario Outline: Edit existing share, changing permissions
     Given the item <item> is already shared by link
     When user selects to share the item <item>

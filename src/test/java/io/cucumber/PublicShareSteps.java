@@ -26,7 +26,7 @@ public class PublicShareSteps {
     //APIs to call
     protected ShareAPI shareAPI = new ShareAPI();
 
-    @Given("the item (.+) is already shared by link")
+    @Given("^the item (.+) is already shared by link$")
     public void item_already_shared_by_link(String itemName)
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
