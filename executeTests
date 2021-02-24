@@ -65,15 +65,15 @@ echo "device: $device"
 
 if [ -z "$tags" ]
 then
- ./gradlew test \
+ ./gradlew clean test aggregate \
   --info \
   -Dappium=$appium \
   -Ddevice=$device \
   -Dserver=$oc
 else
-  ./gradlew test \
+  ./gradlew clean test aggregate \
   --info \
-  -Dcucumber.filter.tags=$tags \
+  -Dcucumber.options="--tags $tags" \
   -Dappium=$appium \
   -Ddevice=$device \
   -Dserver=$oc

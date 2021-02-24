@@ -10,9 +10,10 @@ import android.AppiumManager;
 
 import java.util.logging.Level;
 
+import io.cucumber.core.api.Scenario;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
+//import io.cucumber.java.Scenario;
 import utils.log.Log;
 
 public class Hooks {
