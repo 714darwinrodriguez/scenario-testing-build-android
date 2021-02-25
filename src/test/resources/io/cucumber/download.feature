@@ -10,15 +10,15 @@ Feature: Download a file in the account
       | ownCloud Manual.pdf |
       | textExample.txt     |
 
-  @NoDevice
-  Scenario Outline: Download a file that is not previewable
-    When user selects to Download the item <itemName>
-    Then user sees the detailed information: <itemName>, <Type>, and <Size>
-    And the item <itemName> is stored in the device
+  #@NoDevice
+  #Scenario Outline: Download a file that is not previewable
+  #  When user selects to Download the item <itemName>
+  #  Then user sees the detailed information: <itemName>, <Type>, and <Size>
+  #  And the item <itemName> is stored in the device
 
-    Examples:
-      | itemName       | Type     | Size    |
-      | Archive.zip    | ZIP file | 12.1 MB |
+  #  Examples:
+  #    | itemName       | Type     | Size    |
+  #    | Archive.zip    | ZIP file | 12.1 MB |
 
 
   Scenario Outline: Download a file that is  previewable

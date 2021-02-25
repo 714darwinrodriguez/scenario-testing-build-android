@@ -190,7 +190,7 @@ public class FileListPage extends CommonPage {
         String urlServer = System.getProperty("server");
         String host = urlServer.split("//")[1];
 
-        //Code below is pretty hacky and will be removed in Scope Storage. Skipping ftm
+        //Code below is pretty hacky and will be removed in Scope Storage.
 
         //Checking file is downloaded inside the device
         try {
@@ -256,7 +256,6 @@ public class FileListPage extends CommonPage {
                 found = false;
                 break;
             }
-            //TODO: swipe to the top to start a new loop
         }
         return found;
     }
