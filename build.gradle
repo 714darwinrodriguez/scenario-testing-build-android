@@ -45,11 +45,12 @@ repositories {
 }
 
 test {
-    ignoreFailures = true
+    testLogging.showStandardStreams = true
     systemProperty "cucumber.options", System.getProperty("cucumber.options")
     systemProperty "appium", System.getProperty("appium")
     systemProperty "device", System.getProperty("device")
     systemProperty "server", System.getProperty("server")
 }
 
-aggregate { dependsOn test }
+gradle.startParameter.continueOnFailure = true
+test.finalizedBy(aggregate)
