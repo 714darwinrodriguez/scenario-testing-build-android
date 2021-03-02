@@ -1,9 +1,9 @@
 Build status:
-https://app.bitrise.io/app/d9ceab91286794be/status.svg?token=zSpveXrg9JoguUP0-dQDug&branch=master
+![](https://app.bitrise.io/app/d9ceab91286794be/status.svg?token=zSpveXrg9JoguUP0-dQDug)
 
 Scenarios contained in feature files written in Gherkin language.
 Available scenarios can be found
-[here](android-scenario-testing/src/test/resources/io/cucumber).
+[here](src/test/resources/io/cucumber).
 
 Defined for the [ownCloud Android app](https://github.com/owncloud/android)
 
