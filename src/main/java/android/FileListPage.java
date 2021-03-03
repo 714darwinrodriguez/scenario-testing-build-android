@@ -53,7 +53,7 @@ public class FileListPage extends CommonPage {
     @AndroidFindBy(id="com.owncloud.android:id/action_sync_file")
     private MobileElement syncFile;
 
-    @AndroidFindBy(id="com.owncloud.android:id/toolbar")
+    @AndroidFindBy(id="com.owncloud.android:id/root_toolbar")
     private List<MobileElement> toolbar;
 
     @AndroidFindBy(id="com.owncloud.android:id/list_root")
