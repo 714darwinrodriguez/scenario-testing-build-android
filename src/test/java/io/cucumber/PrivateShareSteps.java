@@ -30,7 +30,7 @@ public class PrivateShareSteps {
     //APIs to call
     protected ShareAPI shareAPI = new ShareAPI();
 
-    @Given("^the item (.+) is already shared with (.+)$")
+    @Given("^the item (.+) has been already shared with (.+)$")
     public void item_already_shared(String itemName, String sharee)
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
@@ -115,7 +115,7 @@ public class PrivateShareSteps {
         sharePage.acceptDeletion();
     }
 
-    @Then("^share is created on (.+) with the following fields$")
+    @Then("^share should be created on (.+) with the following fields$")
     public void share_created_with_fields(String itemName, DataTable table)
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
@@ -131,7 +131,7 @@ public class PrivateShareSteps {
                     privateSharePage.close();
                     break;
                 }
-                case "user": {
+                case "sharee": {
                     assertTrue(sharePage.isItemInListPrivateShares(rows.get(1)));
                     break;
                 }
@@ -154,7 +154,7 @@ public class PrivateShareSteps {
         shareAPI.removeShare(share.getId());
     }
 
-    @Then("^group including (.+) has access to (.+)$")
+    @Then("^group including (.+) should have access to (.+)$")
     public void group_has_the_file (String userName, String itemName)
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
@@ -162,7 +162,7 @@ public class PrivateShareSteps {
         assertTrue(shareAPI.isSharedWithMe(itemName, true));
     }
 
-    @Then("^user (.+) does not have access to (.+)$")
+    @Then("^user (.+) should not have access to (.+)$")
     public void sharee_does_not_have_the_file (String userName, String itemName)
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
@@ -170,7 +170,7 @@ public class PrivateShareSteps {
         assertFalse(shareAPI.isSharedWithMe(itemName, false));
     }
 
-    @Then("^user (.+) has access to (.+)$")
+    @Then("^user (.+) should have access to (.+)$")
     public void sharee_has_the_file (String userName, String itemName)
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
@@ -178,7 +178,7 @@ public class PrivateShareSteps {
         assertTrue(shareAPI.isSharedWithMe(itemName, false));
     }
 
-    @Then("^(.+) is not shared anymore with (.+)$")
+    @Then("^(.+) should not be shared anymore with (.+)$")
     public void share_is_deleted(String itemName, String sharee) {
         Log.log(Level.FINE, "----STEP----: " +
                 new Object(){}.getClass().getEnclosingMethod().getName());

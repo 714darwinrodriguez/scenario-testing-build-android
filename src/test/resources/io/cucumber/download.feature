@@ -1,12 +1,13 @@
 @download
 Feature: Download a file in the account
 
-  As an user, i want to be able to download items locally
-  so that the content is stored in the device
+  As a user
+  I want to download the items on my list to my device
+  so that my content is also stored in the device
 
   Background: User is logged in
-    Given user1 is logged
-    And the following items exist in the account
+    Given user "user1" is logged
+    And the following items have been created in the account
       | ownCloud Manual.pdf |
       | textExample.txt     |
 
@@ -21,11 +22,7 @@ Feature: Download a file in the account
   #    | Archive.zip    | ZIP file | 12.1 MB |
 
 
-  Scenario Outline: Download a file that is  previewable
-    When user selects to Download the item <itemName>
-    Then the item <itemName> is opened and previewed
-    And the item <itemName> is stored in the device
-
-    Examples:
-      | itemName         |
-      | textExample.txt  |
+  Scenario: Download a file that is previewable
+    When user selects to Download the item textExample.txt
+    Then the item textExample.txt should be opened and previewed
+    And the item textExample.txt should be stored in the device

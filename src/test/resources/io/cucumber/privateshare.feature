@@ -1,51 +1,44 @@
 @privateshare
 Feature: Private Share
 
-  As an user, i want to share my content with other users in the platform
-  so that the content is accessible and others can contribute
+  As a user
+  I want to share my content with other users in the platform
+  So that the content is accessible and others can contribute
 
   Background: User is logged in
-    Given user1 is logged
-    And the following items exist in the account
+    Given user user1 is logged
+    And the following items have been created in the account
       | Documents |
 
-  @smoke
-  Scenario Outline: Correct share with user
-    When user selects <item> to share with <user>
-    Then user <user> has access to <item>
-    And share is created on <item> with the following fields
-      | user | <user> |
-
-    Examples:
-      |  item   |   user    |
-      |  Files  |   user2   |
 
   @smoke
-  Scenario Outline: Correct share with group
-    When user selects <item> to share with <group>
-    Then group including <user_in_group> has access to <item>
-    And share is created on <item> with the following fields
-      | group | <group> |
+  Scenario: Correct share with user
+    When user selects Files to share with user2
+    Then user user2 should have access to Files
+    And share should be created on Files with the following fields
+      | sharee | user2 |
 
-    Examples:
-      |  item   |   group    |  user_in_group |
-      |  Files  |   test     |     user2      |
 
-  Scenario Outline: Correct federated share
-    When user selects <item> to share with <user>
-    Then share is created on <item> with the following fields
-      | user | <user> |
+  @smoke
+  Scenario: Correct share with group
+    When user selects Files to share with test
+    Then group including user2 should have access to Files
+    And share should be created on Files with the following fields
+      | group | test |
 
-    Examples:
-      |  item             |   user                     |
-      |  textExample.txt  |   demo@demo.owncloud.com   |
+
+  Scenario: Correct federated share
+    When user selects textExample.txt to share with demo@demo.owncloud.com
+    Then share should be created on textExample.txt with the following fields
+      | sharee | demo@demo.owncloud.com |
+
 
   Scenario Outline: Edit existing share, removing permissions
-    Given the item <item> is already shared with <user>
+    Given the item <item> has been already shared with <user>
     When user selects to share the item <item>
     And user edits the share on <item> with permissions <permissions>
-    Then user <user> has access to <item>
-    Then share is created on <item> with the following fields
+    Then user <user> should have access to <item>
+    And share should be created on <item> with the following fields
       | user        |  <user>        |
       | permissions |  <permissions> |
 
@@ -63,13 +56,10 @@ Feature: Private Share
       |  Files  |   user2   |   13        |
       |  Files  |   user2   |   17        |
 
-  Scenario Outline: Delete existing share
-    Given the item <item> is already shared with <user>
-    When user selects to share the item <item>
-    And user deletes the share
-    Then user <user> does not have access to <item>
-    And <item> is not shared anymore with <user>
 
-    Examples:
-      |  item     |   user    |
-      |  Files    |   user2   |
+  Scenario: Delete existing share
+    Given the item Files has been already shared with user2
+    When user selects to share the item Files
+    And user deletes the share
+    Then user user2 should not have access to Files
+    And Files should not be shared anymore with user2

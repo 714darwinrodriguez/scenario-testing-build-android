@@ -26,7 +26,7 @@ public class PublicShareSteps {
     //APIs to call
     protected ShareAPI shareAPI = new ShareAPI();
 
-    @Given("^the item (.+) is already shared by link$")
+    @Given("^the item (.+) has been already shared by link$")
     public void item_already_shared_by_link(String itemName)
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
@@ -125,7 +125,7 @@ public class PublicShareSteps {
         sharePage.acceptDeletion();
     }
 
-    @Then("^link is created on (.+) with the following fields$")
+    @Then("^link should be created on (.+) with the following fields$")
     public void link(String itemName, DataTable table)
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
@@ -171,7 +171,7 @@ public class PublicShareSteps {
         shareAPI.removeShare(share.getId());
     }
 
-    @Then("^link on (.+) does not exist anymore$")
+    @Then("^link on (.+) should not exist anymore$")
     public void link_not_existing(String itemName)
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +

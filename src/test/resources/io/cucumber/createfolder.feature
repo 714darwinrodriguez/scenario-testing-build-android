@@ -1,18 +1,15 @@
 @createfolder
 Feature: Create a new folder
 
-  As an user, i want to be able to create new folders,
-  so that i can put order in my file structure
+  As a user
+  I want to create new folders in my account,
+  so that i will put order in my file structure
 
   Background: User is logged in
-    Given user1 is logged
+    Given user user1 is logged
 
   @smoke
-  Scenario Outline: Create a new folder
+  Scenario: Create a new folder with a correct name
     When user selects the option Create Folder
-    And user sets <newFolder> as name
-    Then user sees <newFolder> in the file list
-
-    Examples:
-      | newFolder   |
-      | FolderTest  |
+    And user sets FolderTest as new name
+    Then user should see FolderTest in the filelist

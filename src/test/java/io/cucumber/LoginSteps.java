@@ -24,7 +24,7 @@ public class LoginSteps {
     private CommonAPI commonAPI = new CommonAPI();
     private FileListPage fileListPage = new FileListPage();
 
-    @Given("^app is launched for the first time$")
+    @Given("^app has been launched for the first time$")
     public void first_launch()
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
@@ -33,8 +33,8 @@ public class LoginSteps {
         loginPage.reinstallApp();
     }
 
-    @Given("^user1 is logged$")
-    public void i_am_logged()
+    @Given("^user (.+) is logged$")
+    public void i_am_logged(String user)
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
                 new Object(){}.getClass().getEnclosingMethod().getName());
@@ -70,7 +70,7 @@ public class LoginSteps {
         JSONparser.parsePublicLink();
     }
 
-    @When("^server with (.+) is available$")
+    @Given("^server with (.+) is available$")
     public void server_available(String authMethod) {
         Log.log(Level.FINE, "----STEP----: " +
                 new Object(){}.getClass().getEnclosingMethod().getName() + " with " + authMethod);
@@ -106,7 +106,7 @@ public class LoginSteps {
         }
     }
 
-    @Then("^user can see the main page$")
+    @Then("^user should see the main page$")
     public void i_can_see_the_main_page() {
         Log.log(Level.FINE, "----STEP----: " +
                 new Object(){}.getClass().getEnclosingMethod().getName());
@@ -122,7 +122,7 @@ public class LoginSteps {
         loginPage.removeApp();
     }
 
-    @Then("^user sees an error message$")
+    @Then("^user should see an error message$")
     public void i_see_an_error_message() {
         Log.log(Level.FINE, "----STEP----: " +
                 new Object(){}.getClass().getEnclosingMethod().getName());
