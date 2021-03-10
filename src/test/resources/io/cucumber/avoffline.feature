@@ -6,7 +6,7 @@ Feature: Set items as available offline (downloaded and synced)
   So that the content will be always downloaded and synced
 
   Background: User is logged in
-    Given user "user1" is logged
+    Given user user1 is logged
     And the following items have been created in the account
       | ownCloud Manual.pdf |
 

@@ -1,4 +1,4 @@
-
+defaultTasks 'clean','test','aggregate'
 
 project.ext {
     cucumberVersion = '4.8.0'

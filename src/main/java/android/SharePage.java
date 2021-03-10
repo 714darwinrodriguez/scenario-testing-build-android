@@ -84,6 +84,10 @@ public class SharePage extends CommonPage {
     public boolean checkCorrectShare(OCShare remoteShare, List<List<String>> dataList ){
         Log.log(Level.FINE, "Starts: Check correct share");
         HashMap<String, String> mapFields = turnListToHashmap(dataList);
+        if (remoteShare == null){
+            Log.log(Level.FINE, "Remote share is null, returning false");
+            return false;
+        }
         for (Map.Entry<String, String> entry : mapFields.entrySet()) {
             Log.log(Level.FINE, "Entry KEY: " + entry.getKey() + " - VALUE: " + entry.getValue());
             switch (entry.getKey()){

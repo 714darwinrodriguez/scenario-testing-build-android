@@ -7,7 +7,7 @@ Feature: List of files is correctly retrieved from server.
 
 
   Scenario Outline: Check items in the list of files of an specific folder
-    Given user "user1" is logged
+    Given user user1 is logged
     Then the list of files in <path> folder should match with the server
 
     Examples:

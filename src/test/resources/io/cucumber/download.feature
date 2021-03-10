@@ -6,7 +6,7 @@ Feature: Download a file in the account
   so that my content is also stored in the device
 
   Background: User is logged in
-    Given user "user1" is logged
+    Given user user1 is logged
     And the following items have been created in the account
       | ownCloud Manual.pdf |
       | textExample.txt     |
