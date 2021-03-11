@@ -22,12 +22,14 @@
 help()
 {
    echo ""
-   echo "Usage: $0 -s <ownCloud Server URL> -t <filter> -a <Appium Server URL> -d <device UID> "
+   echo "Usage: $0 -s <ownCloud Server URL> -o <host> -t <filter> -a <Appium Server URL> -d <device UID> "
    echo ""
    echo -e "\t-s (mandatory) URL of ownCloud server to test against"
    echo -e "\t-a (optional) Appium server URL. if Appium Server is not specified, will be used \"localhost:4723/wd/hub\""
    echo -e "\t-t (optional) Filter. F. ex: @createfolder will send only tests tagged with such label. Tags are allowed to concatenate, sepparated by \",\". It is also allowed to use a classpath to execute all the test in such class"
    echo -e "\t-d (optional) In case of several devices attached, tests will be sent against the UID set in this option"
+   echo -e "\t-o (optional) Host name. If your server is stored in subfolders, this is pretty recommended"
+   echo -e "\t-h shows this help"
    echo ""
    exit 1 
 }
@@ -41,6 +43,8 @@ while getopts ":t:a:s:d:h" opt; do
     s) oc="$OPTARG"
     ;;
     d) device="$OPTARG"
+    ;;
+    o) host="$OPTARG"
     ;;
     h) help
     ;;
@@ -62,6 +66,7 @@ echo "Appium server: $appium"
 echo "oC server: $oc"
 echo "tags: $tags"
 echo "device: $device"
+echo "host: $host"
 
 if [ -z "$tags" ]
 then
@@ -70,6 +75,7 @@ then
   -Dappium=$appium \
   -Ddevice=$device \
   -Dserver=$oc
+  -Dhost=$host
 else
   ./gradlew clean test aggregate \
   --info \
@@ -77,4 +83,5 @@ else
   -Dappium=$appium \
   -Ddevice=$device \
   -Dserver=$oc
+  -Dhost=$host
 fi

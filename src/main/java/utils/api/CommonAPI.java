@@ -28,7 +28,7 @@ public class CommonAPI {
 
     protected String urlServer = System.getProperty("server");
     protected String userAgent = LocProperties.getProperties().getProperty("userAgent");
-    protected String host = urlServer.split("//")[1];
+    protected String host = getHost();
 
     protected String user = LocProperties.getProperties().getProperty("userName1");
     protected String password = LocProperties.getProperties().getProperty("passw1");
@@ -232,5 +232,14 @@ public class CommonAPI {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String getHost(){
+        String urlServer = System.getProperty("server");
+        String host = System.getProperty("host");
+        if (host.isEmpty() || host == null){
+            host = urlServer.split("//")[1];
+        }
+        return host;
     }
 }

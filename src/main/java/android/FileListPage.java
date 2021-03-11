@@ -188,8 +188,10 @@ public class FileListPage extends CommonPage {
     public boolean fileIsDownloaded(String fileName) {
         Log.log(Level.FINE, "Starts: Checking file downloaded: " + fileName);
         String urlServer = System.getProperty("server");
-        String host = urlServer.split("//")[1];
-
+        String hostName = System.getProperty("host");
+        if ( hostName.isEmpty() || hostName == null) {
+            hostName = urlServer.split("//")[1];
+        }
         //Code below is pretty hacky and will be removed in Scope Storage.
 
         //Checking file is downloaded inside the device
@@ -197,7 +199,7 @@ public class FileListPage extends CommonPage {
             byte[] downloadedFile = driver.pullFile("/sdcard/owncloud/" +
                     LocProperties.getProperties().getProperty("userName1") +
                     "@" +
-                    URLEncoder.encode(host, "UTF-8") + "/" + fileName);
+                    URLEncoder.encode(hostName, "UTF-8") + "/" + fileName);
             Log.log(Level.FINE, "Checking file in " + downloadedFile.toString());
             return downloadedFile!=null && downloadedFile.length > 0;
 

@@ -55,6 +55,7 @@ parameters:
      -a (optional): Appium server URL. if Appium Server is not specified, will be used "localhost:4723/wd/hub"
      -t (optional): Filter based in tags. F. ex: @createfolder will send only tests tagged with such label. Tags are allowed to concatenate, sepparated by ",". It is also allowed to use a classpath to execute all the test in any class
      -d (optional): In case of several devices attached, tests will be sent against the UID set in this option. This is the id returned by `adb devices` command.
+     -o (optional): Host name. If your server is stored in subfolders, this is pretty recommended"
      -h: display this help
 
 The execution will display step by step how the scenario is being executed.

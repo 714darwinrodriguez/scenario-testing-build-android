@@ -50,6 +50,7 @@ test {
     systemProperty "appium", System.getProperty("appium")
     systemProperty "device", System.getProperty("device")
     systemProperty "server", System.getProperty("server")
+    systemProperty "host", System.getProperty("host")
 }
 
 gradle.startParameter.continueOnFailure = true
