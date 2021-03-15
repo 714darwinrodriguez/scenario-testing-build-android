@@ -57,7 +57,7 @@ public class ShareAPI extends CommonAPI {
         OCShare share = getId(response);
         Log.log(Level.FINE, "Share retrieved: " + share.getId());
         response.close();
-        Log.log(Level.FINE, "Returning share " + share == null ? "non empty" : "empty");
+        Log.log(Level.FINE, "Returning share " + share == null ? "empty" : "non empty");
         return share;
     }
 
