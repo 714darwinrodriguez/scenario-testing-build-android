@@ -53,9 +53,12 @@ public class ShareAPI extends CommonAPI {
         Log.log(Level.FINE, "Starts: Request Share from server - " + itemPath);
         Log.log(Level.FINE, "URL: " + url);
         Request request = getRequest(url, false);
+        Log.log(Level.FINE, "Request done");
         Response response = httpClient.newCall(request).execute();
+        Log.log(Level.FINE, "Request sent");
         OCShare share = getId(response);
-        Log.log(Level.FINE, "Share retrieved: " + share.getId());
+        Log.log(Level.FINE, "Share retrieved:");
+        //Log.log(Level.FINE, "Share retrieved: " + share.getId());
         response.close();
         Log.log(Level.FINE, "Returning share " + share == null ? "empty" : "non empty");
         return share;
