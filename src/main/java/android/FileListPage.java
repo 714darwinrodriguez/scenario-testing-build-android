@@ -125,9 +125,12 @@ public class FileListPage extends CommonPage {
     public void executeOperation(String operation, String itemName){
         Log.log(Level.FINE, "Starts: execute operation: " + operation + " " + itemName);
         waitToload();
+        takeScreenshot("Debug1/File_"+itemName+"_loaded");
         if (!isItemInList(itemName)){
             Log.log(Level.FINE, "Searching item... swiping: " + itemName);
+            takeScreenshot("Debug1/Beforeswiping");
             swipe(0.50, 0.90, 0.50, 0.20);
+            takeScreenshot("Debug1/Afterswiping");
         }
         selectItemList(itemName);
         selectOperation(operation);
@@ -155,7 +158,9 @@ public class FileListPage extends CommonPage {
 
     public void selectItemList(String itemName) {
         Log.log(Level.FINE, "Starts: select item from list: " + itemName);
+        takeScreenshot("Debug1/Starts: select item from list");
         waitByTextVisible(30, itemName);
+        takeScreenshot("Debug1/AfterWaiting");
         MobileElement element = getElementFromFileList(itemName);
         actions.clickAndHold(element).perform();
     }
