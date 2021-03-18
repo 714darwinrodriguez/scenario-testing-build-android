@@ -39,12 +39,11 @@ public class PrivateShareSteps {
         shareAPI.createShare(itemName, sharee, "0", "31", "");
     }
 
-    @When("^user selects (.+) to share with (.+)$")
-    public void i_select_to_share_with(String itemName, String sharee)
+    @When("^user selects (.+) as sharee$")
+    public void i_select_sharee(String sharee)
             throws Throwable {
         Log.log(Level.FINE, "----STEP----: " +
                 new Object(){}.getClass().getEnclosingMethod().getName());
-        fileListPage.executeOperation("share", itemName);
         sharePage.addPrivateShare();
         searchShareePage.shareWithUser(sharee);
     }

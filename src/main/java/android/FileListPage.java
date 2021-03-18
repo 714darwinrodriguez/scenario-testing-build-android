@@ -85,13 +85,16 @@ public class FileListPage extends CommonPage {
     }
 
     public void waitToload(){
+        Log.log(Level.FINE, "Waiting to load");
         try {
             //if list of files is not loaded, we should swipe to get the file list
             waitById(15, listFiles_id);
         } catch (Exception e) {
+            Log.log(Level.FINE, "Swipe needed to get the list");
             swipe(0.50, 0.20, 0.50, 0.90);
             waitByTextVisible(10, "Documents");
         }
+        Log.log(Level.FINE, "Loaded");
         takeScreenshot("OpenList/fileListLoaded");
     }
 
@@ -124,13 +127,9 @@ public class FileListPage extends CommonPage {
 
     public void executeOperation(String operation, String itemName){
         Log.log(Level.FINE, "Starts: execute operation: " + operation + " " + itemName);
-        waitToload();
-        takeScreenshot("Debug1/File_"+itemName+"_loaded");
         if (!isItemInList(itemName)){
             Log.log(Level.FINE, "Searching item... swiping: " + itemName);
-            takeScreenshot("Debug1/Beforeswiping");
             swipe(0.50, 0.90, 0.50, 0.20);
-            takeScreenshot("Debug1/Afterswiping");
         }
         selectItemList(itemName);
         selectOperation(operation);
@@ -158,11 +157,11 @@ public class FileListPage extends CommonPage {
 
     public void selectItemList(String itemName) {
         Log.log(Level.FINE, "Starts: select item from list: " + itemName);
-        takeScreenshot("Debug1/Starts: select item from list");
         waitByTextVisible(30, itemName);
-        takeScreenshot("Debug1/AfterWaiting");
+        takeScreenshot("ElementFileList/BeforeSelecting");
         MobileElement element = getElementFromFileList(itemName);
         actions.clickAndHold(element).perform();
+        takeScreenshot("ElementFileList/AfterSelecting");
     }
 
     public void selectOperation(String operationName) {

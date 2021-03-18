@@ -13,7 +13,8 @@ Feature: Private Share
 
   @smoke
   Scenario: Correct share with user
-    When user selects Files to share with user2
+    When user selects to share the item Files
+    And user selects user2 as sharee
     Then user user2 should have access to Files
     And share should be created on Files with the following fields
       | sharee | user2 |
@@ -21,14 +22,16 @@ Feature: Private Share
 
   @smoke
   Scenario: Correct share with group
-    When user selects Files to share with test
+    When user selects to share the item Files
+    And user selects test as sharee
     Then group including user2 should have access to Files
     And share should be created on Files with the following fields
       | group | test |
 
 
   Scenario: Correct federated share
-    When user selects textExample.txt to share with demo@demo.owncloud.com
+    When user selects to share the item textExample.txt
+    And user selects demo@demo.owncloud.com as sharee
     Then share should be created on textExample.txt with the following fields
       | sharee | demo@demo.owncloud.com |
 
