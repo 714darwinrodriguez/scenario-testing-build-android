@@ -81,6 +81,7 @@ public class FileListPage extends CommonPage {
     }
 
     public void refreshList(){
+        Log.log(Level.FINE, "Refresh list");
         swipe(0.50, 0.35, 0.50, 0.90);
     }
 
@@ -131,6 +132,7 @@ public class FileListPage extends CommonPage {
             Log.log(Level.FINE, "Searching item... swiping: " + itemName);
             swipe(0.50, 0.90, 0.50, 0.20);
         }
+        takeScreenshot("Before selecting");
         selectItemList(itemName);
         selectOperation(operation);
     }
@@ -284,8 +286,11 @@ public class FileListPage extends CommonPage {
     private MobileElement getElementFromFileList(String itemName){
         Log.log(Level.FINE, "Starts: searching item in list: " + itemName);
         List<MobileElement> elementsFileList = listFiles.findElements(MobileBy.id(listcell_id));
+        Log.log(Level.FINE, "Items: " + elementsFileList.size());
         takeScreenshot("ElementFileList/SearchItem_"+itemName);
         for (MobileElement element : elementsFileList) {
+            Log.log(Level.FINE, "Checking local: " +
+                    element.findElement(By.id(listitemname_id)).getText() + " with " + itemName );
             if (element.findElement(By.id(listitemname_id)).getText()
                     .equals(itemName)){
                 Log.log(Level.FINE, itemName + " found!!");
