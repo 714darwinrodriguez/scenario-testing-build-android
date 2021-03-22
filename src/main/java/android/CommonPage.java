@@ -1,5 +1,6 @@
 package android;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
@@ -10,6 +11,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -18,6 +22,7 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidStartScreenRecordingOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import utils.LocProperties;
 import utils.log.Log;
@@ -98,6 +103,28 @@ public class CommonPage {
             e.printStackTrace();
         }
     }
+
+    public static void startRecording (){
+        AndroidStartScreenRecordingOptions androidStartScreenRecordingOptions =
+                new AndroidStartScreenRecordingOptions();
+        androidStartScreenRecordingOptions.withBitRate(2000000);
+        androidStartScreenRecordingOptions.withVideoSize("360x640");
+        driver.startRecordingScreen(androidStartScreenRecordingOptions);
+    }
+
+    public static void stopRecording (String filename){
+        String base64String = driver.stopRecordingScreen();
+        byte[] data = Base64.decodeBase64(base64String);
+        String destinationPath="video/" + filename + "_" +
+                sdf.format(new Timestamp(System.currentTimeMillis()).getTime()) + ".mp4";
+        Path path = Paths.get(destinationPath);
+        try {
+            Files.write(path, data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void removeApp(){
         driver.removeApp(packag);

@@ -7,6 +7,7 @@
 /.gradle/
 /bin
 /screenshots
+/video/*
 .classpath
 .project
 .settings

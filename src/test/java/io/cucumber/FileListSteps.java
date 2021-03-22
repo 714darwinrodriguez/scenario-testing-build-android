@@ -60,6 +60,7 @@ public class FileListSteps {
     public void i_select_create_folder() {
         Log.log(Level.FINE, "----STEP----: " +
                 new Object(){}.getClass().getEnclosingMethod().getName());
+        fileListPage.startRecording();
         fileListPage.createFolder();
     }
 
@@ -68,6 +69,7 @@ public class FileListSteps {
         Log.log(Level.FINE, "----STEP----: " +
                 new Object(){}.getClass().getEnclosingMethod().getName() + ": "
                 + operation + " " + itemName);
+        fileListPage.startRecording();
         fileListPage.waitToload();
         fileListPage.refreshList();
         switch (operation){
@@ -122,6 +124,7 @@ public class FileListSteps {
         assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/')+1)));
         assertTrue(filesAPI.itemExist(itemName));
         filesAPI.removeItem(itemName);
+        fileListPage.stopRecording("createfolder");
     }
 
     @Then("^user should not see (.+) in the filelist anymore$")
