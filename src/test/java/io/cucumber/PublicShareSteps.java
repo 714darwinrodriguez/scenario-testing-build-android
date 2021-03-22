@@ -167,9 +167,9 @@ public class PublicShareSteps {
         }
         //Asserts in server via API
         OCShare share = shareAPI.getShare(itemName);
+        sharePage.stopRecording("link_created");
         assertTrue(sharePage.checkCorrectShare(share, listItems));
         shareAPI.removeShare(share.getId());
-        sharePage.stopRecording("link_created");
     }
 
     @Then("^link on (.+) should not exist anymore$")
