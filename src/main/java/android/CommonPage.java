@@ -30,7 +30,7 @@ import utils.log.Log;
 public class CommonPage {
 
     protected static AndroidDriver driver = AppiumManager.getManager().getDriver();
-    protected Actions actions;
+    protected static Actions actions;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
     protected final String packag = LocProperties.getProperties().getProperty("appPackage");
 
@@ -91,6 +91,11 @@ public class CommonPage {
         TouchAction ts = new TouchAction(driver);
         ts.longPress(PointOption.point(startX, startY))
                 .moveTo(PointOption.point(startX, endY)).release().perform();
+    }
+
+    public static void longPress(MobileElement element){
+        actions.clickAndHold(element).perform();
+        takeScreenshot("ElementFileList/AfterSelecting");
     }
 
     public static void takeScreenshot (String name) {
