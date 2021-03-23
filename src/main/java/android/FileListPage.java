@@ -160,10 +160,8 @@ public class FileListPage extends CommonPage {
     public void selectItemList(String itemName) {
         Log.log(Level.FINE, "Starts: select item from list: " + itemName);
         waitByTextVisible(30, itemName);
-        takeScreenshot("ElementFileList/BeforeSelecting");
         MobileElement element = getElementFromFileList(itemName);
-        actions.clickAndHold(element).perform();
-        takeScreenshot("ElementFileList/AfterSelecting");
+        longPress(element);
     }
 
     public void selectOperation(String operationName) {
