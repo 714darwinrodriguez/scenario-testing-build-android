@@ -70,8 +70,8 @@ public class FileListSteps {
                 new Object(){}.getClass().getEnclosingMethod().getName() + ": "
                 + operation + " " + itemName);
         fileListPage.startRecording();
-        fileListPage.waitToload();
         fileListPage.refreshList();
+        fileListPage.waitToload();
         switch (operation){
             case "Download":
                 fileListPage.downloadAction(itemName);
