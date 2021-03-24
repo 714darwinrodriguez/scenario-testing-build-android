@@ -5,6 +5,8 @@ import android.PrivateSharePage;
 import android.SearchShareePage;
 import android.SharePage;
 
+import net.thucydides.core.steps.StepEventBus;
+
 import java.util.List;
 import java.util.logging.Level;
 
@@ -33,17 +35,16 @@ public class PrivateShareSteps {
     @Given("^the item (.+) has been already shared with (.+)$")
     public void item_already_shared(String itemName, String sharee)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + " - " + itemName
-                + " - " + sharee);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         shareAPI.createShare(itemName, sharee, "0", "31", "");
     }
 
     @When("^user selects (.+) as sharee$")
     public void i_select_sharee(String sharee)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         sharePage.addPrivateShare();
         searchShareePage.shareWithUser(sharee);
     }
@@ -51,9 +52,8 @@ public class PrivateShareSteps {
     @When("^user edits the share on (.+) with permissions (.+)$")
     public void user_edits_share(String itemName, String permissions)
             throws Throwable{
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName
-                + " - " + permissions);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         sharePage.openPrivateShare(itemName);
         int permissionsToInt = Integer.parseInt(permissions);
         String permissionsToString =String.format("%5s", Integer.toBinaryString(permissionsToInt))
@@ -108,8 +108,8 @@ public class PrivateShareSteps {
 
     @When("^user deletes the share$")
     public void user_deletes_share() {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         sharePage.deletePrivateShare();
         sharePage.acceptDeletion();
     }
@@ -117,8 +117,8 @@ public class PrivateShareSteps {
     @Then("^share should be created on (.+) with the following fields$")
     public void share_created_with_fields(String itemName, DataTable table)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         //Asserts in UI
         String groupName = null;
         List<List<String>> listItems = table.asLists();
@@ -156,31 +156,31 @@ public class PrivateShareSteps {
     @Then("^group including (.+) should have access to (.+)$")
     public void group_has_the_file (String userName, String itemName)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(shareAPI.isSharedWithMe(itemName, true));
     }
 
     @Then("^user (.+) should not have access to (.+)$")
     public void sharee_does_not_have_the_file (String userName, String itemName)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertFalse(shareAPI.isSharedWithMe(itemName, false));
     }
 
     @Then("^user (.+) should have access to (.+)$")
     public void sharee_has_the_file (String userName, String itemName)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(shareAPI.isSharedWithMe(itemName, false));
     }
 
     @Then("^(.+) should not be shared anymore with (.+)$")
     public void share_is_deleted(String itemName, String sharee) {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertFalse(sharePage.isItemInListPrivateShares(sharee));
     }
 }

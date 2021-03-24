@@ -6,6 +6,8 @@ import android.FolderPickerPage;
 import android.InputNamePage;
 import android.RemoveDialogPage;
 
+import net.thucydides.core.steps.StepEventBus;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -37,15 +39,15 @@ public class FileListSteps {
 
     @Given("^there is an item called (.+) in the folder Downloads of the device$")
     public void push_file_to_device(String itemName){
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.pushFile(itemName);
     }
 
     @Given("the following items have been created in the account")
     public void item_exists(DataTable table) throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         List<String> listItems = (List<String>) table.asList();
         Iterator iterator = listItems.iterator();
         while(iterator.hasNext()) {
@@ -58,17 +60,16 @@ public class FileListSteps {
 
     @When("^user selects the option Create Folder$")
     public void i_select_create_folder() {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.startRecording();
         fileListPage.createFolder();
     }
 
     @When("^user selects to (.+) the item (.+)$")
     public void i_select_item_to_some_operation(String operation, String itemName) {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": "
-                + operation + " " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.startRecording();
         fileListPage.waitToload();
         fileListPage.refreshList();
@@ -88,37 +89,37 @@ public class FileListSteps {
 
     @When ("^user selects (.+) as target folder$")
     public void i_select_target_folder(String targetFolder) {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + targetFolder);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         folderPickerPage.selectFolder(targetFolder);
         folderPickerPage.accept();
     }
 
     @When("^user selects the option upload$")
     public void i_select_upload() {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.upload();
     }
 
     @When("^user accepts the deletion$")
     public void i_accept_the_deletion(){
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         removeDialogPage.removeAll();
     }
 
     @When("^user sets (.+) as new name$")
     public void i_set_new_name(String itemName) {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName()  + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         inputNamePage.setItemName(itemName);
     }
 
     @Then("^user should see (.+) in the filelist$")
     public void i_see_the_item(String itemName) throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.waitToload();
         //Get the last token of the item path
         assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/')+1)));
@@ -129,8 +130,8 @@ public class FileListSteps {
 
     @Then("^user should not see (.+) in the filelist anymore$")
     public void i_do_not_see_the_item(String itemName) throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.waitToload();
         assertFalse(fileListPage.isItemInList(itemName));
         assertFalse(filesAPI.itemExist(itemName));
@@ -138,17 +139,16 @@ public class FileListSteps {
 
     @Then("^user should see (.+) inside the folder (.+)$")
     public void i_see_item_in_folder(String itemName, String targetFolder) throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName()
-                + ":" + itemName + "-" + targetFolder);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(filesAPI.itemExist(targetFolder+"/"+itemName));
         filesAPI.removeItem(targetFolder+"/"+itemName);
     }
 
     @Then("^user should see (.+) in the filelist as original$")
     public void i_see_original_the_item(String itemName) throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         //Copy keeps the selection mode. To improve.
         fileListPage.closeSelectionMode();
         fileListPage.waitToload();
@@ -159,15 +159,15 @@ public class FileListSteps {
 
     @Then("^the item (.+) should be stored in the device$")
     public void item_downloaded(String itemName) {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(fileListPage.fileIsDownloaded(itemName));
     }
 
     @Then("^user should see the detailed information: (.+), (.+), and (.+)$")
     public void preview_in_screen(String itemName, String type, String size) {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName()  + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         detailsPage.removeShareSheet();
         assertEquals(detailsPage.getName(), itemName);
         assertEquals(detailsPage.getSize(), size);
@@ -177,29 +177,29 @@ public class FileListSteps {
 
     @Then("^the item (.+) should be marked as downloaded$")
     public void item_marked_as_downloaded(String itemName) {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(fileListPage.fileIsMarkedAsDownloaded(itemName));
     }
 
     @Then("^user should see the item (.+) as av.offline$")
     public void item_marked_as_avOffline(String itemName) {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(fileListPage.fileIsMarkedAsAvOffline(itemName));
     }
 
     @Then("^the item (.+) should be opened and previewed$")
     public void item_opened_previewed(String itemName) {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(detailsPage.itemPreviewed());
     }
 
     @Then("^the list of files in (.+) folder should match with the server$")
     public void list_matches_server(String path) throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + path);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.waitToload();
         ArrayList<OCFile> listServer = filesAPI.listItems(path);
         assertTrue(fileListPage.displayedList(path, listServer));

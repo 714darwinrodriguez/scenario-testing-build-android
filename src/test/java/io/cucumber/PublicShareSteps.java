@@ -3,6 +3,8 @@ package io.cucumber;
 import android.PublicLinkPage;
 import android.SharePage;
 
+import net.thucydides.core.steps.StepEventBus;
+
 import java.util.List;
 import java.util.logging.Level;
 
@@ -29,16 +31,16 @@ public class PublicShareSteps {
     @Given("^the item (.+) has been already shared by link$")
     public void item_already_shared_by_link(String itemName)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + " - " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         shareAPI.createShare(itemName, "", "3", "1", itemName + " link");
     }
 
     @When("^user creates link on (.+) with the following fields$")
     public void i_select_to_link_with_fields(String itemName, DataTable table)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         sharePage.addPublicLink();
         List<List<String>> listItems = table.asLists();
         for (List<String> rows : listItems) {
@@ -74,8 +76,8 @@ public class PublicShareSteps {
     @When("^user edits the link on (.+) with the following fields$")
     public void user_edits_public_link(String itemName, DataTable table)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         List<List<String>> listItems = table.asLists();
         sharePage.openPublicLink(itemName);
         for (List<String> rows : listItems) {
@@ -119,8 +121,8 @@ public class PublicShareSteps {
 
     @When("^user deletes the link$")
     public void user_deletes_link() {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         sharePage.deletePublicShare();
         sharePage.acceptDeletion();
     }
@@ -128,8 +130,8 @@ public class PublicShareSteps {
     @Then("^link should be created on (.+) with the following fields$")
     public void link(String itemName, DataTable table)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + ": " + itemName);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         //Asserts in UI
         List<List<String>> listItems = table.asLists();
         for (List<String> rows : listItems) {
@@ -175,8 +177,8 @@ public class PublicShareSteps {
     @Then("^link on (.+) should not exist anymore$")
     public void link_not_existing(String itemName)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertFalse(sharePage.isItemInListPublicShares(itemName+ " link"));
         assertTrue(shareAPI.getShare(itemName) == null);
     }

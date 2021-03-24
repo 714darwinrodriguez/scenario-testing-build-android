@@ -5,13 +5,21 @@ import android.FileListPage;
 import android.KopanoPage;
 import android.LoginPage;
 
+import net.thucydides.core.model.TestStep;
+import net.thucydides.core.steps.StepEventBus;
+
+import org.apache.commons.text.StringEscapeUtils;
+
+import java.util.Optional;
 import java.util.logging.Level;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import okhttp3.Response;
 import utils.LocProperties;
 import utils.api.CommonAPI;
+import utils.api.MiddlewareAPI;
 import utils.log.Log;
 import utils.parser.CapabilityJSONHandler;
 
@@ -22,22 +30,30 @@ public class LoginSteps {
     //Involved pages
     private LoginPage loginPage = new LoginPage();
     private CommonAPI commonAPI = new CommonAPI();
+    private MiddlewareAPI middlewareAPI = new MiddlewareAPI();
     private FileListPage fileListPage = new FileListPage();
 
     @Given("^app has been launched for the first time$")
     public void first_launch()
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         //In case it is installed, we remove to execute login tests
         loginPage.reinstallApp();
+    }
+
+    @Given ("^user (.+) has been created with default attributes$")
+    public void user_default_attributes(String user) throws Throwable  {
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        middlewareAPI.postMiddlewareExecute(currentStep);
     }
 
     @Given("^user (.+) is logged$")
     public void i_am_logged(String user)
             throws Throwable {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         if (loginPage.notLoggedIn()) {
             String authMethod = commonAPI.checkAuthMethod();
             String username = LocProperties.getProperties().getProperty("userName1");
@@ -72,17 +88,16 @@ public class LoginSteps {
 
     @Given("^server with (.+) is available$")
     public void server_available(String authMethod) {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName() + " with " + authMethod);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         loginPage.typeURL(authMethod);
     }
 
     @When("^user logins as (.+) with password (.+) as (.+) credentials$")
     public void login_with_password_auth_method(String username, String password,
                                                 String authMethod) {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object() {}.getClass().getEnclosingMethod().getName()
-                + ": " + username + " - " + password + " - " + authMethod);
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         switch (authMethod) {
             case "basic auth":
             case "LDAP":
@@ -108,8 +123,8 @@ public class LoginSteps {
 
     @Then("^user should see the main page$")
     public void i_can_see_the_main_page() {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         try {
             assertTrue(fileListPage.isHeader());
             // In case the assertion fails, we have to remove the app to keep executing other tests
@@ -124,8 +139,8 @@ public class LoginSteps {
 
     @Then("^user should see an error message$")
     public void i_see_an_error_message() {
-        Log.log(Level.FINE, "----STEP----: " +
-                new Object(){}.getClass().getEnclosingMethod().getName());
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
         try {
             assertTrue(loginPage.isCredentialsErrorMessage());
             // In case the assertion fails, we have to remove the app to keep executing other tests
