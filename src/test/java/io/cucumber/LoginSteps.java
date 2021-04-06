@@ -1,6 +1,7 @@
 package io.cucumber;
 
 import android.ChromeCustomTabPage;
+import android.ChromiumCustomTabPage;
 import android.FileListPage;
 import android.KopanoPage;
 import android.LoginPage;
@@ -29,6 +30,8 @@ public class LoginSteps {
 
     //Involved pages
     private LoginPage loginPage = new LoginPage();
+    private ChromeCustomTabPage chromeCustomTabPage = new ChromeCustomTabPage();
+    private ChromiumCustomTabPage chromiumCustomTabPage = new ChromiumCustomTabPage();
     private CommonAPI commonAPI = new CommonAPI();
     private MiddlewareAPI middlewareAPI = new MiddlewareAPI();
     private FileListPage fileListPage = new FileListPage();
@@ -66,9 +69,15 @@ public class LoginSteps {
                     break;
                 case "Bearer":
                     loginPage.submitLogin();
-                    ChromeCustomTabPage chromeCustomTabPage = new ChromeCustomTabPage();
-                    chromeCustomTabPage.enterCredentials(username,password);
-                    chromeCustomTabPage.authorize();
+                    if (loginPage.getBrowser() == 0) { //Chrome
+                        Log.log(Level.FINE, "Chrome browser");
+                        chromeCustomTabPage.enterCredentials(username, password);
+                        chromeCustomTabPage.authorize();
+                    } else { //Chromium
+                        Log.log(Level.FINE, "Chromium browser");
+                        chromiumCustomTabPage.enterCredentials(username, password);
+                        chromiumCustomTabPage.authorize();
+                    }
                     break;
                 case "OIDC":
                     loginPage.submitLogin();
@@ -106,9 +115,15 @@ public class LoginSteps {
                 break;
             case "OAuth2":
                 loginPage.submitLogin();
-                ChromeCustomTabPage chromeCustomTabPage = new ChromeCustomTabPage();
-                chromeCustomTabPage.enterCredentials(username, password);
-                chromeCustomTabPage.authorize();
+                if (loginPage.getBrowser() == 0) { //Chrome
+                    Log.log(Level.FINE, "Chrome browser");
+                    chromeCustomTabPage.enterCredentials(username, password);
+                    chromeCustomTabPage.authorize();
+                } else { //Chromium
+                    Log.log(Level.FINE, "Chromium browser");
+                    chromiumCustomTabPage.enterCredentials(username, password);
+                    chromiumCustomTabPage.authorize();
+                }
                 break;
             case "OIDC":
                 loginPage.submitLogin();

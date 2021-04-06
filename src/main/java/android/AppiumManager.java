@@ -2,6 +2,7 @@ package android;
 
 import com.google.common.collect.Lists;
 
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
