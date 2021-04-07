@@ -132,42 +132,6 @@ public class CommonPage {
         }
     }
 
-    protected Set getContexts(){
-        Set contextNames = driver.getContextHandles();
-        for (Object contextName : contextNames) {
-            Log.log(Level.FINE, "Context found: " + contextName);
-        }
-        return contextNames;
-    }
-
-    protected boolean getWebContexts(){
-        Set contextNames = driver.getContextHandles();
-        for (Object contextName : contextNames) {
-            Log.log(Level.FINE, "Context found: " + contextName);
-            if (((String)contextName).contains("WEBVIEW")){
-                Log.log(Level.FINE, "Context WEB!!!: " + contextName);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected void waitForWebContext(String xpath){
-        waitByXpath(10, xpath);
-    }
-
-    //0 if chrome, 1 if chromium. Only these ones supported, btm
-    public int getBrowser(){
-        waitForWebContext();
-        Set contexts = getContexts();
-        for (Object contextName : contexts) {
-            if (((String)contextName).contains("chrome")){
-                return 0;
-            }
-        }
-        return 1;
-    }
-
     public void removeApp(){
         driver.removeApp(packag);
     }
