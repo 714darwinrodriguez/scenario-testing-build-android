@@ -9,6 +9,7 @@ Feature: Public Share
     Given user user1 is logged
     And the following items have been created in the account
       | Documents        |
+      | Files            |
       | textExample.txt  |
 
 

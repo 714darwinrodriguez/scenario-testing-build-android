@@ -8,8 +8,9 @@ Feature: Private Share
   Background: User is logged in
     Given user user1 is logged
     And the following items have been created in the account
-      | Documents |
-
+      | Documents        |
+      | Files            |
+      | textExample.txt  |
 
   @smoke
   Scenario: Correct share with user

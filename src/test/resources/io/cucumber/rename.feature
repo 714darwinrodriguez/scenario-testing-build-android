@@ -8,6 +8,7 @@ Feature: Rename an item
     Given user user1 is logged
     And the following items have been created in the account
       | RenameMe  |
+
   @smoke
   Scenario: Rename an item
     When user selects to Rename the item RenameMe
