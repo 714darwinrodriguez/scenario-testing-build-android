@@ -5,6 +5,7 @@ import android.PrivateSharePage;
 import android.SearchShareePage;
 import android.SharePage;
 
+import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.steps.StepEventBus;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import utils.api.FilesAPI;
 import utils.api.ShareAPI;
 import utils.entities.OCShare;
 import utils.log.Log;
@@ -24,24 +26,29 @@ import static org.junit.Assert.assertTrue;
 public class PrivateShareSteps {
 
     //Involved pages
-    protected SharePage sharePage = new SharePage();
-    protected FileListPage fileListPage = new FileListPage();
-    protected SearchShareePage searchShareePage = new SearchShareePage();
-    protected PrivateSharePage privateSharePage = new PrivateSharePage();
+    @Steps
+    protected SharePage sharePage;
+
+    @Steps
+    protected SearchShareePage searchShareePage;
+
+    @Steps
+    protected PrivateSharePage privateSharePage;
 
     //APIs to call
     protected ShareAPI shareAPI = new ShareAPI();
+    protected FilesAPI filesAPI = new FilesAPI();
 
-    @Given("^the item (.+) has been already shared with (.+)$")
-    public void item_already_shared(String itemName, String sharee)
+    @Given("^the (file|folder|item) (.+) has been already shared with (.+)$")
+    public void item_already_shared(String type, String itemName, String sharee)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         shareAPI.createShare(itemName, sharee, "0", "31", "");
     }
 
-    @When("^user selects (.+) as sharee$")
-    public void i_select_sharee(String sharee)
+    @When("^user selects (user|group) (.+) as sharee$")
+    public void i_select_sharee(String type, String sharee)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -150,7 +157,8 @@ public class PrivateShareSteps {
         //Asserts in server via API
         OCShare share = shareAPI.getShare(itemName);
         assertTrue(sharePage.checkCorrectShare(share, listItems));
-        shareAPI.removeShare(share.getId());
+        filesAPI.removeItem(itemName);
+        //shareAPI.removeShare(share.getId());
     }
 
     @Then("^group including (.+) should have access to (.+)$")

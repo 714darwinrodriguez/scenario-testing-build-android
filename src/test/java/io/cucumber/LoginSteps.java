@@ -5,6 +5,7 @@ import android.FileListPage;
 import android.KopanoPage;
 import android.LoginPage;
 
+import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.steps.StepEventBus;
 
 import java.util.logging.Level;
@@ -23,7 +24,10 @@ import static org.junit.Assert.assertTrue;
 public class LoginSteps {
 
     //Involved pages
-    private LoginPage loginPage = new LoginPage();
+    @Steps
+    private LoginPage loginPage;
+
+    //APIs to call
     private CommonAPI commonAPI = new CommonAPI();
     private MiddlewareAPI middlewareAPI = new MiddlewareAPI();
     private FileListPage fileListPage = new FileListPage();

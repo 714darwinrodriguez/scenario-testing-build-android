@@ -7,11 +7,9 @@ Feature: Move item
 
   Background: User is logged in
     Given user user1 is logged
-    And the following items have been created in the account
-      | folderMove |
-      | Documents  |
 
   Scenario: Move an existent folder to another location
+    Given the folder folderMove has been created in the account
     When user selects to Move the item folderMove
     And user selects Documents as target folder
     Then user should not see folderMove in the filelist anymore

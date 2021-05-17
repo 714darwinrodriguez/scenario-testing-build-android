@@ -6,6 +6,7 @@ import android.FolderPickerPage;
 import android.InputNamePage;
 import android.RemoveDialogPage;
 
+import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.steps.StepEventBus;
 
 import java.util.ArrayList;
@@ -28,11 +29,20 @@ import static org.junit.Assert.assertTrue;
 public class FileListSteps {
 
     //Involved pages
-    protected FileListPage fileListPage = new FileListPage();
-    protected InputNamePage inputNamePage = new InputNamePage();
-    protected FolderPickerPage folderPickerPage = new FolderPickerPage();
-    protected RemoveDialogPage removeDialogPage = new RemoveDialogPage();
-    protected DetailsPage detailsPage = new DetailsPage();
+    @Steps
+    protected FileListPage fileListPage;
+
+    @Steps
+    protected InputNamePage inputNamePage;
+
+    @Steps
+    protected FolderPickerPage folderPickerPage;
+
+    @Steps
+    protected RemoveDialogPage removeDialogPage;
+
+    @Steps
+    protected DetailsPage detailsPage;
 
     //APIs to call
     protected FilesAPI filesAPI = new FilesAPI();
@@ -44,17 +54,15 @@ public class FileListSteps {
         fileListPage.pushFile(itemName);
     }
 
-    @Given("the following items have been created in the account")
-    public void item_exists(DataTable table) throws Throwable {
+    @Given("^the (item|file|folder) (.+) has been created in the account$")
+    public void item_exists(String type, String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        List<String> listItems = (List<String>) table.asList();
-        Iterator iterator = listItems.iterator();
-        while(iterator.hasNext()) {
-            String itemName = (String)iterator.next();
-            if (!filesAPI.itemExist(itemName)) {
+        if (!filesAPI.itemExist(itemName)) {
+            if (type.equals("folder")) {
                 filesAPI.createFolder(itemName);
-            }
+            } else if (type.equals("file"))
+                filesAPI.pushFile(itemName);
         }
     }
 
@@ -66,8 +74,8 @@ public class FileListSteps {
         fileListPage.createFolder();
     }
 
-    @When("^user selects to (.+) the item (.+)$")
-    public void i_select_item_to_some_operation(String operation, String itemName) {
+    @When("^user selects to (.+) the (item|file|folder) (.+)$")
+    public void i_select_item_to_some_operation(String operation, String type, String itemName) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.startRecording();

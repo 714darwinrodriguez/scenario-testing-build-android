@@ -29,7 +29,6 @@ public class SearchShareePage extends CommonPage {
         Log.log(Level.FINE, "Starts: Share with user: " + sharee);
         waitById(10, shareeUsername);
         shareeUsername.sendKeys(sharee);
-        Log.log(Level.WARNING, "Needed better implementation - failure possible");
         selectShareeFromList(sharee);
         //Go back to Share Page
         backListShares();

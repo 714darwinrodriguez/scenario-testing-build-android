@@ -6,11 +6,10 @@ Feature: Rename an item
 
   Background: User is logged in
     Given user user1 is logged
-    And the following items have been created in the account
-      | RenameMe  |
 
   @smoke
   Scenario: Rename an item
+    Given the folder RenameMe has been created in the account
     When user selects to Rename the item RenameMe
     And user sets Renamed as new name
     Then user should see Renamed in the filelist

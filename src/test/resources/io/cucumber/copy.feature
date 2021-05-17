@@ -7,11 +7,9 @@ Feature: Copy item
 
   Background: User is logged in
     Given user user1 is logged
-    And the following items have been created in the account
-      | copyMe    |
-      | Documents |
 
   Scenario: Copy an existent folder to another location
+    Given the folder copyMe has been created in the account
     When user selects to Copy the item copyMe
     And user selects Documents as target folder
     Then user should see copyMe in the filelist as original

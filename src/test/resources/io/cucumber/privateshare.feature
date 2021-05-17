@@ -7,44 +7,50 @@ Feature: Private Share
 
   Background: User is logged in
     Given user user1 is logged
-    And the following items have been created in the account
-      | Documents        |
-      | Files            |
-      | textExample.txt  |
 
   @smoke
-  Scenario: Correct share with user
-    When user selects to share the item Files
-    And user selects user2 as sharee
-    Then user user2 should have access to Files
-    And share should be created on Files with the following fields
+  Scenario Outline: Correct share with user
+    Given the <type> <item> has been created in the account
+    When user selects to share the <type> <item>
+    And user selects user user2 as sharee
+    Then user  user2 should have access to <item>
+    And share should be created on <item> with the following fields
       | sharee | user2 |
 
+    Examples:
+      |  type   |  item        |
+      |  file   |  Share1.txt  |
+      |  folder |  Share2      |
 
-  @smoke
-  Scenario: Correct share with group
-    When user selects to share the item Files
-    And user selects test as sharee
-    Then group including user2 should have access to Files
-    And share should be created on Files with the following fields
+  Scenario Outline: Correct share with group
+    Given the <type> <item> has been created in the account
+    When user selects to share the <type> <item>
+    And user selects group test as sharee
+    Then group including user2 should have access to <item>
+    And share should be created on <item> with the following fields
       | group | test |
+
+    Examples:
+      |  type   |  item        |
+      |  file   |  Share3.txt  |
+      |  folder |  Share4      |
 
 
   Scenario: Correct federated share
     When user selects to share the item textExample.txt
-    And user selects demo@demo.owncloud.com as sharee
+    And user selects user demo@demo.owncloud.com as sharee
     Then share should be created on textExample.txt with the following fields
       | sharee | demo@demo.owncloud.com |
 
-
-  Scenario Outline: Edit existing share, removing permissions
-    Given the item <item> has been already shared with <user>
-    When user selects to share the item <item>
+  Scenario Outline: Edit existing share on a folder, removing permissions
+    Given the folder <item> has been created in the account
+    And the folder <item> has been already shared with <user>
+    When user selects to share the folder <item>
     And user edits the share on <item> with permissions <permissions>
-    Then user <user> should have access to <item>
+    Then user  <user> should have access to <item>
     And share should be created on <item> with the following fields
-      | user        |  <user>        |
-      | permissions |  <permissions> |
+      | sharee        |  <user>        |
+      | permissions   |  <permissions> |
 
 #Permissions
     # READ -> 1
@@ -54,16 +60,16 @@ Feature: Private Share
     # SHARE -> 16
 
     Examples:
-      |  item   |   user    | permissions |
-      |  Files  |   user2   |   1         |
-      |  Files  |   user2   |   9         |
-      |  Files  |   user2   |   13        |
-      |  Files  |   user2   |   17        |
+      |  item    |   user    | permissions |
+      |  Share4  |   user2   |   1         |
+      |  Share5  |   user2   |   9         |
+      |  Share6  |   user2   |   13        |
+      |  Share7  |   user2   |   17        |
 
-
-  Scenario: Delete existing share
-    Given the item Files has been already shared with user2
-    When user selects to share the item Files
+  Scenario: Delete existing share on folder
+    Given the folder Share8 has been created in the account
+    And the folder Share8 has been already shared with user2
+    When user selects to share the folder Share8
     And user deletes the share
-    Then user user2 should not have access to Files
-    And Files should not be shared anymore with user2
+    Then user user2 should not have access to Share8
+    And Share8 should not be shared anymore with user2

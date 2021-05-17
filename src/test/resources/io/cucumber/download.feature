@@ -7,8 +7,6 @@ Feature: Download a file in the account
 
   Background: User is logged in
     Given user user1 is logged
-    And the following items have been created in the account
-      | textExample.txt     |
 
   #@NoDevice
   #Scenario Outline: Download a file that is not previewable
@@ -22,6 +20,7 @@ Feature: Download a file in the account
 
 
   Scenario: Download a file that is previewable
-    When user selects to Download the item textExample.txt
-    Then the item textExample.txt should be opened and previewed
-    And the item textExample.txt should be stored in the device
+    Given the file download.txt has been created in the account
+    When user selects to Download the item download.txt
+    Then the item download.txt should be opened and previewed
+    And the item download.txt should be stored in the device
