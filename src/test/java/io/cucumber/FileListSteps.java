@@ -70,7 +70,7 @@ public class FileListSteps {
     public void i_select_create_folder() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        fileListPage.startRecording();
+        //fileListPage.startRecording();
         fileListPage.createFolder();
     }
 
@@ -78,20 +78,14 @@ public class FileListSteps {
     public void i_select_item_to_some_operation(String operation, String type, String itemName) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        fileListPage.startRecording();
+        //fileListPage.startRecording();
         fileListPage.waitToload();
         fileListPage.refreshList();
-        switch (operation){
-            case "Download":
-                fileListPage.downloadAction(itemName);
-                detailsPage.waitFinishedDownload(30);
-                break;
-            case "Upload":
-                //fileListPage.selectFileUpload(itemName);
-                break;
-            default:
-                fileListPage.executeOperation(operation, itemName);
-                break;
+        if ("Download".equals(operation)) {
+            fileListPage.downloadAction(itemName);
+            detailsPage.waitFinishedDownload(30);
+        } else {
+            fileListPage.executeOperation(operation, itemName);
         }
     }
 
@@ -133,7 +127,7 @@ public class FileListSteps {
         assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/')+1)));
         assertTrue(filesAPI.itemExist(itemName));
         filesAPI.removeItem(itemName);
-        fileListPage.stopRecording("createfolder");
+        //fileListPage.stopRecording("createfolder");
     }
 
     @Then("^user should not see (.+) in the filelist anymore$")

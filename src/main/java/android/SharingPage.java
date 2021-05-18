@@ -13,7 +13,7 @@ import utils.log.Log;
 
 /* Pending: move to Page Factory when view is refactored.*/
 
-public class SharePage extends CommonPage {
+public class SharingPage extends CommonPage {
 
     private final String addshareebutton_id = "com.owncloud.android:id/addUserButton";
     private final String addpubliclinkbutton_id = "com.owncloud.android:id/addPublicLinkButton";
@@ -26,7 +26,7 @@ public class SharePage extends CommonPage {
     private String acceptdeletion_id = "android:id/button1";
     private String canceldeletion_id = "android:id/button3";
 
-    public SharePage(){
+    public SharingPage(){
         super();
     }
 

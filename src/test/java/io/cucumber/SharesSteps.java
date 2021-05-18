@@ -1,9 +1,8 @@
 package io.cucumber;
 
-import android.FileListPage;
-import android.PrivateSharePage;
+import android.SharesPage;
 import android.SearchShareePage;
-import android.SharePage;
+import android.SharingPage;
 
 import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.steps.StepEventBus;
@@ -23,17 +22,17 @@ import utils.log.Log;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class PrivateShareSteps {
+public class SharesSteps {
 
     //Involved pages
     @Steps
-    protected SharePage sharePage;
+    protected SharingPage sharingPage;
 
     @Steps
     protected SearchShareePage searchShareePage;
 
     @Steps
-    protected PrivateSharePage privateSharePage;
+    protected SharesPage sharesPage;
 
     //APIs to call
     protected ShareAPI shareAPI = new ShareAPI();
@@ -52,18 +51,18 @@ public class PrivateShareSteps {
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        sharePage.addPrivateShare();
+        sharingPage.addPrivateShare();
         searchShareePage.shareWithUser(sharee);
     }
 
-    @When("^user edits the share on (.+) with permissions (.+)$")
-    public void user_edits_share(String itemName, String permissions)
+    @When("^user edits the share on (.+) (.+) with permissions (.+)$")
+    public void user_edits_share(String type, String itemName, String permissions)
             throws Throwable{
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        sharePage.openPrivateShare(itemName);
+        sharingPage.openPrivateShare(itemName);
         int permissionsToInt = Integer.parseInt(permissions);
-        String permissionsToString =String.format("%5s", Integer.toBinaryString(permissionsToInt))
+        String permissionsToString = String.format("%5s", Integer.toBinaryString(permissionsToInt))
                 .replace(" ", "0");
         Log.log(Level.FINE, "Permissions converted: " + permissionsToString);
         for (int i=0 ; i<=permissionsToString.length()-1 ; i++){
@@ -71,44 +70,57 @@ public class PrivateShareSteps {
                 case(0):{
                     Log.log(Level.FINE, "Check Share");
                     char status = permissionsToString.charAt(i);
-                    boolean enabled = privateSharePage.isShareEnabled();
-                    Log.log(Level.FINE, "Status: " + status +". Enabled: "+ enabled);
-                    if (enabled != (status=='1'))
-                        privateSharePage.switchShare();
+                    boolean enabled = sharesPage.isShareEnabled();
+                    Log.log(Level.FINE, "Status: " + status + ". Enabled: " + enabled);
+                    if (enabled != (status == '1'))
+                        sharesPage.switchShare();
                     break;
                 }
                 case(1):{
-                    Log.log(Level.FINE, "Check Delete");
-                    char status = permissionsToString.charAt(i);
-                    boolean enabled = privateSharePage.isDeleteSelected();
-                    Log.log(Level.FINE, "Status: " + status +". Enabled: "+ enabled);
-                    if (enabled != (status=='1'))
-                        privateSharePage.switchDelete();
+                    if (type.equals("folder")) {
+                        Log.log(Level.FINE, "Check Delete");
+                        char status = permissionsToString.charAt(i);
+                        boolean enabled = sharesPage.isDeleteSelected();
+                        Log.log(Level.FINE, "Status: " + status + ". Enabled: " + enabled);
+                        if (enabled != (status == '1'))
+                            sharesPage.switchDelete();
+                    }
                     break;
                 }
                 case(2):{
-                    Log.log(Level.FINE, "Check Create");
-                    char status = permissionsToString.charAt(i);
-                    boolean enabled = privateSharePage.isCreateSelected();
-                    Log.log(Level.FINE, "Status: " + status +". Enabled: "+ enabled);
-                    if (enabled != (status=='1'))
-                        privateSharePage.switchCreate();
+                    if (type.equals("folder")) {
+                        Log.log(Level.FINE, "Check Create");
+                        char status = permissionsToString.charAt(i);
+                        boolean enabled = sharesPage.isCreateSelected();
+                        Log.log(Level.FINE, "Status: " + status + ". Enabled: " + enabled);
+                        if (enabled != (status == '1'))
+                            sharesPage.switchCreate();
+                    }
                     break;
                 }
                 case(3):{
                     Log.log(Level.FINE, "Check Change");
                     char status = permissionsToString.charAt(i);
-                    boolean enabled = privateSharePage.isChangeSelected();
-                    Log.log(Level.FINE, "Status: " + status +". Enabled: "+ enabled);
-                    if (enabled != (status=='1'))
-                        privateSharePage.switchChange();
+                    if (type.equals("folder")){
+                        boolean enabled = sharesPage.isChangeSelected();
+                        Log.log(Level.FINE, "Status Folder: " + status +". Enabled: "+ enabled);
+                        if (enabled != (status=='1')) {
+                            sharesPage.switchChange();
+                        }
+                    } else if (type.equals("file")){
+                        boolean enabled = sharesPage.isEditFileEnabled();
+                        Log.log(Level.FINE, "Status File: " + status +". Enabled: "+ enabled);
+                        if (enabled != (status=='1')) {
+                            sharesPage.switchEditFile();
+                        }
+                    }
                     break;
                 }
                 default:
                     break;
             }
         }
-        privateSharePage.close();
+        sharesPage.close();
         //An implicit wait to be used till a close button is available. To improve.
         Thread.sleep(2000);
     }
@@ -117,8 +129,8 @@ public class PrivateShareSteps {
     public void user_deletes_share() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        sharePage.deletePrivateShare();
-        sharePage.acceptDeletion();
+        sharingPage.deletePrivateShare();
+        sharingPage.acceptDeletion();
     }
 
     @Then("^share should be created on (.+) with the following fields$")
@@ -132,17 +144,17 @@ public class PrivateShareSteps {
         for (List<String> rows : listItems) {
             switch (rows.get(0)) {
                 case "password": {
-                    sharePage.openPrivateShare(itemName);
-                    assertTrue(privateSharePage.isPasswordEnabled());
-                    privateSharePage.close();
+                    sharingPage.openPrivateShare(itemName);
+                    assertTrue(sharesPage.isPasswordEnabled());
+                    sharesPage.close();
                     break;
                 }
                 case "sharee": {
-                    assertTrue(sharePage.isItemInListPrivateShares(rows.get(1)));
+                    assertTrue(sharingPage.isItemInListPrivateShares(rows.get(1)));
                     break;
                 }
                 case "group": {
-                    assertTrue(sharePage.isItemInListPrivateShares(rows.get(1)+ " (group)"));
+                    assertTrue(sharingPage.isItemInListPrivateShares(rows.get(1)+ " (group)"));
                     groupName = rows.get(1);
                     break;
                 }
@@ -156,7 +168,7 @@ public class PrivateShareSteps {
         }
         //Asserts in server via API
         OCShare share = shareAPI.getShare(itemName);
-        assertTrue(sharePage.checkCorrectShare(share, listItems));
+        assertTrue(sharingPage.checkCorrectShare(share, listItems));
         filesAPI.removeItem(itemName);
         //shareAPI.removeShare(share.getId());
     }
@@ -186,9 +198,11 @@ public class PrivateShareSteps {
     }
 
     @Then("^(.+) should not be shared anymore with (.+)$")
-    public void share_is_deleted(String itemName, String sharee) {
+    public void share_is_deleted(String itemName, String sharee)
+            throws Throwable{
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        assertFalse(sharePage.isItemInListPrivateShares(sharee));
+        assertFalse(sharingPage.isItemInListPrivateShares(sharee));
+        filesAPI.removeItem(itemName);
     }
 }

@@ -1,6 +1,6 @@
 package utils.log;
 
-import android.SharePage;
+import android.SharingPage;
 
 import java.io.IOException;
 import java.util.Date;
@@ -13,7 +13,7 @@ import java.util.logging.SimpleFormatter;
 
 public class Log {
 
-    static Logger Log = Logger.getLogger(SharePage.class.getName());
+    static Logger Log = Logger.getLogger(SharingPage.class.getName());
     //static private Handler consoleHandler = null;
     static Handler fileHandler = null;
 

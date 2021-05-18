@@ -20,7 +20,7 @@ Feature: Download a file in the account
 
 
   Scenario: Download a file that is previewable
-    Given the file download.txt has been created in the account
-    When user selects to Download the item download.txt
-    Then the item download.txt should be opened and previewed
-    And the item download.txt should be stored in the device
+    #Given the file textExample.txt has been created in the account
+    When user selects to Download the item textExample.txt
+    Then the item textExample.txt should be opened and previewed
+    And the item textExample.txt should be stored in the device

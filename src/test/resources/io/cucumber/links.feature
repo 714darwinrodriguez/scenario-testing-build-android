@@ -52,10 +52,10 @@ Feature: Public Share
       |  folder  |  Links5       |  link5   |    7           |
       |  file    |  Links6.txt   |  link6   |    17          |
 
-  Scenario Outline: Create a public link with permissions
+  Scenario Outline: Create a public link with permissions on a folder
     Given the folder <item> has been created in the account
-    When user selects to share the <type> <item>
-    And user creates link on <type> <item> with the following fields
+    When user selects to share the folder <item>
+    And user creates link on folder <item> with the following fields
       | name       | <name>        |
       | permission | <permissions> |
     Then link should be created on <item> with the following fields
@@ -63,9 +63,10 @@ Feature: Public Share
       | permission | <permissions> |
 
     Examples:
-      |  type    |  item         |  name    | permissions |
-      |  folder  |  Links7       |  link7   |    15       |
-      |  file    |  Links8.txt   |  link8   |    4        |
+      |  item         |  name    | permissions |
+      |  Links7       |  link7   |    15       |
+      |  Links8       |  link8   |     4       |
+      |  Links9       |  link9   |     1       |
 
   Scenario Outline: Edit existing share on a folder, changing permissions
     Given the folder <item> has been created in the account
@@ -80,9 +81,9 @@ Feature: Public Share
 
     Examples:
       |  item     |  name    | permissions |
-      |  Links11  |  link9   |     15      |
-      |  Links12  |  link10  |     4       |
-      |  Links13  |  link11  |     1       |
+      |  Links10  |  link10  |     15      |
+      |  Links11  |  link11  |     4       |
+      |  Links12  |  link12  |     1       |
 
   @deletelink
   Scenario Outline: Delete existing link
@@ -94,5 +95,5 @@ Feature: Public Share
 
     Examples:
       |  type   |  item         |
-      |  folder |  Links12      |
-      |  file   |  Links13.txt  |
+      |  folder |  Links13      |
+      |  file   |  Links14.txt  |

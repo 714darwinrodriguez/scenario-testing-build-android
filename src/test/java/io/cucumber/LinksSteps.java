@@ -1,7 +1,7 @@
 package io.cucumber;
 
 import android.LinksPage;
-import android.SharePage;
+import android.SharingPage;
 
 import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.steps.StepEventBus;
@@ -25,7 +25,7 @@ public class LinksSteps {
 
     //Involved pages
     @Steps
-    protected SharePage sharePage;
+    protected SharingPage sharingPage;
 
     @Steps
     protected LinksPage linksPage;
@@ -47,7 +47,7 @@ public class LinksSteps {
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        sharePage.addPublicLink();
+        sharingPage.addPublicLink();
         List<List<String>> listItems = table.asLists();
         for (List<String> rows : listItems) {
             switch (rows.get(0)){
@@ -85,7 +85,7 @@ public class LinksSteps {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         List<List<String>> listItems = table.asLists();
-        sharePage.openPublicLink(itemName);
+        sharingPage.openPublicLink(itemName);
         for (List<String> rows : listItems) {
             switch (rows.get(0)){
                 case "name": {
@@ -129,8 +129,8 @@ public class LinksSteps {
     public void user_deletes_link(String itemName) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        sharePage.deletePublicShare();
-        sharePage.acceptDeletion();
+        sharingPage.deletePublicShare();
+        sharingPage.acceptDeletion();
     }
 
     @Then("^link should be created on (.+) with the following fields$")
@@ -143,28 +143,28 @@ public class LinksSteps {
         for (List<String> rows : listItems) {
             switch (rows.get(0)) {
                 case "name": {
-                    assertTrue(sharePage.isItemInListPublicShares(rows.get(1)));
+                    assertTrue(sharingPage.isItemInListPublicShares(rows.get(1)));
                     break;
                 }
                 case "password": {
-                    sharePage.openPublicLink(itemName);
+                    sharingPage.openPublicLink(itemName);
                     assertTrue(linksPage.isPasswordEnabled(itemName));
                     linksPage.close();
                     break;
                 }
                 case "user": {
-                    assertTrue(sharePage.isItemInListPublicShares(itemName));
+                    assertTrue(sharingPage.isItemInListPublicShares(itemName));
                     break;
                 }
                 case "permission": {
                     Log.log(Level.FINE, "checking permissions");
-                    sharePage.openPublicLink(itemName);
+                    sharingPage.openPublicLink(itemName);
                     assertTrue(linksPage.checkPermissions(rows.get(1)));
                     linksPage.close();
                     break;
                 }
                 case "expiration days": {
-                    sharePage.openPublicLink(itemName);
+                    sharingPage.openPublicLink(itemName);
                     assertTrue(linksPage.checkExpiration(rows.get(1)));
                     linksPage.close();
                     break;
@@ -175,8 +175,8 @@ public class LinksSteps {
         }
         //Asserts in server via API
         OCShare share = shareAPI.getShare(itemName);
-        sharePage.stopRecording("link_created");
-        assertTrue(sharePage.checkCorrectShare(share, listItems));
+        //sharePage.stopRecording("link_created");
+        assertTrue(sharingPage.checkCorrectShare(share, listItems));
         filesAPI.removeItem(itemName);
     }
 
@@ -185,7 +185,7 @@ public class LinksSteps {
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        assertFalse(sharePage.isItemInListPublicShares(itemName+ " link"));
+        assertFalse(sharingPage.isItemInListPublicShares(itemName+ " link"));
         assertTrue(shareAPI.getShare(itemName) == null);
         filesAPI.removeItem(itemName);
     }

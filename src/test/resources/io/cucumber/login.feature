@@ -49,15 +49,15 @@ Feature: Login
     Then user should see an error message
 
 
-  @OAuth2
-  Scenario: A valid login with OAuth2
-    Given server with OAuth2 is available
-    When user logins as user1 with password a as OAuth2 credentials
-    Then user should see the main page
+  #@OAuth2
+  #Scenario: A valid login with OAuth2
+  #  Given server with OAuth2 is available
+  #  When user logins as user1 with password a as OAuth2 credentials
+  #  Then user should see the main page
 
 
-  @OIDC
-  Scenario: A valid login with OIDC
-    Given server with OIDC is available
-    When user logins as einstein with password relativity as OIDC credentials
-    Then user should see the main page
+  #@OIDC
+  #Scenario: A valid login with OIDC
+  #  Given server with OIDC is available
+  #  When user logins as einstein with password relativity as OIDC credentials
+  #  Then user should see the main page
