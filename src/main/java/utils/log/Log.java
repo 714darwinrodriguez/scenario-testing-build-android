@@ -14,7 +14,6 @@ import java.util.logging.SimpleFormatter;
 public class Log {
 
     static Logger Log = Logger.getLogger(SharingPage.class.getName());
-    //static private Handler consoleHandler = null;
     static Handler fileHandler = null;
 
     public static void init(){
@@ -35,9 +34,7 @@ public class Log {
             });
             Log.setLevel(Level.FINE);
             fileHandler.setLevel(Level.FINE);
-            //consoleHandler.setLevel(Level.FINE);
             Log.addHandler(fileHandler);
-            //Log.addHandler(consoleHandler);
         } catch(IOException e){
             log(Level.SEVERE, "Exception in FileHandler: " + e.getMessage());
         }

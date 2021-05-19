@@ -79,7 +79,7 @@ public class FileListSteps {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         //fileListPage.startRecording();
-        fileListPage.waitToload();
+        fileListPage.waitToload("Documents");
         fileListPage.refreshList();
         if ("Download".equals(operation)) {
             fileListPage.downloadAction(itemName);
@@ -122,7 +122,7 @@ public class FileListSteps {
     public void i_see_the_item(String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        fileListPage.waitToload();
+        fileListPage.waitToload("Documents");
         //Get the last token of the item path
         assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/')+1)));
         assertTrue(filesAPI.itemExist(itemName));
@@ -134,7 +134,7 @@ public class FileListSteps {
     public void i_do_not_see_the_item(String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        fileListPage.waitToload();
+        fileListPage.waitToload("Documents");
         assertFalse(fileListPage.isItemInList(itemName));
         assertFalse(filesAPI.itemExist(itemName));
     }
@@ -153,7 +153,7 @@ public class FileListSteps {
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         //Copy keeps the selection mode. To improve.
         fileListPage.closeSelectionMode();
-        fileListPage.waitToload();
+        fileListPage.waitToload("Documents");
         assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/')+1)));
         assertTrue(filesAPI.itemExist(itemName));
         filesAPI.removeItem(itemName);
@@ -202,7 +202,7 @@ public class FileListSteps {
     public void list_matches_server(String path) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        fileListPage.waitToload();
+        fileListPage.waitToload("Documents");
         ArrayList<OCFile> listServer = filesAPI.listItems(path);
         assertTrue(fileListPage.displayedList(path, listServer));
     }

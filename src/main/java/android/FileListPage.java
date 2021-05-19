@@ -31,6 +31,7 @@ public class FileListPage extends CommonPage {
     private String avofflineoption_id = "com.owncloud.android:id/action_set_available_offline";
     private String listcell_id = "com.owncloud.android:id/file_list_constraint_layout";
     private String listitemname_id = "com.owncloud.android:id/Filename";
+    private String footer_id = "com.owncloud.android:id/footerText";
 
     @AndroidFindBy(uiAutomator="new UiSelector().resourceId(\"com.owncloud.android:id/action_mode_close_button\");")
     private MobileElement closeSelectionMode;
@@ -85,7 +86,7 @@ public class FileListPage extends CommonPage {
         swipe(0.50, 0.35, 0.50, 0.90);
     }
 
-    public void waitToload(){
+    public void waitToload(String itemName){
         Log.log(Level.FINE, "Waiting to load");
         try {
             //if list of files is not loaded, we should swipe to get the file list
@@ -93,7 +94,7 @@ public class FileListPage extends CommonPage {
         } catch (Exception e) {
             Log.log(Level.FINE, "Swipe needed to get the list");
             swipe(0.50, 0.20, 0.50, 0.90);
-            waitByTextVisible(10, "Documents");
+            waitByTextVisible(10, itemName);
         }
         Log.log(Level.FINE, "Loaded");
         takeScreenshot("OpenList/fileListLoaded");
@@ -128,16 +129,11 @@ public class FileListPage extends CommonPage {
 
     public void executeOperation(String operation, String itemName){
         Log.log(Level.FINE, "Starts: execute operation: " + operation + " " + itemName);
-        if (!isItemInList(itemName)){
-            Log.log(Level.FINE, "Searching item... swiping: " + itemName);
-            swipe(0.50, 0.90, 0.50, 0.20);
-        }
-        takeScreenshot("Before selecting");
         selectItemList(itemName);
         selectOperation(operation);
     }
 
-    public void downloadAction(String itemName) {
+    public void downloadAction(String itemName){
         Log.log(Level.FINE, "Starts: download action: " + itemName);
         if (!isItemInList(itemName)){
             Log.log(Level.FINE, "Searching item... swiping: " + itemName);
@@ -147,7 +143,7 @@ public class FileListPage extends CommonPage {
                 "new UiSelector().text(\""+ itemName +"\");")).click();
     }
 
-    public boolean isItemInList (String itemName) {
+    public boolean isItemInList(String itemName){
         Log.log(Level.FINE, "Starts: Check if item is in list: " + itemName);
         return !driver.findElementsByAndroidUIAutomator(
                 "new UiSelector().text(\"" + itemName + "\");").isEmpty();
@@ -159,7 +155,6 @@ public class FileListPage extends CommonPage {
 
     public void selectItemList(String itemName) {
         Log.log(Level.FINE, "Starts: select item from list: " + itemName);
-        waitByTextVisible(30, itemName);
         MobileElement element = getElementFromFileList(itemName);
         longPress(element);
     }
@@ -266,10 +261,14 @@ public class FileListPage extends CommonPage {
         return found;
     }
 
-    private boolean endList (int numberItems) {
+    private boolean endList(int numberItems){
         return !driver.findElements(MobileBy.AndroidUIAutomator(
                 "new UiSelector().text(\"" + Integer.toString(numberItems-1)
                         + " files\");")).isEmpty();
+    }
+
+    private boolean endList(){
+        return !driver.findElements(By.id(footer_id)).isEmpty();
     }
 
     private void parsePath(String path){
@@ -283,19 +282,18 @@ public class FileListPage extends CommonPage {
 
     private MobileElement getElementFromFileList(String itemName){
         Log.log(Level.FINE, "Starts: searching item in list: " + itemName);
-        List<MobileElement> elementsFileList = listFiles.findElements(MobileBy.id(listcell_id));
-        Log.log(Level.FINE, "Items: " + elementsFileList.size());
-        takeScreenshot("ElementFileList/SearchItem_"+itemName);
-        for (MobileElement element : elementsFileList) {
-            Log.log(Level.FINE, "Checking local: " +
-                    element.findElement(By.id(listitemname_id)).getText() + " with " + itemName );
-            if (element.findElement(By.id(listitemname_id)).getText()
-                    .equals(itemName)){
-                Log.log(Level.FINE, itemName + " found!!");
-                return element;
-            }
+        while (!isItemInList(itemName) &&
+                driver.findElements(By.id(footer_id)).isEmpty()) {
+            Log.log(Level.FINE, "Item " + itemName + " not found yet. Swiping");
+            swipe(0.50, 0.90, 0.50, 0.20);
         }
-        Log.log(Level.FINE, itemName + " not found");
-        return null;
+        if (isItemInList(itemName)) {
+            Log.log(Level.FINE, "Item found: " + itemName);
+            return (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator(
+                    "new UiSelector().text(\"" + itemName + "\");"));
+        } else {
+            Log.log(Level.FINE, "Item not found: " + itemName);
+            return null;
+        }
     }
 }

@@ -41,7 +41,7 @@ public class MiddlewareAPI extends CommonAPI {
         executeMiddlewareRequest(bodyCreated, cleanupEndpoint);
     }
 
-    private String toJSON(String step) throws IOException {
+    private String toJSON(String step){
         String string2json = "{\"step\":" + "\""+ StringEscapeUtils.escapeJava(step)+"\"}";
         Log.log(Level.FINE, string2json);
         return string2json;
@@ -59,5 +59,4 @@ public class MiddlewareAPI extends CommonAPI {
         Log.log(Level.FINE, "Code: " + String.valueOf(response.code()));
         response.close();
     }
-
 }
