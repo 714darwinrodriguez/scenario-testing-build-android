@@ -88,7 +88,7 @@ Feature: Private Share
       |  Share13   |   user2   |   13        |
       |  Share14   |   user2   |   17        |
 
-  Scenario Outline: Delete existing share on folder
+  Scenario Outline: Delete existing share
     Given the <type> <item> has been created in the account
     And the <type> <item> has been already shared with user2
     When user selects to share the <type> <item>

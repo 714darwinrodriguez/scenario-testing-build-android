@@ -160,10 +160,11 @@ public class FileListSteps {
     }
 
     @Then("^the item (.+) should be stored in the device$")
-    public void item_downloaded(String itemName) {
+    public void item_downloaded(String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(fileListPage.fileIsDownloaded(itemName));
+        filesAPI.removeItem(itemName);
     }
 
     @Then("^user should see the detailed information: (.+), (.+), and (.+)$")
