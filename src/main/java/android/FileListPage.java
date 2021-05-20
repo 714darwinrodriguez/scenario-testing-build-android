@@ -160,16 +160,12 @@ public class FileListPage extends CommonPage {
     }
 
     public void selectOperation(String operationName) {
-        if (driver.findElementsByAndroidUIAutomator(
-                "new UiSelector().resourceId(\"" + operationsMap.get(operationName) + "\");").isEmpty()){
-            //Operation inside menu, matching by name
-            Log.log(Level.FINE, "Operation: " + operationName + " placed in menu");
-            selectOperationMenu(operationName);
-        } else {
-            //Operation in toolbar, matching by id
-            Log.log(Level.FINE, "Operation: " + operationName + " placed in toolbar");
+        if (operationName.equals("share")){  //placed in toolbar
             driver.findElement(MobileBy.AndroidUIAutomator(
                     "new UiSelector().resourceId(\""+ operationsMap.get(operationName) +"\");")).click();
+        } else{
+            Log.log(Level.FINE, "Operation: " + operationName + " placed in menu");
+            selectOperationMenu(operationName);
         }
     }
 
@@ -201,8 +197,6 @@ public class FileListPage extends CommonPage {
                     URLEncoder.encode(hostName, "UTF-8") + "/" + fileName);
             Log.log(Level.FINE, "Checking file in " + downloadedFile.toString());
             return downloadedFile!=null && downloadedFile.length > 0;
-
-        //return true;
         } catch (UnsupportedEncodingException e) {
             Log.log(Level.SEVERE, "Unsupported Encoding Exception: " + e.getMessage());
             e.printStackTrace();
@@ -282,8 +276,7 @@ public class FileListPage extends CommonPage {
 
     private MobileElement getElementFromFileList(String itemName){
         Log.log(Level.FINE, "Starts: searching item in list: " + itemName);
-        while (!isItemInList(itemName) &&
-                driver.findElements(By.id(footer_id)).isEmpty()) {
+        while (!isItemInList(itemName) && !endList()) {
             Log.log(Level.FINE, "Item " + itemName + " not found yet. Swiping");
             swipe(0.50, 0.90, 0.50, 0.20);
         }
