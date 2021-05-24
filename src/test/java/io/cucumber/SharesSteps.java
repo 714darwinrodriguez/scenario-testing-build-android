@@ -170,15 +170,6 @@ public class SharesSteps {
         OCShare share = shareAPI.getShare(itemName);
         assertTrue(sharingPage.checkCorrectShare(share, listItems));
         filesAPI.removeItem(itemName);
-        //shareAPI.removeShare(share.getId());
-    }
-
-    @Then("^group including (.+) should have access to (.+)$")
-    public void group_has_the_file (String userName, String itemName)
-            throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
-        assertTrue(shareAPI.isSharedWithMe(itemName, true));
     }
 
     @Then("^user (.+) should not have access to (.+)$")
@@ -186,15 +177,19 @@ public class SharesSteps {
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        assertFalse(shareAPI.isSharedWithMe(itemName, false));
+        assertFalse(shareAPI.isSharedWithMe(itemName, userName,false));
     }
 
-    @Then("^user (.+) should have access to (.+)$")
-    public void sharee_has_the_file (String userName, String itemName)
+    @Then("^(user|group) (.+) should have access to (.+)$")
+    public void sharee_has_the_file (String type, String shareeName, String itemName)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        assertTrue(shareAPI.isSharedWithMe(itemName, false));
+        if (type.equals("user")){
+            assertTrue(shareAPI.isSharedWithMe(itemName, shareeName, false));
+        } else if (type.equals("group")){
+            assertTrue(shareAPI.isSharedWithMe(itemName, shareeName, true));
+        }
     }
 
     @Then("^(.+) should not be shared anymore with (.+)$")
