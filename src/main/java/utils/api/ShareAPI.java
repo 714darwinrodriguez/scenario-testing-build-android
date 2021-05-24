@@ -26,8 +26,8 @@ public class ShareAPI extends CommonAPI {
 
     private String sharingEndpoint = "/ocs/v1.php/apps/files_sharing/api/v1/shares";
     private final String owner = LocProperties.getProperties().getProperty("userName1");
-    private final String shareeU = LocProperties.getProperties().getProperty("userToShare");
-    private final String shareeG = LocProperties.getProperties().getProperty("groupToShare");
+    //private final String shareeU = LocProperties.getProperties().getProperty("userToShare");
+    //private final String shareeG = LocProperties.getProperties().getProperty("groupToShare");
 
     public ShareAPI(){
         super();
@@ -58,13 +58,12 @@ public class ShareAPI extends CommonAPI {
         Log.log(Level.FINE, "Request sent");
         OCShare share = getId(response);
         Log.log(Level.FINE, "Share retrieved:");
-        //Log.log(Level.FINE, "Share retrieved: " + share.getId());
         response.close();
         Log.log(Level.FINE, "Returning share " + share == null ? "empty" : "non empty");
         return share;
     }
 
-    public boolean isSharedWithMe(String itemName, boolean isGroup)
+    public boolean isSharedWithMe(String itemName, String sharee, boolean isGroup)
             throws IOException, ParserConfigurationException, SAXException {
         String url = urlServer + sharingEndpoint + "?shared_with_me=true";
         Log.log(Level.FINE, "Starts: Request items shared with me - " + itemName);
@@ -77,9 +76,10 @@ public class ShareAPI extends CommonAPI {
             Log.log(Level.FINE, itemName + " not shared with me");
             return false;
         }
-        String sharee = isGroup ? shareeG : shareeU;
-        Log.log(Level.FINE, "Item returned: Sharee: " +
-                share.getShareeName() + " - Owner: " + share.getOwner());
+        //String sharee = isGroup ? shareeG : shareeU;
+        Log.log(Level.FINE, "Item returned: Sharee:" + share.getShareeName() +". Expected sharee:" + sharee);
+        Log.log(Level.FINE, "Owner returned:" + share.getOwner() +". Expected owner:" + owner);
+        Log.log(Level.FINE, String.valueOf(share.getShareeName().equals(sharee) && share.getOwner().equals(owner)));
         return share.getShareeName().equals(sharee) && share.getOwner().equals(owner);
     }
 

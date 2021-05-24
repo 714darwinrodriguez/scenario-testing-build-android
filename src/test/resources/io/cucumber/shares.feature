@@ -13,7 +13,7 @@ Feature: Private Share
     Given the <type> <item> has been created in the account
     When user selects to share the <type> <item>
     And user selects user user2 as sharee
-    Then user  user2 should have access to <item>
+    Then user user2 should have access to <item>
     And share should be created on <item> with the following fields
       | sharee | user2 |
 
@@ -26,7 +26,7 @@ Feature: Private Share
     Given the <type> <item> has been created in the account
     When user selects to share the <type> <item>
     And user selects group test as sharee
-    Then group including user2 should have access to <item>
+    Then group test should have access to <item>
     And share should be created on <item> with the following fields
       | group | test |
 
@@ -59,7 +59,7 @@ Feature: Private Share
     And the file <item> has been already shared with <user>
     When user selects to share the file <item>
     And user edits the share on file <item> with permissions <permissions>
-    Then user  <user> should have access to <item>
+    Then user <user> should have access to <item>
     And share should be created on <item> with the following fields
       | sharee        |  <user>        |
       | permissions   |  <permissions> |
@@ -76,7 +76,7 @@ Feature: Private Share
     And the folder <item> has been already shared with <user>
     When user selects to share the folder <item>
     And user edits the share on folder <item> with permissions <permissions>
-    Then user  <user> should have access to <item>
+    Then user <user> should have access to <item>
     And share should be created on <item> with the following fields
       | sharee        |  <user>        |
       | permissions   |  <permissions> |
