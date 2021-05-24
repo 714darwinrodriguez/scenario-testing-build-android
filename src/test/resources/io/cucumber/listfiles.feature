@@ -12,7 +12,12 @@ Feature: List of files is correctly retrieved from server.
     Then the list of files in <path> folder should match with the server
 
     Examples:
-      | path    |
-      | /       |
-      | /Photos |
-      | /Many   |
+      | path       |
+      | /          |
+      | /Photos    |
+      | /Documents |
+
+  Scenario: Check items in the list of files of an created folder
+    Given the folder Many has been created in the account
+    And the folder Many contains 20 files
+    Then the list of files in /Many folder should match with the server
