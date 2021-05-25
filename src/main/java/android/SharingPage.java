@@ -36,19 +36,19 @@ public class SharingPage extends CommonPage {
 
     public void addPrivateShare(){
         Log.log(Level.FINE, "Starts: add private share");
-        waitById(5, sharefilename_id);
+        waitById(15, sharefilename_id);
         driver.findElement(MobileBy.id(addshareebutton_id)).click();
     }
 
     public void addPublicLink(){
         Log.log(Level.FINE, "Starts: add public link");
-        waitById(5, sharefilename_id);
+        waitById(15, sharefilename_id);
         driver.findElement(MobileBy.id(addpubliclinkbutton_id)).click();
     }
 
     public void openPrivateShare(String itemName){
         Log.log(Level.FINE, "Starts: edit private share: " + itemName);
-        waitById(5, editprivateshare_id);
+        waitById(15, editprivateshare_id);
         driver.findElement(MobileBy.id(editprivateshare_id)).click();
     }
 
@@ -58,14 +58,14 @@ public class SharingPage extends CommonPage {
     }
 
     public boolean isItemInListPrivateShares(String sharee) {
-        waitById(5, privatesharesectiontitle_id);
+        waitById(15, privatesharesectiontitle_id);
         takeScreenshot("PrivateShare/ItemInListPrivateShare_"+sharee);
         return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\""+sharee+"\");")
                 .isEmpty();
     }
 
     public boolean isItemInListPublicShares(String itemName) {
-        waitById(5, privatesharesectiontitle_id);
+        waitById(15, privatesharesectiontitle_id);
         takeScreenshot("PublicShare/ItemInListPubilcShare_"+itemName);
         return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\""+itemName+"\");")
                 .isEmpty();
