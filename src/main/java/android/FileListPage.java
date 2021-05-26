@@ -129,8 +129,10 @@ public class FileListPage extends CommonPage {
 
     public void executeOperation(String operation, String itemName){
         Log.log(Level.FINE, "Starts: execute operation: " + operation + " " + itemName);
+        startRecording();
         selectItemList(itemName);
         selectOperation(operation);
+        stopRecording("selectShare");
     }
 
     public void downloadAction(String itemName){
@@ -160,10 +162,10 @@ public class FileListPage extends CommonPage {
     }
 
     public void selectOperation(String operationName) {
-        if (operationName.equals("share")){  //placed in toolbar
-            driver.findElement(MobileBy.AndroidUIAutomator(
-                    "new UiSelector().resourceId(\""+ operationsMap.get(operationName) +"\");")).click();
-        } else{
+        if (operationName.equals("share")) {  //placed in toolbar
+            //driver.findElement(By.id(shareoption_id)).click();
+            actions.click(driver.findElement(By.id(shareoption_id))).perform();
+        } else {
             Log.log(Level.FINE, "Operation: " + operationName + " placed in menu");
             selectOperationMenu(operationName);
         }

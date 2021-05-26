@@ -93,7 +93,7 @@ public class FileListSteps {
         //fileListPage.startRecording();
         fileListPage.waitToload("Documents");
         fileListPage.refreshList();
-        if ("Download".equals(operation)) {
+        if (operation.equals("Download")) {
             fileListPage.downloadAction(itemName);
             detailsPage.waitFinishedDownload(30);
         } else {
