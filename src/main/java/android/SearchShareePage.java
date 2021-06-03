@@ -38,7 +38,6 @@ public class SearchShareePage extends CommonPage {
             throws InterruptedException {
         //REDO: find another way to click in recipients' list
         Thread.sleep(1000);
-        takeScreenshot("PrivateShare/SearchSharee_" + sharee);
         TouchAction selectSharee = new TouchAction(driver);
         selectSharee.tap(PointOption.point(500, 470)).perform();
     }

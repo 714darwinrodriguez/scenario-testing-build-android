@@ -42,14 +42,14 @@ public class LoginSteps {
     }
 
     @Given ("^user (.+) has been created with default attributes$")
-    public void user_default_attributes(String user) throws Throwable  {
+    public void user_created_default(String user) throws Throwable  {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         middlewareAPI.postMiddlewareExecute(currentStep);
     }
 
     @Given("^user (.+) is logged$")
-    public void i_am_logged(String user)
+    public void user_logged(String user)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -93,8 +93,7 @@ public class LoginSteps {
     }
 
     @When("^user logins as (.+) with password (.+) as (.+) credentials$")
-    public void login_with_password_auth_method(String username, String password,
-                                                String authMethod) {
+    public void login_with_password_auth_method(String username, String password, String authMethod) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         switch (authMethod) {
@@ -121,7 +120,7 @@ public class LoginSteps {
     }
 
     @Then("^user should see the main page$")
-    public void i_can_see_the_main_page() {
+    public void main_page() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         try {
@@ -137,7 +136,7 @@ public class LoginSteps {
     }
 
     @Then("^user should see an error message$")
-    public void i_see_an_error_message() {
+    public void error_message() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         try {

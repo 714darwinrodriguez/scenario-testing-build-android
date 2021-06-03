@@ -128,7 +128,6 @@ public class LinksPage extends CommonPage {
             nextButton.click();
         }
         driver.findElement(new MobileBy.ByAccessibilityId(dateToSet)).click();
-        takeScreenshot("PublicShare/ExpirationDateSelected");
         okButton.click();
     }
 
@@ -197,7 +196,6 @@ public class LinksPage extends CommonPage {
         );
         String shortDate = DateUtils.shortDate(Integer.toString(expiration));
         Log.log(Level.FINE, "Date to check: " + shortDate + " Expiration: " + expiration);
-        takeScreenshot("PublicShare/ExpirationDateChecks");
         if (switchExpiration.isEmpty()) {
             switchEnabled = true;
         } else {
@@ -213,13 +211,11 @@ public class LinksPage extends CommonPage {
 
     public void close(){
         Log.log(Level.FINE, "Starts: Cancel public link view");
-        takeScreenshot("PublicShare/ItemStatusBeforeClosing");
         cancelButton.click();
     }
 
     public void submitLink() {
         Log.log(Level.FINE, "Starts: Submit public link");
-        takeScreenshot("PublicShare/Submit");
         saveButton.click();
     }
 

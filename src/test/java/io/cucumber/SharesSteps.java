@@ -47,7 +47,7 @@ public class SharesSteps {
     }
 
     @When("^user selects (user|group) (.+) as sharee$")
-    public void i_select_sharee(String type, String sharee)
+    public void select_sharee(String type, String sharee)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -56,7 +56,7 @@ public class SharesSteps {
     }
 
     @When("^user edits the share on (.+) (.+) with permissions (.+)$")
-    public void user_edits_share(String type, String itemName, String permissions)
+    public void edit_share(String type, String itemName, String permissions)
             throws Throwable{
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -126,7 +126,7 @@ public class SharesSteps {
     }
 
     @When("^user deletes the share$")
-    public void user_deletes_share() {
+    public void delete_share() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         sharingPage.deletePrivateShare();
@@ -173,7 +173,7 @@ public class SharesSteps {
     }
 
     @Then("^user (.+) should not have access to (.+)$")
-    public void sharee_does_not_have_the_file (String userName, String itemName)
+    public void sharee_does_not_have_access(String userName, String itemName)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -181,7 +181,7 @@ public class SharesSteps {
     }
 
     @Then("^(user|group) (.+) should have access to (.+)$")
-    public void sharee_has_the_file (String type, String shareeName, String itemName)
+    public void sharee_access_the_file(String type, String shareeName, String itemName)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -193,7 +193,7 @@ public class SharesSteps {
     }
 
     @Then("^(.+) should not be shared anymore with (.+)$")
-    public void share_is_deleted(String itemName, String sharee)
+    public void share_deleted(String itemName, String sharee)
             throws Throwable{
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);

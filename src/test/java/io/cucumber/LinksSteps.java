@@ -43,7 +43,7 @@ public class LinksSteps {
     }
 
     @When("^user creates link on (.+) (.+) with the following fields$")
-    public void i_select_to_link_with_fields(String type, String itemName, DataTable table)
+    public void create_link_with_fields(String type, String itemName, DataTable table)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -80,7 +80,7 @@ public class LinksSteps {
     }
 
     @When("^user edits the link on (.+) with the following fields$")
-    public void user_edits_public_link(String itemName, DataTable table)
+    public void edit_public_link(String itemName, DataTable table)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -126,7 +126,7 @@ public class LinksSteps {
     }
 
     @When("^user deletes the link on (.+)$")
-    public void user_deletes_link(String itemName) {
+    public void delete_link(String itemName) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         sharingPage.deletePublicShare();
@@ -134,7 +134,7 @@ public class LinksSteps {
     }
 
     @Then("^link should be created on (.+) with the following fields$")
-    public void link(String itemName, DataTable table)
+    public void link_created_fields(String itemName, DataTable table)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -175,7 +175,6 @@ public class LinksSteps {
         }
         //Asserts in server via API
         OCShare share = shareAPI.getShare(itemName);
-        //sharePage.stopRecording("link_created");
         assertTrue(sharingPage.checkCorrectShare(share, listItems));
         filesAPI.removeItem(itemName);
     }

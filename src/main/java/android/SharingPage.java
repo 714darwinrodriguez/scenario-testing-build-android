@@ -59,26 +59,22 @@ public class SharingPage extends CommonPage {
 
     public boolean isItemInListPrivateShares(String sharee) {
         waitById(15, privatesharesectiontitle_id);
-        takeScreenshot("PrivateShare/ItemInListPrivateShare_"+sharee);
         return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\""+sharee+"\");")
                 .isEmpty();
     }
 
     public boolean isItemInListPublicShares(String itemName) {
         waitById(15, privatesharesectiontitle_id);
-        takeScreenshot("PublicShare/ItemInListPubilcShare_"+itemName);
         return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\""+itemName+"\");")
                 .isEmpty();
     }
 
     public void deletePrivateShare(){
         driver.findElement(MobileBy.id(unshareprivate_id)).click();
-        takeScreenshot("PrivateShare/Deletion");
     }
 
     public void deletePublicShare(){
         driver.findElement(MobileBy.id(deleteprivatelink_id)).click();
-        takeScreenshot("PublicShare/Deletion");
     }
 
     public boolean checkCorrectShare(OCShare remoteShare, List<List<String>> dataList ){
@@ -169,7 +165,6 @@ public class SharingPage extends CommonPage {
     }
 
     public void acceptDeletion(){
-        takeScreenshot("PrivateShare/AcceptDeletion");
         driver.findElement(MobileBy.id(acceptdeletion_id)).click();
     }
 

@@ -97,7 +97,6 @@ public class CommonPage {
 
     public static void longPress(MobileElement element){
         actions.clickAndHold(element).perform();
-        takeScreenshot("ElementFileList/AfterSelecting");
     }
 
     public static void takeScreenshot (String name) {

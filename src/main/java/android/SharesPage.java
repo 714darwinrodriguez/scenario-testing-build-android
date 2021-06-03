@@ -97,7 +97,6 @@ public class SharesPage extends CommonPage {
     }
 
     public void close(){
-        takeScreenshot("PrivateShare/ItemStatusBeforeClosing");
         driver.findElementById(closeButtonid).click();
     }
 }

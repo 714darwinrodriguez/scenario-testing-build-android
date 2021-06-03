@@ -97,7 +97,6 @@ public class FileListPage extends CommonPage {
             waitByTextVisible(10, itemName);
         }
         Log.log(Level.FINE, "Loaded");
-        takeScreenshot("OpenList/fileListLoaded");
     }
 
     public void createFolder(){
@@ -129,10 +128,8 @@ public class FileListPage extends CommonPage {
 
     public void executeOperation(String operation, String itemName){
         Log.log(Level.FINE, "Starts: execute operation: " + operation + " " + itemName);
-        startRecording();
         selectItemList(itemName);
         selectOperation(operation);
-        stopRecording("selectShare");
     }
 
     public void downloadAction(String itemName){
@@ -209,7 +206,6 @@ public class FileListPage extends CommonPage {
     public boolean fileIsMarkedAsDownloaded(String itemName){
         //Enforce this.. downloaded file must fit the itemName
         MobileElement element = getElementFromFileList(itemName);
-        takeScreenshot("FileDownloaded/File_"+itemName+"_Downloaded");
         return downloadIndicator.isDisplayed();
     }
 
@@ -217,7 +213,6 @@ public class FileListPage extends CommonPage {
         //Wait the file to be downloaded
         waitById(30, syncFile);
         MobileElement element = getElementFromFileList(itemName);
-        takeScreenshot("FileAvOffline/File_"+itemName+"_AvOffline");
         return avOfflineIndicator.isDisplayed();
     }
 
@@ -227,7 +222,6 @@ public class FileListPage extends CommonPage {
                 "new UiSelector().description(\"More options\");")).click();
         driver.findElement(MobileBy.AndroidUIAutomator(
                 "new UiSelector().text(\""+ operationName +"\");")).click();
-        takeScreenshot("SelectOperation/SelectOperation_"+operationName);
     }
 
     public boolean displayedList(String path, ArrayList<OCFile> listServer){

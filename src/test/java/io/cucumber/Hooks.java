@@ -26,6 +26,7 @@ public class Hooks {
 
     @After
     public void tearDown(Scenario scenario){
+        AppiumManager.getManager().getDriver().closeApp();
         Log.log(Level.FINE, "END SCENARIO EXECUTION: " + scenario.getName() + "\n\n");
     }
 }

@@ -55,7 +55,7 @@ public class FileListSteps {
     }
 
     @Given("^the (item|file|folder) (.+) has been created in the account$")
-    public void item_exists(String type, String itemName) throws Throwable {
+    public void item_created(String type, String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         if (!filesAPI.itemExist(itemName)) {
@@ -67,7 +67,7 @@ public class FileListSteps {
     }
 
     @Given("^the folder (.+) contains (.+) files$")
-    public void item_exists(String folderName, int files) throws Throwable {
+    public void folder_contains_file(String folderName, int files) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         if (!filesAPI.itemExist(folderName)) {
@@ -79,18 +79,16 @@ public class FileListSteps {
     }
 
     @When("^user selects the option Create Folder$")
-    public void i_select_create_folder() {
+    public void select_create_folder() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        //fileListPage.startRecording();
         fileListPage.createFolder();
     }
 
     @When("^user selects to (.+) the (item|file|folder) (.+)$")
-    public void i_select_item_to_some_operation(String operation, String type, String itemName) {
+    public void select_item_to_some_operation(String operation, String type, String itemName) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        //fileListPage.startRecording();
         fileListPage.waitToload("Documents");
         fileListPage.refreshList();
         if (operation.equals("Download")) {
@@ -102,7 +100,7 @@ public class FileListSteps {
     }
 
     @When ("^user selects (.+) as target folder$")
-    public void i_select_target_folder(String targetFolder) {
+    public void select_target_folder(String targetFolder) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         folderPickerPage.selectFolder(targetFolder);
@@ -110,28 +108,28 @@ public class FileListSteps {
     }
 
     @When("^user selects the option upload$")
-    public void i_select_upload() {
+    public void select_upload() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.upload();
     }
 
     @When("^user accepts the deletion$")
-    public void i_accept_the_deletion(){
+    public void accept_deletion(){
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         removeDialogPage.removeAll();
     }
 
     @When("^user sets (.+) as new name$")
-    public void i_set_new_name(String itemName) {
+    public void set_new_name(String itemName) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         inputNamePage.setItemName(itemName);
     }
 
     @Then("^user should see (.+) in the filelist$")
-    public void i_see_the_item(String itemName) throws Throwable {
+    public void see_the_item_filelist(String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.waitToload("Documents");
@@ -139,11 +137,10 @@ public class FileListSteps {
         assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/')+1)));
         assertTrue(filesAPI.itemExist(itemName));
         filesAPI.removeItem(itemName);
-        //fileListPage.stopRecording("createfolder");
     }
 
     @Then("^user should not see (.+) in the filelist anymore$")
-    public void i_do_not_see_the_item(String itemName) throws Throwable {
+    public void item_out(String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.waitToload("Documents");
@@ -152,7 +149,7 @@ public class FileListSteps {
     }
 
     @Then("^user should see (.+) inside the folder (.+)$")
-    public void i_see_item_in_folder(String itemName, String targetFolder) throws Throwable {
+    public void item_inside_folder(String itemName, String targetFolder) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(filesAPI.itemExist(targetFolder+"/"+itemName));
@@ -160,7 +157,7 @@ public class FileListSteps {
     }
 
     @Then("^user should see (.+) in the filelist as original$")
-    public void i_see_original_the_item(String itemName) throws Throwable {
+    public void original_file_in_filelist(String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         //Copy keeps the selection mode. To improve.
@@ -172,7 +169,7 @@ public class FileListSteps {
     }
 
     @Then("^the item (.+) should be stored in the device$")
-    public void item_downloaded(String itemName) throws Throwable {
+    public void item_downloaded_device(String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(fileListPage.fileIsDownloaded(itemName));
@@ -191,14 +188,14 @@ public class FileListSteps {
     }
 
     @Then("^the item (.+) should be marked as downloaded$")
-    public void item_marked_as_downloaded(String itemName) {
+    public void item_as_downloaded(String itemName) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(fileListPage.fileIsMarkedAsDownloaded(itemName));
     }
 
     @Then("^user should see the item (.+) as av.offline$")
-    public void item_marked_as_avOffline(String itemName) {
+    public void item_as_avOffline(String itemName) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(fileListPage.fileIsMarkedAsAvOffline(itemName));
