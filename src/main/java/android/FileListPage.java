@@ -102,8 +102,11 @@ public class FileListPage extends CommonPage {
     public void createFolder() {
         Log.log(Level.FINE, "Starts: create folder");
         waitById(15, fabButton);
+        takeScreenshot("screen2");
         fabButton.click();
+        takeScreenshot("screen3");
         createFolder.click();
+        takeScreenshot("screen4");
     }
 
     public void upload() {
