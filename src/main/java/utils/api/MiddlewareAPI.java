@@ -20,7 +20,8 @@ public class MiddlewareAPI extends CommonAPI {
     protected String executeEndpoint = "\\execute";
     protected String cleanupEndpoint = "\\cleanup";
 
-    public MiddlewareAPI(){}
+    public MiddlewareAPI() {
+    }
 
     public void postMiddlewareInit() throws IOException {
         Log.log(Level.FINE, "Post Middleware Init");
@@ -41,8 +42,8 @@ public class MiddlewareAPI extends CommonAPI {
         executeMiddlewareRequest(bodyCreated, cleanupEndpoint);
     }
 
-    private String toJSON(String step){
-        String string2json = "{\"step\":" + "\""+ StringEscapeUtils.escapeJava(step)+"\"}";
+    private String toJSON(String step) {
+        String string2json = "{\"step\":" + "\"" + StringEscapeUtils.escapeJava(step) + "\"}";
         Log.log(Level.FINE, string2json);
         return string2json;
     }

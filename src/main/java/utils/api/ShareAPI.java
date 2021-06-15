@@ -29,7 +29,7 @@ public class ShareAPI extends CommonAPI {
     //private final String shareeU = LocProperties.getProperties().getProperty("userToShare");
     //private final String shareeG = LocProperties.getProperties().getProperty("groupToShare");
 
-    public ShareAPI(){
+    public ShareAPI() {
         super();
     }
 
@@ -77,8 +77,8 @@ public class ShareAPI extends CommonAPI {
             return false;
         }
         //String sharee = isGroup ? shareeG : shareeU;
-        Log.log(Level.FINE, "Item returned: Sharee:" + share.getShareeName() +". Expected sharee:" + sharee);
-        Log.log(Level.FINE, "Owner returned:" + share.getOwner() +". Expected owner:" + owner);
+        Log.log(Level.FINE, "Item returned: Sharee:" + share.getShareeName() + ". Expected sharee:" + sharee);
+        Log.log(Level.FINE, "Owner returned:" + share.getOwner() + ". Expected owner:" + owner);
         Log.log(Level.FINE, String.valueOf(share.getShareeName().equals(sharee) && share.getOwner().equals(owner)));
         return share.getShareeName().equals(sharee) && share.getOwner().equals(owner);
     }
@@ -93,7 +93,7 @@ public class ShareAPI extends CommonAPI {
     }
 
     private RequestBody createBodyShare(String itemPath, String sharee, String type,
-                                   String permissions, String name) {
+                                        String permissions, String name) {
         Boolean passwordEnforced = OCCapability.getInstance().isPasswordEnforced();
         Boolean expirationEnforced = OCCapability.getInstance().isExpirationDateEnforced();
         FormBody.Builder body = new FormBody.Builder();
@@ -103,10 +103,10 @@ public class ShareAPI extends CommonAPI {
         body.add("permissions", permissions);
         body.add("name", name);
         //Password and expiration in body in case of enforcement
-        if (passwordEnforced){
+        if (passwordEnforced) {
             body.add("password", "a");
         }
-        if (expirationEnforced){
+        if (expirationEnforced) {
             //Add 7 days in the future as default...
             body.add("expirationDate", DateUtils.dateInDaysShareRequestFormat("7"));
         }

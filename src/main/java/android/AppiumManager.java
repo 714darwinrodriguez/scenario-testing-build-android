@@ -30,7 +30,7 @@ public class AppiumManager {
         init();
     }
 
-    private static void init()  {
+    private static void init() {
 
         File rootPath = new File(System.getProperty("user.dir"));
         File appDir = new File(rootPath, "src/test/resources");
@@ -38,22 +38,22 @@ public class AppiumManager {
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
-        capabilities.setCapability (MobileCapabilityType.PLATFORM_NAME, "Android");
-        capabilities.setCapability (MobileCapabilityType.DEVICE_NAME, "test");
-        capabilities.setCapability (MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability ("appPackage",
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "test");
+        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        capabilities.setCapability("appPackage",
                 LocProperties.getProperties().getProperty("appPackage"));
-        capabilities.setCapability ("appActivity",
+        capabilities.setCapability("appActivity",
                 "com.owncloud.android.ui.activity.SplashActivity");
-        capabilities.setCapability ("appWaitPackage",
+        capabilities.setCapability("appWaitPackage",
                 LocProperties.getProperties().getProperty("appPackage"));
-        capabilities.setCapability ("autoGrantPermissions", true);
-        capabilities.setCapability ("unicodeKeyboard", true);
-        capabilities.setCapability ("resetKeyboard", true);
+        capabilities.setCapability("autoGrantPermissions", true);
+        capabilities.setCapability("unicodeKeyboard", true);
+        capabilities.setCapability("resetKeyboard", true);
         //capabilities.setCapability ("appWaitActivity",
-                //"com.owncloud.android.ui.activity.WhatsNewActivity");
-        capabilities.setCapability (MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
-        capabilities.setCapability ("uiautomator2ServerInstallTimeout", 60000);
+        //"com.owncloud.android.ui.activity.WhatsNewActivity");
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
+        capabilities.setCapability("uiautomator2ServerInstallTimeout", 60000);
         if (System.getProperty("device") != null) {
             capabilities.setCapability(MobileCapabilityType.UDID, System.getProperty("device"));
         }
@@ -68,7 +68,7 @@ public class AppiumManager {
             Log.log(Level.SEVERE, "Driver could not be created: " + e.getMessage());
             e.printStackTrace();
         }
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
         Log.log(Level.FINE, "Device: " +
                 driver.getCapabilities().getCapability("deviceManufacturer") + " " +
@@ -88,11 +88,11 @@ public class AppiumManager {
         return appiumManager;
     }
 
-    public AndroidDriver getDriver(){
+    public AndroidDriver getDriver() {
         return driver;
     }
 
-    public void cleanFolder(){
+    public void cleanFolder() {
         //needed Appium with option --allow-insecure=adb_shell
         //cleaning only if folder exists
         if (folderExists("/sdcard/owncloud/")) {
@@ -103,9 +103,9 @@ public class AppiumManager {
         }
     }
 
-    private boolean folderExists(String folderLocation){
+    private boolean folderExists(String folderLocation) {
         Map<String, Object> args = new HashMap<>();
-        args.put("command",  "[ ! -d \""+ folderLocation+ "\" ] && echo 1 || echo 0");
+        args.put("command", "[ ! -d \"" + folderLocation + "\" ] && echo 1 || echo 0");
         String response = (String) getDriver().executeScript("mobile:shell", args);
         if (response.contains("0")) {
             return true;

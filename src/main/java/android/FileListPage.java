@@ -33,37 +33,37 @@ public class FileListPage extends CommonPage {
     private String listitemname_id = "com.owncloud.android:id/Filename";
     private String footer_id = "com.owncloud.android:id/footerText";
 
-    @AndroidFindBy(uiAutomator="new UiSelector().resourceId(\"com.owncloud.android:id/action_mode_close_button\");")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.owncloud.android:id/action_mode_close_button\");")
     private MobileElement closeSelectionMode;
 
-    @AndroidFindBy(id="com.owncloud.android:id/fab_expand_menu_button")
+    @AndroidFindBy(id = "com.owncloud.android:id/fab_expand_menu_button")
     private MobileElement fabButton;
 
-    @AndroidFindBy(id="com.owncloud.android:id/fab_mkdir")
+    @AndroidFindBy(id = "com.owncloud.android:id/fab_mkdir")
     private MobileElement createFolder;
 
-    @AndroidFindBy(id="com.owncloud.android:id/fab_upload")
+    @AndroidFindBy(id = "com.owncloud.android:id/fab_upload")
     private MobileElement uploadOption;
 
-    @AndroidFindBy(id="com.owncloud.android:id/localFileIndicator")
+    @AndroidFindBy(id = "com.owncloud.android:id/localFileIndicator")
     private MobileElement downloadIndicator;
 
-    @AndroidFindBy(id="com.owncloud.android:id/localFileIndicator")
+    @AndroidFindBy(id = "com.owncloud.android:id/localFileIndicator")
     private MobileElement avOfflineIndicator;
 
-    @AndroidFindBy(id="com.owncloud.android:id/action_sync_file")
+    @AndroidFindBy(id = "com.owncloud.android:id/action_sync_file")
     private MobileElement syncFile;
 
-    @AndroidFindBy(id="com.owncloud.android:id/root_toolbar")
+    @AndroidFindBy(id = "com.owncloud.android:id/root_toolbar")
     private List<MobileElement> toolbar;
 
-    @AndroidFindBy(id="com.owncloud.android:id/list_root")
+    @AndroidFindBy(id = "com.owncloud.android:id/list_root")
     private MobileElement listFiles;
 
-    @AndroidFindBy(id="com.owncloud.android:id/file_list_constraint_layout")
+    @AndroidFindBy(id = "com.owncloud.android:id/file_list_constraint_layout")
     private MobileElement fileCell;
 
-    @AndroidFindBy(id="com.owncloud.android:id/Filename")
+    @AndroidFindBy(id = "com.owncloud.android:id/Filename")
     private MobileElement fileName;
 
     private final String listFiles_id = "com.owncloud.android:id/list_root";
@@ -81,12 +81,12 @@ public class FileListPage extends CommonPage {
         operationsMap.put("Set as available offline", avofflineoption_id);
     }
 
-    public void refreshList(){
+    public void refreshList() {
         Log.log(Level.FINE, "Refresh list");
         swipe(0.50, 0.35, 0.50, 0.90);
     }
 
-    public void waitToload(String itemName){
+    public void waitToload(String itemName) {
         Log.log(Level.FINE, "Waiting to load");
         try {
             //if list of files is not loaded, we should swipe to get the file list
@@ -99,56 +99,56 @@ public class FileListPage extends CommonPage {
         Log.log(Level.FINE, "Loaded");
     }
 
-    public void createFolder(){
+    public void createFolder() {
         Log.log(Level.FINE, "Starts: create folder");
-        waitById(5, fabButton);
+        waitById(15, fabButton);
         fabButton.click();
         createFolder.click();
     }
 
-    public void upload(){
+    public void upload() {
         Log.log(Level.FINE, "Starts: upload");
-        waitById(5, fabButton);
+        waitById(15, fabButton);
         fabButton.click();
         uploadOption.click();
     }
 
-    public void pushFile(String itemName){
+    public void pushFile(String itemName) {
         Log.log(Level.FINE, "Starts: push file: " + itemName);
         File rootPath = new File(System.getProperty("user.dir"));
         File appDir = new File(rootPath, LocProperties.getProperties().getProperty("testResourcesPath"));
         File app = new File(appDir, "io/cucumber/example-files/AAA.txt");
         try {
             driver.pushFile("/mnt/sdcard/Download/aaa.txt", app);
-        } catch (IOException e){
+        } catch (IOException e) {
             Log.log(Level.SEVERE, "IO Exception: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    public void executeOperation(String operation, String itemName){
+    public void executeOperation(String operation, String itemName) {
         Log.log(Level.FINE, "Starts: execute operation: " + operation + " " + itemName);
         selectItemList(itemName);
         selectOperation(operation);
     }
 
-    public void downloadAction(String itemName){
+    public void downloadAction(String itemName) {
         Log.log(Level.FINE, "Starts: download action: " + itemName);
-        if (!isItemInList(itemName)){
+        if (!isItemInList(itemName)) {
             Log.log(Level.FINE, "Searching item... swiping: " + itemName);
             swipe(0.50, 0.90, 0.50, 0.20);
         }
         driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().text(\""+ itemName +"\");")).click();
+                "new UiSelector().text(\"" + itemName + "\");")).click();
     }
 
-    public boolean isItemInList(String itemName){
+    public boolean isItemInList(String itemName) {
         Log.log(Level.FINE, "Starts: Check if item is in list: " + itemName);
         return !driver.findElementsByAndroidUIAutomator(
                 "new UiSelector().text(\"" + itemName + "\");").isEmpty();
     }
 
-    public boolean isHeader(){
+    public boolean isHeader() {
         return !toolbar.isEmpty();
     }
 
@@ -168,13 +168,13 @@ public class FileListPage extends CommonPage {
         }
     }
 
-    public void browse(String folderName){
+    public void browse(String folderName) {
         Log.log(Level.FINE, "Starts: browse to " + folderName);
         driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().text(\""+ folderName +"\");")).click();
+                "new UiSelector().text(\"" + folderName + "\");")).click();
     }
 
-    public void closeSelectionMode(){
+    public void closeSelectionMode() {
         Log.log(Level.FINE, "Starts: close selection mode");
         closeSelectionMode.click();
     }
@@ -183,7 +183,7 @@ public class FileListPage extends CommonPage {
         Log.log(Level.FINE, "Starts: Checking file downloaded: " + fileName);
         String urlServer = System.getProperty("server");
         String hostName = System.getProperty("host");
-        if ( hostName.isEmpty() || hostName == null) {
+        if (hostName.isEmpty() || hostName == null) {
             hostName = urlServer.split("//")[1];
         }
         //Code below is pretty hacky and will be removed in Scope Storage.
@@ -195,7 +195,7 @@ public class FileListPage extends CommonPage {
                     "@" +
                     URLEncoder.encode(hostName, "UTF-8") + "/" + fileName);
             Log.log(Level.FINE, "Checking file in " + downloadedFile.toString());
-            return downloadedFile!=null && downloadedFile.length > 0;
+            return downloadedFile != null && downloadedFile.length > 0;
         } catch (UnsupportedEncodingException e) {
             Log.log(Level.SEVERE, "Unsupported Encoding Exception: " + e.getMessage());
             e.printStackTrace();
@@ -203,32 +203,32 @@ public class FileListPage extends CommonPage {
         }
     }
 
-    public boolean fileIsMarkedAsDownloaded(String itemName){
+    public boolean fileIsMarkedAsDownloaded(String itemName) {
         //Enforce this.. downloaded file must fit the itemName
         MobileElement element = getElementFromFileList(itemName);
         return downloadIndicator.isDisplayed();
     }
 
-    public boolean fileIsMarkedAsAvOffline(String itemName){
+    public boolean fileIsMarkedAsAvOffline(String itemName) {
         //Wait the file to be downloaded
         waitById(30, syncFile);
         MobileElement element = getElementFromFileList(itemName);
         return avOfflineIndicator.isDisplayed();
     }
 
-    private void selectOperationMenu(String operationName){
+    private void selectOperationMenu(String operationName) {
         Log.log(Level.FINE, "Starts: Select operation from the menu: " + operationName);
         driver.findElement(MobileBy.AndroidUIAutomator(
                 "new UiSelector().description(\"More options\");")).click();
         driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().text(\""+ operationName +"\");")).click();
+                "new UiSelector().text(\"" + operationName + "\");")).click();
     }
 
-    public boolean displayedList(String path, ArrayList<OCFile> listServer){
+    public boolean displayedList(String path, ArrayList<OCFile> listServer) {
         boolean found = true;
         parsePath(path); //moving to the folder
         Iterator iterator = listServer.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             OCFile ocfile = (OCFile) iterator.next();
             Log.log(Level.FINE, "Checking item in list: " + ocfile.getName());
             //Server returns the username as value. Here, we skip it.
@@ -251,17 +251,17 @@ public class FileListPage extends CommonPage {
         return found;
     }
 
-    private boolean endList(int numberItems){
+    private boolean endList(int numberItems) {
         return !driver.findElements(MobileBy.AndroidUIAutomator(
-                "new UiSelector().text(\"" + Integer.toString(numberItems-1)
+                "new UiSelector().text(\"" + Integer.toString(numberItems - 1)
                         + " files\");")).isEmpty();
     }
 
-    private boolean endList(){
+    private boolean endList() {
         return !driver.findElements(By.id(footer_id)).isEmpty();
     }
 
-    private void parsePath(String path){
+    private void parsePath(String path) {
         String[] route = path.split("/");
         if (route.length > 0) { //we have to browse
             for (int i = 1; i < route.length; i++) {
@@ -270,7 +270,7 @@ public class FileListPage extends CommonPage {
         }
     }
 
-    private MobileElement getElementFromFileList(String itemName){
+    private MobileElement getElementFromFileList(String itemName) {
         Log.log(Level.FINE, "Starts: searching item in list: " + itemName);
         while (!isItemInList(itemName) && !endList()) {
             Log.log(Level.FINE, "Item " + itemName + " not found yet. Swiping");

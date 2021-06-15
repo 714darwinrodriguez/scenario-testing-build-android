@@ -25,14 +25,14 @@ public class ChromeCustomTabPage extends CommonPage {
     private String submit_chromium_xpath = "//android.widget.Button[@content-desc=\"Login\"]";
     private String authorize_chromium_xpath = "//android.widget.Button[@content-desc=\"Authorize\"]";
     private String switch_chromium_xpath = "//android.widget.Button[@content-desc=\"Switch users to continue\"]";
-    private String icon_chromium_xpath =  "//android.webkit.WebView[@content-desc=\"ownCloud\"]/" +
+    private String icon_chromium_xpath = "//android.webkit.WebView[@content-desc=\"ownCloud\"]/" +
             "android.view.View[1]/android.view.View";
 
     private HashMap fields;
     private HashMap fieldsSelected;
     private String browser;
 
-    public ChromeCustomTabPage(){
+    public ChromeCustomTabPage() {
         waitForWebContext();
         Log.log(Level.FINE, "Browser charged");
         populateMap();
@@ -42,11 +42,11 @@ public class ChromeCustomTabPage extends CommonPage {
         fieldsSelected = (HashMap) fields.get(browser);
     }
 
-    private void populateMap(){
+    private void populateMap() {
         Log.log(Level.FINE, "Populating map");
-        fields = new HashMap<String,HashMap<String, String>>();
-        HashMap<String,String> fieldsChrome = new HashMap<String,String>();
-        HashMap<String,String> fieldsChromium = new HashMap<String,String>();
+        fields = new HashMap<String, HashMap<String, String>>();
+        HashMap<String, String> fieldsChrome = new HashMap<String, String>();
+        HashMap<String, String> fieldsChromium = new HashMap<String, String>();
 
         fieldsChrome.put("username", username_chrome_xpath);
         fieldsChrome.put("password", password_chrome_xpath);
@@ -66,7 +66,7 @@ public class ChromeCustomTabPage extends CommonPage {
         fields.put("chromium", fieldsChromium);
     }
 
-    public void enterCredentials(String username, String password){
+    public void enterCredentials(String username, String password) {
         Log.log(Level.FINE, "Starts: enter OAuth2 credentials");
 
         //in case we use chrome, get new context
@@ -85,7 +85,7 @@ public class ChromeCustomTabPage extends CommonPage {
 
     }
 
-    public void authorize(){
+    public void authorize() {
         Log.log(Level.FINE, "Starts: Authorize OAuth2");
         waitByXpath(5, (String) fieldsSelected.get("authorize"));
         driver.findElement(By.xpath((String) fieldsSelected.get("authorize"))).click();
@@ -95,7 +95,7 @@ public class ChromeCustomTabPage extends CommonPage {
         }
     }
 
-    protected Set getContexts(){
+    protected Set getContexts() {
         Set contextNames = driver.getContextHandles();
         for (Object contextName : contextNames) {
             Log.log(Level.FINE, "Context found: " + contextName);
@@ -103,7 +103,7 @@ public class ChromeCustomTabPage extends CommonPage {
         return contextNames;
     }
 
-    protected void waitForWebContext(){
+    protected void waitForWebContext() {
         Log.log(Level.FINE, "Waiting for browser");
         //The only way found to wait till browser loads, that is valid for all browsers,
         //emulators, devices etc... ugly
@@ -115,12 +115,12 @@ public class ChromeCustomTabPage extends CommonPage {
     }
 
     //ftm, supporting chrome and chromium (android built-in browser)
-    public String getBrowser(){
+    public String getBrowser() {
         Log.log(Level.FINE, "Getting browser");
         Set contexts = getContexts();
         for (Object contextName : contexts) {
             Log.log(Level.FINE, "Context found: " + contextName);
-            if (((String)contextName).contains("chrome")){
+            if (((String) contextName).contains("chrome")) {
                 return "chrome";
             }
         }

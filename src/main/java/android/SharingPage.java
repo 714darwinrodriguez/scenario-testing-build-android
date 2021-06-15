@@ -26,7 +26,7 @@ public class SharingPage extends CommonPage {
     private String acceptdeletion_id = "android:id/button1";
     private String canceldeletion_id = "android:id/button3";
 
-    public SharingPage(){
+    public SharingPage() {
         super();
     }
 
@@ -34,68 +34,68 @@ public class SharingPage extends CommonPage {
         return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"Share\");").isEmpty();
     }
 
-    public void addPrivateShare(){
+    public void addPrivateShare() {
         Log.log(Level.FINE, "Starts: add private share");
         waitById(15, sharefilename_id);
         driver.findElement(MobileBy.id(addshareebutton_id)).click();
     }
 
-    public void addPublicLink(){
+    public void addPublicLink() {
         Log.log(Level.FINE, "Starts: add public link");
         waitById(15, sharefilename_id);
         driver.findElement(MobileBy.id(addpubliclinkbutton_id)).click();
     }
 
-    public void openPrivateShare(String itemName){
+    public void openPrivateShare(String itemName) {
         Log.log(Level.FINE, "Starts: edit private share: " + itemName);
         waitById(15, editprivateshare_id);
         driver.findElement(MobileBy.id(editprivateshare_id)).click();
     }
 
-    public void openPublicLink(String itemName){
+    public void openPublicLink(String itemName) {
         Log.log(Level.FINE, "Starts: open public link: " + itemName);
         driver.findElement(MobileBy.id(editpubliclink_id)).click();
     }
 
     public boolean isItemInListPrivateShares(String sharee) {
         waitById(15, privatesharesectiontitle_id);
-        return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\""+sharee+"\");")
+        return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + sharee + "\");")
                 .isEmpty();
     }
 
     public boolean isItemInListPublicShares(String itemName) {
         waitById(15, privatesharesectiontitle_id);
-        return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\""+itemName+"\");")
+        return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + itemName + "\");")
                 .isEmpty();
     }
 
-    public void deletePrivateShare(){
+    public void deletePrivateShare() {
         driver.findElement(MobileBy.id(unshareprivate_id)).click();
     }
 
-    public void deletePublicShare(){
+    public void deletePublicShare() {
         driver.findElement(MobileBy.id(deleteprivatelink_id)).click();
     }
 
-    public boolean checkCorrectShare(OCShare remoteShare, List<List<String>> dataList ){
+    public boolean checkCorrectShare(OCShare remoteShare, List<List<String>> dataList) {
         Log.log(Level.FINE, "Starts: Check correct share");
         HashMap<String, String> mapFields = turnListToHashmap(dataList);
-        if (remoteShare == null){
+        if (remoteShare == null) {
             Log.log(Level.FINE, "Remote share is null, returning false");
             return false;
         }
         for (Map.Entry<String, String> entry : mapFields.entrySet()) {
             Log.log(Level.FINE, "Entry KEY: " + entry.getKey() + " - VALUE: " + entry.getValue());
-            switch (entry.getKey()){
-                case "id":{
-                    if (!remoteShare.getId().equals(entry.getValue())){
+            switch (entry.getKey()) {
+                case "id": {
+                    if (!remoteShare.getId().equals(entry.getValue())) {
                         Log.log(Level.FINE, "ID does not match - Remote: " + remoteShare.getId()
                                 + " - Expected: " + entry.getValue());
                         return false;
                     }
                     break;
                 }
-                case "user":{
+                case "user": {
                     if (remoteShare.getType().equals("0")) { // private share
                         if (!remoteShare.getShareeName().equals(entry.getValue())) {
                             Log.log(Level.FINE, "Sharee does not match - Remote: " + remoteShare.getShareeName()
@@ -105,46 +105,46 @@ public class SharingPage extends CommonPage {
                     }
                     break;
                 }
-                case "password":{
+                case "password": {
                     if (!(remoteShare.getType().equals("3") && remoteShare.hasPassword())) {
                         Log.log(Level.FINE, "Password not present");
                         return false;
                     }
                     break;
                 }
-                case "name":{
-                    if (!remoteShare.getLinkName().equals(entry.getValue())){
+                case "name": {
+                    if (!remoteShare.getLinkName().equals(entry.getValue())) {
                         Log.log(Level.FINE, "Item name does not match - Remote: " + remoteShare.getLinkName()
                                 + " - Expected: " + entry.getValue());
                         return false;
                     }
                     break;
                 }
-                case "path":{
-                    if (!remoteShare.getItemName().equals(entry.getValue())){
+                case "path": {
+                    if (!remoteShare.getItemName().equals(entry.getValue())) {
                         Log.log(Level.FINE, "Item path does not match - Remote: " + remoteShare.getItemName()
                                 + " - Expected: " + entry.getValue());
                         return false;
                     }
                     break;
                 }
-                case "uid_owner":{
-                    if (!remoteShare.getOwner().equals(entry.getValue())){
+                case "uid_owner": {
+                    if (!remoteShare.getOwner().equals(entry.getValue())) {
                         Log.log(Level.FINE, "Owner name does not match - Remote: " + remoteShare.getOwner()
                                 + " - Expected: " + entry.getValue());
                         return false;
                     }
                     break;
                 }
-                case "permissions":{
-                    if (!remoteShare.getPermissions().equals(entry.getValue())){
+                case "permissions": {
+                    if (!remoteShare.getPermissions().equals(entry.getValue())) {
                         Log.log(Level.FINE, "Permissions do not match - Remote: " + remoteShare.getPermissions()
                                 + " - Expected: " + entry.getValue());
                         return false;
                     }
                     break;
                 }
-                case "expiration days":{
+                case "expiration days": {
                     String dateRemote = remoteShare.getExpiration();
                     int expiration = DateUtils.minExpirationDate(
                             OCCapability.getInstance().expirationDateDays(),
@@ -153,7 +153,7 @@ public class SharingPage extends CommonPage {
                     String expDate = DateUtils.dateInDaysWithServerFormat(Integer.toString(expiration));
                     Log.log(Level.FINE, "Expiration dates: Remote: " + dateRemote
                             + " - Expected: " + expDate);
-                    if (!dateRemote.equals(expDate)){
+                    if (!dateRemote.equals(expDate)) {
                         Log.log(Level.FINE, "Expiration dates do not match");
                         return false;
                     }
@@ -164,18 +164,18 @@ public class SharingPage extends CommonPage {
         return true;
     }
 
-    public void acceptDeletion(){
+    public void acceptDeletion() {
         driver.findElement(MobileBy.id(acceptdeletion_id)).click();
     }
 
-    public void cancelDeletion(){
+    public void cancelDeletion() {
         driver.findElement(MobileBy.id(canceldeletion_id)).click();
     }
 
-    private HashMap turnListToHashmap(List<List<String>> dataList){
+    private HashMap turnListToHashmap(List<List<String>> dataList) {
         HashMap<String, String> mapFields = new HashMap<String, String>();
         for (List<String> rows : dataList) {
-            mapFields.put(rows.get(0),rows.get(1));
+            mapFields.put(rows.get(0), rows.get(1));
         }
         return mapFields;
     }

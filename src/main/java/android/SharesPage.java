@@ -16,7 +16,7 @@ public class SharesPage extends CommonPage {
     private String sharebox_id = "com.owncloud.android:id/canShareSwitch";
     private String closeButtonid = "com.owncloud.android:id/closeButton";
 
-    public SharesPage(){
+    public SharesPage() {
         super();
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
@@ -52,23 +52,23 @@ public class SharesPage extends CommonPage {
         driver.findElementById(editbox_id).click();
     }
 
-    public boolean isCreateSelected(){
+    public boolean isCreateSelected() {
         return checkSwitch(createbox_id);
     }
 
-    public boolean isChangeSelected(){
+    public boolean isChangeSelected() {
         return checkSwitch(changebox_id);
     }
 
-    public boolean isDeleteSelected(){
+    public boolean isDeleteSelected() {
         return checkSwitch(deletebox_id);
     }
 
-    public boolean isEditFileSelected(){
+    public boolean isEditFileSelected() {
         return checkSwitch(editbox_id);
     }
 
-    private boolean checkSwitch(String id){
+    private boolean checkSwitch(String id) {
         if (!driver.findElementsById(id).isEmpty()) {
             return driver.findElementById(id).isEnabled();
         } else {
@@ -76,27 +76,27 @@ public class SharesPage extends CommonPage {
         }
     }
 
-    public boolean isEditPermission(){
+    public boolean isEditPermission() {
         return isCreateSelected() || isChangeSelected() || isDeleteSelected();
     }
 
-    public boolean isEditFileEnabled(){
+    public boolean isEditFileEnabled() {
         return isEditFileSelected();
     }
 
-    public boolean isShareEnabled(){
+    public boolean isShareEnabled() {
         return driver.findElementById(sharebox_id).isEnabled();
     }
 
-    public boolean isEditEnabled(){
+    public boolean isEditEnabled() {
         return driver.findElementById(changebox_id).isEnabled();
     }
 
-    public boolean isPasswordEnabled () {
+    public boolean isPasswordEnabled() {
         return true;
     }
 
-    public void close(){
+    public void close() {
         driver.findElementById(closeButtonid).click();
     }
 }

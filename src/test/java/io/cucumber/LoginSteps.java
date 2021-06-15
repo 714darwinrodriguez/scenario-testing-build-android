@@ -41,8 +41,8 @@ public class LoginSteps {
         loginPage.reinstallApp();
     }
 
-    @Given ("^user (.+) has been created with default attributes$")
-    public void user_created_default(String user) throws Throwable  {
+    @Given("^user (.+) has been created with default attributes$")
+    public void user_created_default(String user) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         middlewareAPI.postMiddlewareExecute(currentStep);

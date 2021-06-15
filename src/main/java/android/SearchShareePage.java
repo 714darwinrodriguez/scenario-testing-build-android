@@ -13,18 +13,18 @@ import utils.log.Log;
 
 public class SearchShareePage extends CommonPage {
 
-    @AndroidFindBy(id="com.owncloud.android:id/search_src_text")
+    @AndroidFindBy(id = "com.owncloud.android:id/search_src_text")
     private MobileElement shareeUsername;
 
-    @AndroidFindBy(xpath="//android.widget.ImageButton[@content-desc=\"Navigate up\"]")
+    @AndroidFindBy(xpath = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]")
     private MobileElement navigateUp;
 
-    public SearchShareePage()  {
+    public SearchShareePage() {
         super();
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-    public void shareWithUser (String sharee)
+    public void shareWithUser(String sharee)
             throws InterruptedException {
         Log.log(Level.FINE, "Starts: Share with user: " + sharee);
         waitById(10, shareeUsername);

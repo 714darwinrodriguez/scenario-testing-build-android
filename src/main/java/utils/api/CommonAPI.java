@@ -34,8 +34,8 @@ public class CommonAPI {
     protected String password = LocProperties.getProperties().getProperty("passw1");
     protected String shareeUser = LocProperties.getProperties().getProperty("userToShare");
     protected String shareePassword = LocProperties.getProperties().getProperty("userToSharePwd");
-    protected String credentialsB64 = Base64.getEncoder().encodeToString((user+":"+password).getBytes());
-    protected String credentialsB64Sharee = Base64.getEncoder().encodeToString((shareeUser+":"+shareePassword).getBytes());
+    protected String credentialsB64 = Base64.getEncoder().encodeToString((user + ":" + password).getBytes());
+    protected String credentialsB64Sharee = Base64.getEncoder().encodeToString((shareeUser + ":" + shareePassword).getBytes());
 
     protected final String davEndpoint = "/remote.php/dav/files/";
 
@@ -61,7 +61,7 @@ public class CommonAPI {
             "  </prop>\n" +
             "</propfind>";
 
-    public CommonAPI(){
+    public CommonAPI() {
     }
 
     public String checkAuthMethod()
@@ -74,7 +74,7 @@ public class CommonAPI {
         Headers headers = response.headers();
         response.close();
         List<String> allHeaders = headers.values("Www-Authenticate");
-        for (String header : allHeaders){
+        for (String header : allHeaders) {
             Log.log(Level.FINE, "Header to check: " + header);
             if (header.contains("Bearer")) {
                 if (isOidc(urlServer)) {
@@ -91,7 +91,7 @@ public class CommonAPI {
 
     protected boolean isOidc(String url)
             throws IOException {
-        String urlCheck = url+"/.well-known/openid-configuration";
+        String urlCheck = url + "/.well-known/openid-configuration";
         Request request = getRequest(url, true);
         Response response = httpClient.newCall(request).execute();
         Log.log(Level.FINE, "Body lenght: " + response.body().contentLength());
@@ -105,11 +105,11 @@ public class CommonAPI {
 
     public String getCapabilities(String url)
             throws IOException {
-        String urlCheck = urlServer+"/ocs/v2.php/cloud/capabilities?format=json";
+        String urlCheck = urlServer + "/ocs/v2.php/cloud/capabilities?format=json";
         Request request = getRequest(urlCheck, false);
         Response response = httpClient.newCall(request).execute();
         Log.log(Level.FINE, "Capabilities: " + response.body());
-        String capabilities =  response.body().string();
+        String capabilities = response.body().string();
         response.close();
         return capabilities;
     }
@@ -119,7 +119,7 @@ public class CommonAPI {
                 .url(url)
                 .addHeader("OCS-APIREQUEST", "true")
                 .addHeader("User-Agent", userAgent)
-                .addHeader("Authorization", "Basic "+ credentialsB64)
+                .addHeader("Authorization", "Basic " + credentialsB64)
                 .addHeader("Host", host)
                 .method(method, body)
                 .build();
@@ -142,7 +142,7 @@ public class CommonAPI {
                 .url(url)
                 .addHeader("OCS-APIREQUEST", "true")
                 .addHeader("User-Agent", userAgent)
-                .addHeader("Authorization", "Basic "+ credentialsB64)
+                .addHeader("Authorization", "Basic " + credentialsB64)
                 .addHeader("Host", host)
                 .post(body)
                 .build();
@@ -150,12 +150,12 @@ public class CommonAPI {
         return request;
     }
 
-    protected Request deleteRequest(String url){
+    protected Request deleteRequest(String url) {
         Request request = new Request.Builder()
                 .url(url)
                 .addHeader("OCS-APIREQUEST", "true")
                 .addHeader("User-Agent", userAgent)
-                .addHeader("Authorization", "Basic "+credentialsB64)
+                .addHeader("Authorization", "Basic " + credentialsB64)
                 .addHeader("Host", host)
                 .delete()
                 .build();
@@ -193,16 +193,16 @@ public class CommonAPI {
     private static OkHttpClient getUnsafeOkHttpClient() {
         try {
             // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[] {
+            final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
                         @Override
                         public void checkClientTrusted(java.security.cert.X509Certificate[] chain,
-                               String authType) throws CertificateException {
+                                                       String authType) throws CertificateException {
                         }
 
                         @Override
                         public void checkServerTrusted(java.security.cert.X509Certificate[] chain,
-                               String authType) throws CertificateException {
+                                                       String authType) throws CertificateException {
                         }
 
                         @Override
@@ -219,7 +219,7 @@ public class CommonAPI {
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager)trustAllCerts[0]);
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
             builder.hostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
@@ -234,10 +234,10 @@ public class CommonAPI {
         }
     }
 
-    private String getHost(){
+    private String getHost() {
         String urlServer = System.getProperty("server");
         String host = System.getProperty("host");
-        if (host.isEmpty() || host == null){
+        if (host.isEmpty() || host == null) {
             host = urlServer.split("//")[1];
         }
         return host;

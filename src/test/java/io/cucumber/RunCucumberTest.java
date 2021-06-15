@@ -22,13 +22,13 @@ import utils.log.Log;
 public class RunCucumberTest {
 
     @BeforeClass
-    public static void beforeclass(){
+    public static void beforeclass() {
         Log.init();
         Log.log(Level.FINE, "START EXECUTION\n");
     }
 
     @AfterClass
-    public static void afterclass(){
+    public static void afterclass() {
         //remove the oC app
         AppiumManager.getManager().getDriver().removeApp("com.owncloud.android");
         //remove Appium Settings

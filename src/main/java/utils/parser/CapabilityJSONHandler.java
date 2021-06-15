@@ -12,12 +12,12 @@ public class CapabilityJSONHandler {
     public static OCCapability ocCapability = OCCapability.getInstance();
     private String json;
 
-    public CapabilityJSONHandler(String json){
+    public CapabilityJSONHandler(String json) {
         Log.log(Level.FINE, "JSON: " + json);
         this.json = json;
     }
 
-    public void parsePublicLink(){
+    public void parsePublicLink() {
         JSONObject object = new JSONObject(json);
         JSONObject ocs = object.getJSONObject("ocs");
         JSONObject data = ocs.getJSONObject("data");

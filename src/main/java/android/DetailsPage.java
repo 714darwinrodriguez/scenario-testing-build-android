@@ -14,41 +14,41 @@ import utils.log.Log;
 
 public class DetailsPage extends CommonPage {
 
-    @AndroidFindBy(id="com.owncloud.android:id/fdFilename")
+    @AndroidFindBy(id = "com.owncloud.android:id/fdFilename")
     private MobileElement itemName;
 
-    @AndroidFindBy(id="com.owncloud.android:id/fdType")
+    @AndroidFindBy(id = "com.owncloud.android:id/fdType")
     private MobileElement itemType;
 
-    @AndroidFindBy(id="com.owncloud.android:id/fdSize")
+    @AndroidFindBy(id = "com.owncloud.android:id/fdSize")
     private MobileElement itemSize;
 
-    @AndroidFindBy(id="com.owncloud.android:id/fdProgressText")
+    @AndroidFindBy(id = "com.owncloud.android:id/fdProgressText")
     private MobileElement downloading;
 
-    @AndroidFindBy(id="com.owncloud.android:id/text_preview")
+    @AndroidFindBy(id = "com.owncloud.android:id/text_preview")
     private MobileElement textPreview;
 
-    @AndroidFindBy(id="toolbar")
+    @AndroidFindBy(id = "toolbar")
     private List<MobileElement> toolbar;
 
-    @AndroidFindBy(xpath="//android.widget.ImageButton[@content-desc=\"Navigate up\"]")
+    @AndroidFindBy(xpath = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]")
     private MobileElement navigateUp;
 
-    public DetailsPage(){
+    public DetailsPage() {
         super();
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-    public String getName(){
+    public String getName() {
         return itemName.getText();
     }
 
-    public String getType(){
+    public String getType() {
         return itemType.getText();
     }
 
-    public String getSize(){
+    public String getSize() {
         return itemSize.getText();
     }
 
@@ -57,21 +57,21 @@ public class DetailsPage extends CommonPage {
         navigateUp.click();
     }
 
-    public void closeOpenIn(){
+    public void closeOpenIn() {
         Log.log(Level.FINE, "Start: Close Open In");
         driver.pressKey(new KeyEvent(AndroidKey.BACK));
     }
 
-    public boolean itemPreviewed(){
+    public boolean itemPreviewed() {
         return textPreview.isDisplayed();
     }
 
-    public void waitFinishedDownload(int seconds){
+    public void waitFinishedDownload(int seconds) {
         //waitByIdInvisible(seconds, downloading);
     }
 
-    public void removeShareSheet(){
-        if (toolbar.isEmpty()){
+    public void removeShareSheet() {
+        if (toolbar.isEmpty()) {
             driver.navigate().back();
         }
     }

@@ -50,7 +50,7 @@ public class LinksSteps {
         sharingPage.addPublicLink();
         List<List<String>> listItems = table.asLists();
         for (List<String> rows : listItems) {
-            switch (rows.get(0)){
+            switch (rows.get(0)) {
                 case "name": {
                     linksPage.addLinkName(rows.get(1));
                     break;
@@ -72,9 +72,9 @@ public class LinksSteps {
             }
         }
         //if password is enforced, we must force to input
-        if (linksPage.isPasswordEnforced(itemName)){
+        if (linksPage.isPasswordEnforced(itemName)) {
             //Enter a fake password to fit the scenario
-            linksPage.addPassword(itemName,"a");
+            linksPage.addPassword(itemName, "a");
         }
         linksPage.submitLink();
     }
@@ -87,7 +87,7 @@ public class LinksSteps {
         List<List<String>> listItems = table.asLists();
         sharingPage.openPublicLink(itemName);
         for (List<String> rows : listItems) {
-            switch (rows.get(0)){
+            switch (rows.get(0)) {
                 case "name": {
                     linksPage.addLinkName(rows.get(1));
                     break;
@@ -184,7 +184,7 @@ public class LinksSteps {
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        assertFalse(sharingPage.isItemInListPublicShares(itemName+ " link"));
+        assertFalse(sharingPage.isItemInListPublicShares(itemName + " link"));
         assertTrue(shareAPI.getShare(itemName) == null);
         filesAPI.removeItem(itemName);
     }
