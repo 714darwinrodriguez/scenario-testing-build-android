@@ -121,7 +121,7 @@ public class SharesSteps {
             }
         }
         sharesPage.close();
-        //An implicit wait to be used till a close button is available. To improve.
+        //An ugly wait to be used till a close button is available. To improve.
         Thread.sleep(2000);
     }
 

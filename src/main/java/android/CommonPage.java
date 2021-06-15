@@ -73,17 +73,6 @@ public class CommonPage {
         wait.until(ExpectedConditions.textToBePresentInElement(mobileElement, text));
     }
 
-    public static void waitTillStatus(int timeToWait, String resourceId, boolean status){
-        WebDriverWait wait = new WebDriverWait(driver, timeToWait);
-        wait.until(ExpectedConditions.elementSelectionStateToBe(MobileBy.id(resourceId), status));
-    }
-
-    public static void waitTillStatus(int timeToWait, MobileElement mobileElement, boolean status){
-        WebDriverWait wait = new WebDriverWait(driver, timeToWait);
-        wait.until(ExpectedConditions.elementSelectionStateToBe(mobileElement, status));
-    }
-
-
     public static void swipe (double startx, double starty, double endx, double endy) {
         Dimension size = driver.manage().window().getSize();
         int startY=(int)(size.height * starty);
