@@ -48,7 +48,7 @@ public class FileListSteps {
     protected FilesAPI filesAPI = new FilesAPI();
 
     @Given("^there is an item called (.+) in the folder Downloads of the device$")
-    public void push_file_to_device(String itemName){
+    public void push_file_to_device(String itemName) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.pushFile(itemName);
@@ -71,10 +71,10 @@ public class FileListSteps {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         if (!filesAPI.itemExist(folderName)) {
-                filesAPI.createFolder(folderName);
+            filesAPI.createFolder(folderName);
         }
-        for (int i=0; i<files; i++){
-            filesAPI.pushFile(folderName+"/file_"+i+".txt");
+        for (int i = 0; i < files; i++) {
+            filesAPI.pushFile(folderName + "/file_" + i + ".txt");
         }
     }
 
@@ -99,7 +99,7 @@ public class FileListSteps {
         }
     }
 
-    @When ("^user selects (.+) as target folder$")
+    @When("^user selects (.+) as target folder$")
     public void select_target_folder(String targetFolder) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -115,7 +115,7 @@ public class FileListSteps {
     }
 
     @When("^user accepts the deletion$")
-    public void accept_deletion(){
+    public void accept_deletion() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         removeDialogPage.removeAll();
@@ -134,7 +134,7 @@ public class FileListSteps {
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.waitToload("Documents");
         //Get the last token of the item path
-        assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/')+1)));
+        assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/') + 1)));
         assertTrue(filesAPI.itemExist(itemName));
         filesAPI.removeItem(itemName);
     }
@@ -152,8 +152,8 @@ public class FileListSteps {
     public void item_inside_folder(String itemName, String targetFolder) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        assertTrue(filesAPI.itemExist(targetFolder+"/"+itemName));
-        filesAPI.removeItem(targetFolder+"/"+itemName);
+        assertTrue(filesAPI.itemExist(targetFolder + "/" + itemName));
+        filesAPI.removeItem(targetFolder + "/" + itemName);
     }
 
     @Then("^user should see (.+) in the filelist as original$")
@@ -163,7 +163,7 @@ public class FileListSteps {
         //Copy keeps the selection mode. To improve.
         fileListPage.closeSelectionMode();
         fileListPage.waitToload("Documents");
-        assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/')+1)));
+        assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/') + 1)));
         assertTrue(filesAPI.itemExist(itemName));
         filesAPI.removeItem(itemName);
     }

@@ -19,12 +19,12 @@ public class OCCapability {
     private boolean passwordEnforced;
 
 
-    private OCCapability(){
+    private OCCapability() {
         publicLink = new HashMap<>();
     }
 
-    public static OCCapability getInstance(){
-        if (capabilities == null){
+    public static OCCapability getInstance() {
+        if (capabilities == null) {
             capabilities = new OCCapability();
         }
         return capabilities;

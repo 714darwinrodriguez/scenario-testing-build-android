@@ -18,7 +18,7 @@ public class ShareSAXHandler extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String node, Attributes attributes)
             throws SAXException {
-        if (node.equals("element")){
+        if (node.equals("element")) {
             share = new OCShare();
         }
     }
@@ -27,42 +27,42 @@ public class ShareSAXHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String node)
             throws SAXException {
         switch (node) {
-            case ("id"):{
+            case ("id"): {
                 Log.log(Level.FINE, "Id: " + text);
                 share.setId(text);
                 break;
             }
-            case ("uid_owner"):{
+            case ("uid_owner"): {
                 Log.log(Level.FINE, "uid: " + text);
                 share.setOwner(text);
                 break;
             }
-            case ("share_type"):{
+            case ("share_type"): {
                 Log.log(Level.FINE, "type: " + text);
                 share.setType(text);
                 break;
             }
-            case ("share_with"):{
+            case ("share_with"): {
                 Log.log(Level.FINE, "with: " + text);
                 share.setShareeName(text);
                 break;
             }
-            case ("name"):{
+            case ("name"): {
                 Log.log(Level.FINE, "name: " + text);
                 share.setLinkName(text);
                 break;
             }
-            case ("itemName"):{
+            case ("itemName"): {
                 Log.log(Level.FINE, "name: " + text);
                 share.setItemName(text.substring(1, text.length()));
                 break;
             }
-            case ("permissions"):{
+            case ("permissions"): {
                 Log.log(Level.FINE, "permission: " + text);
                 share.setPermissions(text);
                 break;
             }
-            case ("expiration"):{
+            case ("expiration"): {
                 Log.log(Level.FINE, "expiration: " + text);
                 share.setExpiration(text);
                 break;
@@ -75,7 +75,7 @@ public class ShareSAXHandler extends DefaultHandler {
         text = String.copyValueOf(ch, start, length).trim();
     }
 
-    public OCShare getShare(){
+    public OCShare getShare() {
         return share;
     }
 

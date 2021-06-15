@@ -19,13 +19,13 @@ import utils.log.Log;
 public class Hooks {
 
     @Before
-    public void setup(Scenario scenario){
+    public void setup(Scenario scenario) {
         Log.log(Level.FINE, "START SCENARIO EXECUTION: " + scenario.getName());
         AppiumManager.getManager().getDriver().launchApp();
     }
 
     @After
-    public void tearDown(Scenario scenario){
+    public void tearDown(Scenario scenario) {
         AppiumManager.getManager().getDriver().closeApp();
         Log.log(Level.FINE, "END SCENARIO EXECUTION: " + scenario.getName() + "\n\n");
     }

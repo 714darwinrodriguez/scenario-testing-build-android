@@ -21,34 +21,34 @@ import utils.log.Log;
 
 public class LinksPage extends CommonPage {
 
-    @AndroidFindBy(id="com.owncloud.android:id/shareViaLinkExpirationValue")
+    @AndroidFindBy(id = "com.owncloud.android:id/shareViaLinkExpirationValue")
     private MobileElement expirationDate;
 
-    @AndroidFindBy(id="com.owncloud.android:id/shareViaLinkNameValue")
+    @AndroidFindBy(id = "com.owncloud.android:id/shareViaLinkNameValue")
     private MobileElement namePublicLink;
 
-    @AndroidFindBy(id="com.owncloud.android:id/shareViaLinkPasswordValue")
+    @AndroidFindBy(id = "com.owncloud.android:id/shareViaLinkPasswordValue")
     private MobileElement textPassword;
 
-    @AndroidFindBy(id="com.owncloud.android:id/shareViaLinkEditPermissionReadOnly")
+    @AndroidFindBy(id = "com.owncloud.android:id/shareViaLinkEditPermissionReadOnly")
     private MobileElement downloadViewOption;
 
-    @AndroidFindBy(id="com.owncloud.android:id/shareViaLinkEditPermissionReadAndWrite")
+    @AndroidFindBy(id = "com.owncloud.android:id/shareViaLinkEditPermissionReadAndWrite")
     private MobileElement downloadViewUploadOption;
 
-    @AndroidFindBy(id="com.owncloud.android:id/shareViaLinkEditPermissionUploadFiles")
+    @AndroidFindBy(id = "com.owncloud.android:id/shareViaLinkEditPermissionUploadFiles")
     private MobileElement uploadOnlyOption;
 
-    @AndroidFindBy(id="com.owncloud.android:id/cancelButton")
+    @AndroidFindBy(id = "com.owncloud.android:id/cancelButton")
     private MobileElement cancelButton;
 
-    @AndroidFindBy(id="com.owncloud.android:id/saveButton")
+    @AndroidFindBy(id = "com.owncloud.android:id/saveButton")
     private MobileElement saveButton;
 
-    @AndroidFindBy(id="android:id/button1")
+    @AndroidFindBy(id = "android:id/button1")
     private MobileElement okButton;
 
-    @AndroidFindBy(id="android:id/next")
+    @AndroidFindBy(id = "android:id/next")
     private MobileElement nextButton;
 
     private OCCapability ocCapability;
@@ -58,23 +58,23 @@ public class LinksPage extends CommonPage {
     private String switchPasswordId = "com.owncloud.android:id/shareViaLinkPasswordSwitch";
     private String switchExpirationId = "com.owncloud.android:id/shareViaLinkExpirationSwitch";
 
-    public LinksPage(){
+    public LinksPage() {
         super();
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
         ocCapability = OCCapability.getInstance();
     }
 
-    public void addLinkName (String linkName) {
+    public void addLinkName(String linkName) {
         Log.log(Level.FINE, "Starts: Add link name: " + linkName);
         namePublicLink.clear();
         namePublicLink.sendKeys(linkName);
     }
 
-    public void addPassword (String itemName, String password) throws IOException, SAXException, ParserConfigurationException {
+    public void addPassword(String itemName, String password) throws IOException, SAXException, ParserConfigurationException {
         Log.log(Level.FINE, "Starts: Add link password: " + password);
         //To avoid password keyboard to appear
         driver.hideKeyboard();
-        if (!isPasswordEnforced(itemName)){
+        if (!isPasswordEnforced(itemName)) {
             switchPassword = (MobileElement) driver.findElement(By.id(switchPasswordId));
             switchPassword.click();
         }
@@ -83,25 +83,25 @@ public class LinksPage extends CommonPage {
         swipe(0.50, 0.45, 0.50, 0.30);
     }
 
-    public void setPermission (String permission) {
+    public void setPermission(String permission) {
         Log.log(Level.FINE, "Starts: Set link permission: " + permission);
-        switch (permission){
-            case("1"):{
+        switch (permission) {
+            case ("1"): {
                 downloadViewOption.click();
                 break;
             }
-            case("15"):{
+            case ("15"): {
                 downloadViewUploadOption.click();
                 break;
             }
-            case("4"):{
+            case ("4"): {
                 uploadOnlyOption.click();
                 break;
             }
         }
     }
 
-    public void setExpiration (String days){
+    public void setExpiration(String days) {
         Log.log(Level.FINE, "Starts: Set Expiration date in days: " + days);
         List<MobileElement> switchExpiration =
                 (List<MobileElement>) driver.findElements(By.id(switchExpirationId));
@@ -123,8 +123,8 @@ public class LinksPage extends CommonPage {
         String dateToSet = DateUtils.dateInDaysAndroidFormat(Integer.toString(defaultExpiration));
         Log.log(Level.FINE, "default: " + OCCapability.getInstance().expirationDateDays()
                 + ". Days: " + days + ". Days to set: " + defaultExpiration + " Date to set: " + dateToSet);
-        if (driver.findElements(new MobileBy.ByAccessibilityId(dateToSet)).isEmpty()){
-            Log.log(Level.FINE,"Date not found, next page");
+        if (driver.findElements(new MobileBy.ByAccessibilityId(dateToSet)).isEmpty()) {
+            Log.log(Level.FINE, "Date not found, next page");
             nextButton.click();
         }
         driver.findElement(new MobileBy.ByAccessibilityId(dateToSet)).click();
@@ -144,47 +144,47 @@ public class LinksPage extends CommonPage {
         return switchEnabled && passVisible;
     }
 
-    public void selectDownloadView(){
+    public void selectDownloadView() {
         Log.log(Level.FINE, "Starts: Select Download / View");
         downloadViewOption.click();
     }
 
-    public void selectDownloadViewUpload(){
+    public void selectDownloadViewUpload() {
         Log.log(Level.FINE, "Starts: Select Download / View / Upload");
         downloadViewUploadOption.click();
     }
 
-    public void selectUploadOnly(){
+    public void selectUploadOnly() {
         Log.log(Level.FINE, "Starts: Select Upload Only (File drop)");
         uploadOnlyOption.click();
     }
 
-    public boolean checkPermissions(String permissions){
-            Log.log(Level.FINE, "Starts: Check permissions: " + permissions);
-            switch (permissions){
-                case("1"):{
-                    if (parseIntBool(downloadViewOption.getAttribute("checked")) == true ){
-                        Log.log(Level.FINE, "Download / View is selected");
-                        return true;
-                    }
-                }
-                case("15"):{
-                    if (parseIntBool(downloadViewUploadOption.getAttribute("checked")) == true ){
-                        Log.log(Level.FINE, "Download / View / Upload is selected");
-                        return true;
-                    }
-                }
-                case("4"):{
-                    if (parseIntBool(uploadOnlyOption.getAttribute("checked")) == true ){
-                        Log.log(Level.FINE, "Upload only is selected");
-                        return true;
-                    }
+    public boolean checkPermissions(String permissions) {
+        Log.log(Level.FINE, "Starts: Check permissions: " + permissions);
+        switch (permissions) {
+            case ("1"): {
+                if (parseIntBool(downloadViewOption.getAttribute("checked")) == true) {
+                    Log.log(Level.FINE, "Download / View is selected");
+                    return true;
                 }
             }
-            return false;
+            case ("15"): {
+                if (parseIntBool(downloadViewUploadOption.getAttribute("checked")) == true) {
+                    Log.log(Level.FINE, "Download / View / Upload is selected");
+                    return true;
+                }
+            }
+            case ("4"): {
+                if (parseIntBool(uploadOnlyOption.getAttribute("checked")) == true) {
+                    Log.log(Level.FINE, "Upload only is selected");
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    public boolean checkExpiration(String days){
+    public boolean checkExpiration(String days) {
         Log.log(Level.FINE, "Starts: Check expiration in days: " + days);
         List<MobileElement> switchExpiration =
                 (List<MobileElement>) driver.findElements(By.id(switchExpirationId));
@@ -209,7 +209,7 @@ public class LinksPage extends CommonPage {
         return switchEnabled && dateCorrect;
     }
 
-    public void close(){
+    public void close() {
         Log.log(Level.FINE, "Starts: Cancel public link view");
         cancelButton.click();
     }
@@ -248,7 +248,7 @@ public class LinksPage extends CommonPage {
         }
     }
 
-    private boolean parseIntBool(String s){
+    private boolean parseIntBool(String s) {
         return Boolean.parseBoolean(s);
     }
 }

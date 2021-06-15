@@ -11,18 +11,18 @@ import utils.log.Log;
 
 public class InputNamePage extends CommonPage {
 
-    @AndroidFindBy(id="com.owncloud.android:id/user_input")
+    @AndroidFindBy(id = "com.owncloud.android:id/user_input")
     private MobileElement newName;
 
-    @AndroidFindBy(id="android:id/button1")
+    @AndroidFindBy(id = "android:id/button1")
     private MobileElement acceptButton;
 
-    public InputNamePage(){
+    public InputNamePage() {
         super();
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-    public void setItemName(String itemName){
+    public void setItemName(String itemName) {
         Log.log(Level.FINE, "Start: Set name to item: " + itemName);
         newName.clear();
         newName.sendKeys(itemName);

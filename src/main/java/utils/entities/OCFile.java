@@ -11,7 +11,7 @@ public class OCFile {
 
     private String type;
 
-    public OCFile(){
+    public OCFile() {
 
     }
 

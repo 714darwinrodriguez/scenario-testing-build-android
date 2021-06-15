@@ -27,7 +27,7 @@ public class DateUtils {
         gregorianCalendar.add(Calendar.DAY_OF_YEAR, Integer.valueOf(days));
         Log.log(Level.FINE, "Date to format: " + gregorianCalendar.getTime());
         String dateAfterDays = gregorianCalendar.get(Calendar.YEAR) + "-"
-                + "-" + gregorianCalendar.get(Calendar.MONTH) +1
+                + "-" + gregorianCalendar.get(Calendar.MONTH) + 1
                 + "-" + formatInt(gregorianCalendar.get(Calendar.DAY_OF_MONTH));
         Log.log(Level.FINE, "Date formatted: " + dateAfterDays);
         return dateAfterDays;
@@ -39,9 +39,9 @@ public class DateUtils {
         gregorianCalendar.add(Calendar.DAY_OF_YEAR, Integer.valueOf(days));
         Log.log(Level.FINE, "Date to format: " + gregorianCalendar.getTime());
         String dateAfterDays = gregorianCalendar.get(Calendar.YEAR)
-                +"-"+formatInt(gregorianCalendar.get(Calendar.MONTH) + 1)
-                +"-"+formatInt(gregorianCalendar.get(Calendar.DAY_OF_MONTH))
-                +" 00:00:00";
+                + "-" + formatInt(gregorianCalendar.get(Calendar.MONTH) + 1)
+                + "-" + formatInt(gregorianCalendar.get(Calendar.DAY_OF_MONTH))
+                + " 00:00:00";
         Log.log(Level.FINE, "Date formatted: " + dateAfterDays);
         return dateAfterDays;
     }
@@ -61,15 +61,15 @@ public class DateUtils {
     private static String getNameMonth(int numMonth) {
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
         String[] months = dateFormatSymbols.getMonths();
-        if (numMonth >= 0 && numMonth <= 11 ) {
+        if (numMonth >= 0 && numMonth <= 11) {
             return months[numMonth];
         } else
             return "";
     }
 
-    private static String formatInt(int dateNumber){
+    private static String formatInt(int dateNumber) {
         String day;
-        if (dateNumber < 10){
+        if (dateNumber < 10) {
             day = "0" + dateNumber;
         } else {
             day = String.valueOf(dateNumber);
@@ -77,11 +77,11 @@ public class DateUtils {
         return day;
     }
 
-    public static int minExpirationDate(int a, int b){
-        if (a == 0 && b > 0){
+    public static int minExpirationDate(int a, int b) {
+        if (a == 0 && b > 0) {
             return b;
         }
-        if (a > 0 && b == 0){
+        if (a > 0 && b == 0) {
             return a;
         }
         return a <= b ? a : b;

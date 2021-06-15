@@ -12,24 +12,24 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import utils.LocProperties;
 import utils.log.Log;
 
-public class LoginPage extends CommonPage{
+public class LoginPage extends CommonPage {
 
-    @AndroidFindBy(id="com.owncloud.android:id/hostUrlInput")
+    @AndroidFindBy(id = "com.owncloud.android:id/hostUrlInput")
     private List<MobileElement> urlServer;
 
-    @AndroidFindBy(id="com.owncloud.android:id/embeddedCheckServerButton")
+    @AndroidFindBy(id = "com.owncloud.android:id/embeddedCheckServerButton")
     private MobileElement checkServerButton;
 
-    @AndroidFindBy(id="com.owncloud.android:id/account_username")
+    @AndroidFindBy(id = "com.owncloud.android:id/account_username")
     private MobileElement userNameText;
 
-    @AndroidFindBy(id="com.owncloud.android:id/account_password")
+    @AndroidFindBy(id = "com.owncloud.android:id/account_password")
     private MobileElement passwordText;
 
-    @AndroidFindBy(id="com.owncloud.android:id/loginButton")
+    @AndroidFindBy(id = "com.owncloud.android:id/loginButton")
     private MobileElement loginButton;
 
-    @AndroidFindBy(id="ok")
+    @AndroidFindBy(id = "ok")
     private MobileElement acceptCertificate;
 
     private final String serverURL = LocProperties.getProperties().getProperty("serverBasicTest");
@@ -43,30 +43,30 @@ public class LoginPage extends CommonPage{
 
     private String errorcredentialstext_xpath = "//*[@text='Wrong username or password']";
 
-    public LoginPage(){
+    public LoginPage() {
         super();
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-    public boolean notLoggedIn(){
+    public boolean notLoggedIn() {
         return !urlServer.isEmpty();
     }
 
-    public void typeURL(){
+    public void typeURL() {
         Log.log(Level.FINE, "Starts: Type URL.");
         waitById(15, urlServer.get(0));
         urlServer.get(0).sendKeys(server);
         checkServerButton.click();
     }
 
-    public void typeURL(String authMethod){
+    public void typeURL(String authMethod) {
         Log.log(Level.FINE, "Starts: Type URL.");
         waitById(15, urlServer.get(0));
         urlServer.get(0).sendKeys(selectURL(authMethod));
         checkServerButton.click();
     }
 
-    public void typeCredentials(String username, String password){
+    public void typeCredentials(String username, String password) {
         Log.log(Level.FINE, "Starts: Type credentials: username: "
                 + username + " - password: " + password);
         waitById(15, userNameText);
@@ -74,18 +74,18 @@ public class LoginPage extends CommonPage{
         passwordText.sendKeys(password);
     }
 
-    public void submitLogin(){
+    public void submitLogin() {
         Log.log(Level.FINE, "Starts: Submit login");
         waitById(15, loginButton);
         loginButton.click();
     }
 
-    public boolean isCredentialsErrorMessage(){
+    public boolean isCredentialsErrorMessage() {
         return driver.findElements(MobileBy.xpath(errorcredentialstext_xpath)).size() > 0;
     }
 
-    private String selectURL(String authMehod){
-        switch (authMehod){
+    private String selectURL(String authMehod) {
+        switch (authMehod) {
             case "basic auth":
                 Log.log(Level.FINE, "URL: " + serverURL);
                 return serverURL;

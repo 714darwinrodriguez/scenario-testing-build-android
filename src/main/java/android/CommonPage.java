@@ -36,31 +36,31 @@ public class CommonPage {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
     protected final String packag = LocProperties.getProperties().getProperty("appPackage");
 
-    public CommonPage()  {
+    public CommonPage() {
         actions = new Actions(driver);
     }
 
-    public static void waitByXpath(int timeToWait, String resourceXpath){
+    public static void waitByXpath(int timeToWait, String resourceXpath) {
         WebDriverWait wait = new WebDriverWait(driver, timeToWait);
         wait.until(ExpectedConditions.visibilityOfElementLocated(MobileBy.xpath(resourceXpath)));
     }
 
-    public static void waitById(int timeToWait, String resourceId){
+    public static void waitById(int timeToWait, String resourceId) {
         WebDriverWait wait = new WebDriverWait(driver, timeToWait);
         wait.until(ExpectedConditions.visibilityOfElementLocated(MobileBy.id(resourceId)));
     }
 
-    public static void waitById(int timeToWait, MobileElement mobileElement){
+    public static void waitById(int timeToWait, MobileElement mobileElement) {
         WebDriverWait wait = new WebDriverWait(driver, timeToWait);
         wait.until(ExpectedConditions.visibilityOf(mobileElement));
     }
 
-    public static void waitByIdInvisible(int timeToWait, String resourceId){
+    public static void waitByIdInvisible(int timeToWait, String resourceId) {
         WebDriverWait wait = new WebDriverWait(driver, timeToWait);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(MobileBy.id(resourceId)));
     }
 
-    public static void waitByIdInvisible(int timeToWait, MobileElement mobileElement){
+    public static void waitByIdInvisible(int timeToWait, MobileElement mobileElement) {
         WebDriverWait wait = new WebDriverWait(driver, timeToWait);
         wait.until(ExpectedConditions.invisibilityOf(mobileElement));
     }
@@ -69,48 +69,37 @@ public class CommonPage {
         WebDriverWait wait = new WebDriverWait(driver, timeToWait);
         MobileElement mobileElement = (MobileElement)
                 driver.findElementByAndroidUIAutomator
-                        ("new UiSelector().text(\""+ text +"\");");
+                        ("new UiSelector().text(\"" + text + "\");");
         wait.until(ExpectedConditions.textToBePresentInElement(mobileElement, text));
     }
 
-    public static void waitTillStatus(int timeToWait, String resourceId, boolean status){
-        WebDriverWait wait = new WebDriverWait(driver, timeToWait);
-        wait.until(ExpectedConditions.elementSelectionStateToBe(MobileBy.id(resourceId), status));
-    }
-
-    public static void waitTillStatus(int timeToWait, MobileElement mobileElement, boolean status){
-        WebDriverWait wait = new WebDriverWait(driver, timeToWait);
-        wait.until(ExpectedConditions.elementSelectionStateToBe(mobileElement, status));
-    }
-
-
-    public static void swipe (double startx, double starty, double endx, double endy) {
+    public static void swipe(double startx, double starty, double endx, double endy) {
         Dimension size = driver.manage().window().getSize();
-        int startY=(int)(size.height * starty);
-        int endY=(int)(size.height * endy);
-        int startX=(int)(size.width * startx);
-        int endX=(int)(size.height * endx);
+        int startY = (int) (size.height * starty);
+        int endY = (int) (size.height * endy);
+        int startX = (int) (size.width * startx);
+        int endX = (int) (size.height * endx);
         TouchAction ts = new TouchAction(driver);
         ts.longPress(PointOption.point(startX, startY))
                 .moveTo(PointOption.point(startX, endY)).release().perform();
     }
 
-    public static void longPress(MobileElement element){
+    public static void longPress(MobileElement element) {
         actions.clickAndHold(element).perform();
     }
 
-    public static void takeScreenshot (String name) {
+    public static void takeScreenshot(String name) {
         try {
             String sd = sdf.format(new Timestamp(System.currentTimeMillis()).getTime());
             File screenShotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(screenShotFile, new File("screenshots/"+name+"_"+sd+".png"));
-            Log.log(Level.FINE,"Take screenshot " + name + " at: " + sd);
+            FileUtils.copyFile(screenShotFile, new File("screenshots/" + name + "_" + sd + ".png"));
+            Log.log(Level.FINE, "Take screenshot " + name + " at: " + sd);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void startRecording (){
+    public static void startRecording() {
         AndroidStartScreenRecordingOptions androidStartScreenRecordingOptions =
                 new AndroidStartScreenRecordingOptions();
         androidStartScreenRecordingOptions.withBitRate(2000000);
@@ -118,10 +107,10 @@ public class CommonPage {
         driver.startRecordingScreen(androidStartScreenRecordingOptions);
     }
 
-    public static void stopRecording (String filename){
+    public static void stopRecording(String filename) {
         String base64String = driver.stopRecordingScreen();
         byte[] data = Base64.decodeBase64(base64String);
-        String destinationPath="video/" + filename + "_" +
+        String destinationPath = "video/" + filename + "_" +
                 sdf.format(new Timestamp(System.currentTimeMillis()).getTime()) + ".mp4";
         Path path = Paths.get(destinationPath);
         try {
@@ -131,11 +120,11 @@ public class CommonPage {
         }
     }
 
-    public void removeApp(){
+    public void removeApp() {
         driver.removeApp(packag);
     }
 
-    public void reinstallApp(){
+    public void reinstallApp() {
         if (driver.isAppInstalled(packag)) {
             driver.removeApp(LocProperties.getProperties().getProperty("appPackage"));
             driver.launchApp();

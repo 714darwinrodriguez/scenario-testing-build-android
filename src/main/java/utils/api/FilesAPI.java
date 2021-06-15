@@ -22,13 +22,13 @@ import utils.parser.FileSAXHandler;
 
 public class FilesAPI extends CommonAPI {
 
-    public FilesAPI(){
+    public FilesAPI() {
         super();
     }
 
     public void removeItem(String itemName)
             throws IOException {
-        String url = urlServer + davEndpoint + user + "/"+itemName+"/";
+        String url = urlServer + davEndpoint + user + "/" + itemName + "/";
         Log.log(Level.FINE, "Starts: Request remove item from server");
         Log.log(Level.FINE, "URL: " + url);
         Request request = deleteRequest(url);
@@ -38,7 +38,7 @@ public class FilesAPI extends CommonAPI {
 
     public void createFolder(String folderName)
             throws IOException {
-        String url = urlServer + davEndpoint + user + "/"+folderName+"/";
+        String url = urlServer + davEndpoint + user + "/" + folderName + "/";
         Log.log(Level.FINE, "Starts: Request create folder");
         Log.log(Level.FINE, "URL: " + url);
         Request request = davRequest(url, "MKCOL", null);
@@ -48,7 +48,7 @@ public class FilesAPI extends CommonAPI {
 
     public void pushFile(String fileName)
             throws IOException {
-        String url = urlServer + davEndpoint + user + "/"+fileName+"/";
+        String url = urlServer + davEndpoint + user + "/" + fileName + "/";
         Log.log(Level.FINE, "Starts: Request create file");
         Log.log(Level.FINE, "URL: " + url);
         RequestBody body = RequestBody.create(MediaType.parse("text/plain"),
@@ -67,14 +67,14 @@ public class FilesAPI extends CommonAPI {
         Request request = davRequest(url, "PROPFIND", null);
         response = httpClient.newCall(request).execute();
         response.close();
-        switch (response.code()/100){
-            case(2): {
-                Log.log(Level.FINE, "Response "+response.code()+". Item exists");
+        switch (response.code() / 100) {
+            case (2): {
+                Log.log(Level.FINE, "Response " + response.code() + ". Item exists");
                 return true;
             }
-            case(4): {
-                Log.log(Level.FINE, "Response "+response.code()+" "
-                        +response.message()+". Item does not exist");
+            case (4): {
+                Log.log(Level.FINE, "Response " + response.code() + " "
+                        + response.message() + ". Item does not exist");
                 return false;
             }
             default: {

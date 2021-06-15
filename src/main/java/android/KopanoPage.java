@@ -83,17 +83,16 @@ public class KopanoPage extends CommonPage {
     private String authorize_xpath_emu = "//android.widget.Button[@content-desc=\"Allow \"]";
 
 
-
-    public KopanoPage(){
+    public KopanoPage() {
         deviceVersion = (long) driver.getCapabilities().getCapability("deviceApiLevel");
-        if (device == null){
+        if (device == null) {
             device = "emulator";
         }
         realDevice = device.contains("emulator") ? false : true;
         Log.log(Level.FINE, "Real device?: " + realDevice);
     }
 
-    public void enterCredentials(String username, String password){
+    public void enterCredentials(String username, String password) {
         Log.log(Level.FINE, "Starts: enter OIDC credentials");
         if (deviceVersion >= 29) {
             Log.log(Level.FINE, "Android 10");
@@ -105,7 +104,7 @@ public class KopanoPage extends CommonPage {
             }
         } else {
             Log.log(Level.FINE, "Android < 10");
-            if (realDevice){
+            if (realDevice) {
                 if (!driver.findElementsByXPath(username_xpath_real).isEmpty()) {
                     Log.log(Level.FINE, "Entering credentials in real device");
                     driver.findElement(By.xpath(username_xpath_real)).sendKeys(username);
@@ -123,7 +122,7 @@ public class KopanoPage extends CommonPage {
         }
     }
 
-    public void authorize(){
+    public void authorize() {
         Log.log(Level.FINE, "Starts: Authorize OIDC");
         if (deviceVersion >= 29) {
             Log.log(Level.FINE, "Android 10");
