@@ -101,14 +101,14 @@ public class FileListPage extends CommonPage {
 
     public void createFolder() {
         Log.log(Level.FINE, "Starts: create folder");
-        waitById(5, fabButton);
+        waitById(15, fabButton);
         fabButton.click();
         createFolder.click();
     }
 
     public void upload() {
         Log.log(Level.FINE, "Starts: upload");
-        waitById(5, fabButton);
+        waitById(15, fabButton);
         fabButton.click();
         uploadOption.click();
     }
