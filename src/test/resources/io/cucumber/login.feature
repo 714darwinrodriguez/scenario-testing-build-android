@@ -21,21 +21,20 @@ Feature: Login
       |  hola hola   |    a     |
       |  a+a         |    a     |
 
-  @LDAP @smoke
+  @LDAP
   Scenario: A valid login in LDAP
     Given server with LDAP is available
     When user logins as aaliyah_adams with password secret as LDAP credentials
     Then user should see the main page
 
-
-  @redirect301 @smoke
+  @redirect301
   Scenario: A valid login with 301 redirection
     Given server with redirection 301 is available
     When user logins as admin with password admin as basic auth credentials
     Then user should see the main page
 
 
-  @redirect302 @smoke
+  @redirect302
   Scenario: A valid login with 302 redirection
     Given server with redirection 302 is available
     When user logins as admin with password admin as basic auth credentials
