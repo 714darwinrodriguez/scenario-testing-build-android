@@ -10,11 +10,8 @@ import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.steps.StepEventBus;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Level;
 
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
