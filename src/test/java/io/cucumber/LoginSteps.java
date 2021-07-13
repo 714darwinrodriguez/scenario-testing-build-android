@@ -80,7 +80,7 @@ public class LoginSteps {
             }
         }
         //Fill capabilities object
-        String capabilityJSON = commonAPI.getCapabilities("ocs/v2.php/cloud/capabilities?format=json");
+        String capabilityJSON = commonAPI.getCapabilities();
         CapabilityJSONHandler JSONparser = new CapabilityJSONHandler(capabilityJSON);
         JSONparser.parsePublicLink();
     }

@@ -5,12 +5,12 @@ Feature: Rename an item
   so that i see clearer or different names as i need them
 
   Background: User is logged in
-    Given user user1 is logged
+    Given user Alice is logged
 
   @smoke
   Scenario: Rename an item
     Given the folder RenameMe has been created in the account
-    When user selects to Rename the item RenameMe
-    And user sets Renamed as new name
-    Then user should see Renamed in the filelist
-    But user should not see Rename in the filelist anymore
+    When Alice selects to Rename the item RenameMe
+    And Alice sets Renamed as new name
+    Then Alice should see Renamed in the filelist
+    But Alice should not see Rename in the filelist anymore

@@ -34,15 +34,15 @@ public class LinksSteps {
     protected ShareAPI shareAPI = new ShareAPI();
     protected FilesAPI filesAPI = new FilesAPI();
 
-    @Given("^the (item|file|folder) (.+) has been already shared by link$")
-    public void item_already_shared_by_link(String type, String itemName)
+    @Given("^(.+) has shared the (item|file|folder) (.+) by link$")
+    public void item_already_shared_by_link(String sharingUser, String type, String itemName)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        shareAPI.createShare(itemName, "", "3", "1", itemName + " link");
+        shareAPI.createShare(sharingUser, itemName, "", "3", "1", itemName);
     }
 
-    @When("^user creates link on (.+) (.+) with the following fields$")
+    @When("^(?:.*?) creates link on (.+) (.+) with the following fields$")
     public void create_link_with_fields(String type, String itemName, DataTable table)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -79,7 +79,7 @@ public class LinksSteps {
         linksPage.submitLink();
     }
 
-    @When("^user edits the link on (.+) with the following fields$")
+    @When("^(?:.*?) edits the link on (.+) with the following fields$")
     public void edit_public_link(String itemName, DataTable table)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -125,7 +125,7 @@ public class LinksSteps {
         linksPage.submitLink();
     }
 
-    @When("^user deletes the link on (.+)$")
+    @When("^(?:.*?) deletes the link on (.+)$")
     public void delete_link(String itemName) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);

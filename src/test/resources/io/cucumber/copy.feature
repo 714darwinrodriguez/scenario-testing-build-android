@@ -6,11 +6,11 @@ Feature: Copy item
   So that i have different copies in different places that i can modify separately
 
   Background: User is logged in
-    Given user user1 is logged
+    Given user Alice is logged
 
   Scenario: Copy an existent folder to another location
     Given the folder copyMe has been created in the account
-    When user selects to Copy the item copyMe
-    And user selects Documents as target folder
-    Then user should see copyMe in the filelist as original
-    And user should see copyMe inside the folder Documents
+    When Alice selects to Copy the item copyMe
+    And Alice selects Documents as target folder
+    Then Alice should see copyMe in the filelist as original
+    And Alice should see copyMe inside the folder Documents

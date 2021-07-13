@@ -6,16 +6,16 @@ Feature: Private Share
   So that the content is accessible and others can contribute
 
   Background: User is logged in
-    Given user user1 is logged
+    Given user Alice is logged
 
   @smoke
   Scenario Outline: Correct share with user
     Given the <type> <item> has been created in the account
-    When user selects to share the <type> <item>
-    And user selects user user2 as sharee
-    Then user user2 should have access to <item>
+    When Alice selects to share the <type> <item>
+    And Alice selects user Bob as sharee
+    Then user Bob should have access to <item>
     And share should be created on <item> with the following fields
-      | sharee | user2 |
+      | sharee | Bob |
 
     Examples:
       |  type   |  item        |
@@ -24,8 +24,8 @@ Feature: Private Share
 
   Scenario Outline: Correct share with group
     Given the <type> <item> has been created in the account
-    When user selects to share the <type> <item>
-    And user selects group test as sharee
+    When Alice selects to share the <type> <item>
+    And Alice selects group test as sharee
     Then group test should have access to <item>
     And share should be created on <item> with the following fields
       | group | test |
@@ -37,8 +37,8 @@ Feature: Private Share
 
   Scenario Outline: Correct federated share
     Given the <type> <item> has been created in the account
-    When user selects to share the <type> <item>
-    And user selects user demo@demo.owncloud.com as sharee
+    When Alice selects to share the <type> <item>
+    And Alice selects user demo@demo.owncloud.com as sharee
     Then share should be created on <item> with the following fields
       | sharee | demo@demo.owncloud.com |
 
@@ -54,28 +54,46 @@ Feature: Private Share
     # DELETE -> 8
     # SHARE -> 16
 
+  Scenario: Reshare allowed
+    Given the file Share7.txt has been created in the account
+    When Alice selects to share the file Share7.txt
+    And Alice selects user Bob as sharee
+    And Bob shares file Share7.txt with Charles with permissions 31
+    Then user Bob should have access to Share7.txt
+    And user Charles should have access to Share7.txt
+    And share should be created on Share7.txt with the following fields
+      | sharee  | Bob       |
+
+  #not an Android, keeping ftm...
+  Scenario: Reshare not allowed
+    Given the file Share8.txt has been created in the account
+    And Alice has shared file Share8.txt with Bob with permissions 3
+    When Bob shares file Share8.txt with Charles with permissions 31
+    Then user Bob should have access to Share8.txt
+    But user Charles should not have access to Share8.txt
+
   Scenario Outline: Edit existing share on a file, changing permissions
     Given the file <item> has been created in the account
-    And the file <item> has been already shared with <user>
-    When user selects to share the file <item>
-    And user edits the share on file <item> with permissions <permissions>
+    And Alice has shared folder <item> with <user> with permissions 31
+    When Alice selects to share the file <item>
+    And Alice edits the share on file <item> with permissions <permissions>
     Then user <user> should have access to <item>
     And share should be created on <item> with the following fields
       | sharee        |  <user>        |
       | permissions   |  <permissions> |
 
     Examples:
-      |  item         |   user    | permissions | Description
-      |  Share7.txt   |   user2   |   3         |  only update
-      |  Share8.txt   |   user2   |   17        |  only share
-      |  Share9.txt   |   user2   |   19        |  both update and share
-      |  Share10.txt  |   user2   |   1         |  neither update nor share
+      |  item         |   user    |  permissions | Description
+      |  Share9.txt   |   Bob     |    3         |  only update
+      |  Share10.txt  |   Bob     |    17        |  only share
+      |  Share11.txt  |   Bob     |    19        |  both update and share
+      |  Share12.txt  |   Bob     |    1         |  neither update nor share
 
   Scenario Outline: Edit existing share on a folder, changing permissions
     Given the folder <item> has been created in the account
-    And the folder <item> has been already shared with <user>
-    When user selects to share the folder <item>
-    And user edits the share on folder <item> with permissions <permissions>
+    And Alice has shared folder <item> with <user> with permissions 31
+    When Alice selects to share the folder <item>
+    And Alice edits the share on folder <item> with permissions <permissions>
     Then user <user> should have access to <item>
     And share should be created on <item> with the following fields
       | sharee        |  <user>        |
@@ -83,20 +101,20 @@ Feature: Private Share
 
     Examples:
       |  item      |   user    | permissions |
-      |  Share11   |   user2   |   1         |
-      |  Share12   |   user2   |   9         |
-      |  Share13   |   user2   |   13        |
-      |  Share14   |   user2   |   17        |
+      |  Share13   |   Bob     |   1         |
+      |  Share14   |   Bob     |   9         |
+      |  Share15   |   Bob     |   13        |
+      |  Share16   |   Bob     |   17        |
 
   Scenario Outline: Delete existing share
     Given the <type> <item> has been created in the account
-    And the <type> <item> has been already shared with user2
-    When user selects to share the <type> <item>
-    And user deletes the share
-    Then user user2 should not have access to <item>
-    And <item> should not be shared anymore with user2
+    And Alice has shared folder <item> with Bob with permissions 31
+    When Alice selects to share the <type> <item>
+    And Alice deletes the share
+    Then user Bob should not have access to <item>
+    And <item> should not be shared anymore with Bob
 
     Examples:
       |  type   |  item         |
-      |  file   |  Share15.txt  |
-      |  folder |  Share16      |
+      |  file   |  Share17.txt  |
+      |  folder |  Share18      |

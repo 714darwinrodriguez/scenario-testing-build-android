@@ -38,15 +38,15 @@ public class SharesSteps {
     protected ShareAPI shareAPI = new ShareAPI();
     protected FilesAPI filesAPI = new FilesAPI();
 
-    @Given("^the (file|folder|item) (.+) has been already shared with (.+)$")
-    public void item_already_shared(String type, String itemName, String sharee)
-            throws Throwable {
+    @Given("^(.+) (has shared|shares) (item|file|folder) (.+) with (.+) with permissions (\\d+)$")
+    public void item_already_shared(String sharingUser, String tense, String type, String itemName,
+                                    String recipientUser, String permissions) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        shareAPI.createShare(itemName, sharee, "0", "31", "");
+        shareAPI.createShare(sharingUser, itemName, recipientUser, "0", permissions, "");
     }
 
-    @When("^user selects (user|group) (.+) as sharee$")
+    @When("^(?:.*?) selects (user|group) (.+) as sharee$")
     public void select_sharee(String type, String sharee)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -55,7 +55,7 @@ public class SharesSteps {
         searchShareePage.shareWithUser(sharee);
     }
 
-    @When("^user edits the share on (.+) (.+) with permissions (.+)$")
+    @When("^(?:.*?) edits the share on (.+) (.+) with permissions (.+)$")
     public void edit_share(String type, String itemName, String permissions)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -125,7 +125,7 @@ public class SharesSteps {
         Thread.sleep(2000);
     }
 
-    @When("^user deletes the share$")
+    @When("^(?:.*?) deletes the share$")
     public void delete_share() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -172,12 +172,13 @@ public class SharesSteps {
         filesAPI.removeItem(itemName);
     }
 
-    @Then("^user (.+) should not have access to (.+)$")
+    @Then("^(?:.*?) (.+) should not have access to (.+)$")
     public void sharee_does_not_have_access(String userName, String itemName)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertFalse(shareAPI.isSharedWithMe(itemName, userName, false));
+        filesAPI.removeItem(itemName);
     }
 
     @Then("^(user|group) (.+) should have access to (.+)$")

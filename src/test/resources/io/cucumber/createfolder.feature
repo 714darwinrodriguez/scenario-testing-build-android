@@ -6,10 +6,10 @@ Feature: Create a new folder
   so that i will put order in my file structure
 
   Background: User is logged in
-    Given user user1 is logged
+    Given user Alice is logged
 
   @smoke
   Scenario: Create a new folder with a correct name
-    When user selects the option Create Folder
-    And user sets FolderTest as new name
-    Then user should see FolderTest in the filelist
+    When Alice selects the option Create Folder
+    And Alice sets FolderTest as new name
+    Then Alice should see FolderTest in the filelist

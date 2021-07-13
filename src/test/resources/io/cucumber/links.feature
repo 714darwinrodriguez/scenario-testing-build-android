@@ -6,13 +6,13 @@ Feature: Public Share
   So that the content is accessible for whom i send the link
 
   Background: User is logged in
-    Given user user1 is logged
+    Given user Alice is logged
 
   @smoke
   Scenario Outline: Create a public link with name
     Given the <type> <item> has been created in the account
-    When user selects to share the <type> <item>
-    And user creates link on <type> <item> with the following fields
+    When Alice selects to share the <type> <item>
+    And Alice creates link on <type> <item> with the following fields
       | name | <name> |
     Then link should be created on <item> with the following fields
       | name | <name> |
@@ -24,8 +24,8 @@ Feature: Public Share
 
   Scenario Outline: Create a public link with password
     Given the <type> <item> has been created in the account
-    When user selects to share the <type> <item>
-    And user creates link on <type> <item> with the following fields
+    When Alice selects to share the <type> <item>
+    And Alice creates link on <type> <item> with the following fields
       | name     | <name>     |
       | password | <password> |
     Then link should be created on <item> with the following fields
@@ -40,8 +40,8 @@ Feature: Public Share
   @expiration
   Scenario Outline: Create a public link with expiration date
     Given the <type> <item> has been created in the account
-    When user selects to share the <type> <item>
-    And user creates link on <type> <item> with the following fields
+    When Alice selects to share the <type> <item>
+    And Alice creates link on <type> <item> with the following fields
       | name            | <name>  |
       | expiration days | <expiration>  |
     Then link should be created on <item> with the following fields
@@ -55,8 +55,8 @@ Feature: Public Share
 
   Scenario Outline: Create a public link with permissions on a folder
     Given the folder <item> has been created in the account
-    When user selects to share the folder <item>
-    And user creates link on folder <item> with the following fields
+    When Alice selects to share the folder <item>
+    And Alice creates link on folder <item> with the following fields
       | name       | <name>        |
       | permission | <permissions> |
     Then link should be created on <item> with the following fields
@@ -71,9 +71,9 @@ Feature: Public Share
 
   Scenario Outline: Edit existing share on a folder, changing permissions
     Given the folder <item> has been created in the account
-    And the folder <item> has been already shared by link
-    When user selects to share the folder <item>
-    And user edits the link on <item> with the following fields
+    And Alice has shared the folder <item> by link
+    When Alice selects to share the folder <item>
+    And Alice edits the link on <item> with the following fields
       | permissions | <permissions> |
       | name        | <name>        |
     Then link should be created on <item> with the following fields
@@ -89,9 +89,9 @@ Feature: Public Share
   @deletelink
   Scenario Outline: Delete existing link
     Given the <type> <item> has been created in the account
-    And the <type> <item> has been already shared by link
-    When user selects to share the <type> <item>
-    And user deletes the link on <item>
+    And Alice has shared the <type> <item> by link
+    When Alice selects to share the <type> <item>
+    And Alice deletes the link on <item>
     Then link on <item> should not exist anymore
 
     Examples:

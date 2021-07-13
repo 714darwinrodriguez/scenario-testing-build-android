@@ -32,7 +32,7 @@ public class ShareSAXHandler extends DefaultHandler {
                 share.setId(text);
                 break;
             }
-            case ("uid_owner"): {
+            case ("uid_file_owner"): {
                 Log.log(Level.FINE, "uid: " + text);
                 share.setOwner(text);
                 break;
@@ -52,7 +52,7 @@ public class ShareSAXHandler extends DefaultHandler {
                 share.setLinkName(text);
                 break;
             }
-            case ("itemName"): {
+            case ("path"): {
                 Log.log(Level.FINE, "name: " + text);
                 share.setItemName(text.substring(1, text.length()));
                 break;
