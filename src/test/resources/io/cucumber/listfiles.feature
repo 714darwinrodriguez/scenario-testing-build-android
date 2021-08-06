@@ -18,6 +18,7 @@ Feature: List of files is correctly retrieved from server.
       | /Documents |
 
   Scenario: Check items in the list of files of an created folder
-    Given the folder Many has been created in the account
+    Given the following items have been created in the account
+      | folder   | Many  |
     And the folder Many contains 20 files
     Then the list of files in /Many folder should match with the server

@@ -10,7 +10,8 @@ Feature: Set items as available offline (downloaded and synced)
 
     @smoke
   Scenario: Set a file as available offline
-    Given the file av.offline.pdf has been created in the account
+    Given the following items have been created in the account
+      | file   | av.offline.pdf  |
     When Alice selects to Set as available offline the item av.offline.pdf
     Then Alice should see the item av.offline.pdf as av.offline
     And the item av.offline.pdf should be stored in the device

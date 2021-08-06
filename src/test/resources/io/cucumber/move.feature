@@ -9,7 +9,8 @@ Feature: Move item
     Given user Alice is logged
 
   Scenario: Move an existent folder to another location
-    Given the folder folderMove has been created in the account
+    Given the following items have been created in the account
+      | folder   | folderMove  |
     When Alice selects to Move the item folderMove
     And Alice selects Documents as target folder
     Then Alice should not see folderMove in the filelist anymore

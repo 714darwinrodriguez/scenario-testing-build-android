@@ -9,7 +9,8 @@ Feature: Copy item
     Given user Alice is logged
 
   Scenario: Copy an existent folder to another location
-    Given the folder copyMe has been created in the account
+    Given the following items have been created in the account
+      | folder   | copyMe  |
     When Alice selects to Copy the item copyMe
     And Alice selects Documents as target folder
     Then Alice should see copyMe in the filelist as original

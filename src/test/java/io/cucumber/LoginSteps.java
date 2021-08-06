@@ -2,7 +2,7 @@ package io.cucumber;
 
 import android.ChromeCustomTabPage;
 import android.FileListPage;
-import android.KopanoPage;
+import android.OIDCPage;
 import android.LoginPage;
 
 import net.thucydides.core.annotations.Steps;
@@ -71,9 +71,9 @@ public class LoginSteps {
                     break;
                 case "OIDC":
                     loginPage.submitLogin();
-                    KopanoPage kopanoPage = new KopanoPage();
-                    kopanoPage.enterCredentials(username, password);
-                    kopanoPage.authorize();
+                    OIDCPage OIDCPage = new OIDCPage();
+                    OIDCPage.enterCredentials(username, password);
+                    OIDCPage.authorize();
                     break;
                 default:
                     break;
@@ -110,9 +110,9 @@ public class LoginSteps {
                 break;
             case "OIDC":
                 loginPage.submitLogin();
-                KopanoPage kopanoPage = new KopanoPage();
-                kopanoPage.enterCredentials(username, password);
-                kopanoPage.authorize();
+                OIDCPage OIDCPage = new OIDCPage();
+                OIDCPage.enterCredentials(username, password);
+                OIDCPage.authorize();
                 break;
             default:
                 break;

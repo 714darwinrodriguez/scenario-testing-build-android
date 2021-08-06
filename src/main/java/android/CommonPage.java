@@ -2,6 +2,7 @@ package android;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -69,6 +70,20 @@ public class CommonPage {
                 driver.findElementByAndroidUIAutomator
                         ("new UiSelector().text(\"" + text + "\");");
         wait.until(ExpectedConditions.textToBePresentInElement(mobileElement, text));
+    }
+
+    // The following method should be used only in case implicit/explicit waits are not valid for the
+    // scenario. Blocking the thread is not desirable and using it is not a good solution.
+    public static void wait(int seconds) {
+        try {
+            Thread.sleep(seconds*1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public MobileElement findXpath(String xpath){
+        return (MobileElement) driver.findElement(MobileBy.xpath(xpath));
     }
 
     public static void swipe(double startx, double starty, double endx, double endy) {

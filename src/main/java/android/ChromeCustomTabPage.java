@@ -70,7 +70,7 @@ public class ChromeCustomTabPage extends CommonPage {
         Log.log(Level.FINE, "Starts: enter OAuth2 credentials");
 
         //in case we use chrome, get new context
-        if (browser.equals("chrome")) {
+        if (browser.equalsIgnoreCase("chrome")) {
             driver.context("WEBVIEW_chrome");
         }
 
@@ -79,18 +79,17 @@ public class ChromeCustomTabPage extends CommonPage {
             driver.findElementByXPath((String) fieldsSelected.get("switcher")).click();
 
         waitByXpath(5, (String) fieldsSelected.get("username"));
-        driver.findElement(By.xpath((String) fieldsSelected.get("username"))).sendKeys(username);
-        driver.findElement(By.xpath((String) fieldsSelected.get("password"))).sendKeys(password);
-        driver.findElement(By.xpath((String) fieldsSelected.get("submit"))).click();
-
+        findXpath((String) fieldsSelected.get("username")).sendKeys(username);
+        findXpath((String) fieldsSelected.get("password")).sendKeys(password);
+        findXpath((String) fieldsSelected.get("submit")).click();
     }
 
     public void authorize() {
         Log.log(Level.FINE, "Starts: Authorize OAuth2");
         waitByXpath(5, (String) fieldsSelected.get("authorize"));
-        driver.findElement(By.xpath((String) fieldsSelected.get("authorize"))).click();
+        findXpath((String) fieldsSelected.get("authorize")).click();
         //in case we use chrome, returning control to the app
-        if (browser.equals("chrome")) {
+        if (browser.equalsIgnoreCase("chrome")) {
             driver.context("NATIVE_APP");
         }
     }
@@ -107,11 +106,7 @@ public class ChromeCustomTabPage extends CommonPage {
         Log.log(Level.FINE, "Waiting for browser");
         //The only way found to wait till browser loads, that is valid for all browsers,
         //emulators, devices etc... ugly
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        wait(5);
     }
 
     //ftm, supporting chrome and chromium (android built-in browser)

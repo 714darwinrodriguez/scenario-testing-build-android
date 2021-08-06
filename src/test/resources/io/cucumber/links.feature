@@ -10,7 +10,8 @@ Feature: Public Share
 
   @smoke
   Scenario Outline: Create a public link with name
-    Given the <type> <item> has been created in the account
+    Given the following items have been created in the account
+      | <type>   | <item>  |
     When Alice selects to share the <type> <item>
     And Alice creates link on <type> <item> with the following fields
       | name | <name> |
@@ -23,7 +24,8 @@ Feature: Public Share
       |  file     |  Links2.txt        |  link2   |
 
   Scenario Outline: Create a public link with password
-    Given the <type> <item> has been created in the account
+    Given the following items have been created in the account
+      | <type>   | <item>  |
     When Alice selects to share the <type> <item>
     And Alice creates link on <type> <item> with the following fields
       | name     | <name>     |
@@ -39,7 +41,8 @@ Feature: Public Share
 
   @expiration
   Scenario Outline: Create a public link with expiration date
-    Given the <type> <item> has been created in the account
+    Given the following items have been created in the account
+      | <type>   | <item>  |
     When Alice selects to share the <type> <item>
     And Alice creates link on <type> <item> with the following fields
       | name            | <name>  |
@@ -54,7 +57,8 @@ Feature: Public Share
       |  file    |  Links6.txt   |  link6   |    17          |
 
   Scenario Outline: Create a public link with permissions on a folder
-    Given the folder <item> has been created in the account
+    Given the following items have been created in the account
+      | folder   | <item>  |
     When Alice selects to share the folder <item>
     And Alice creates link on folder <item> with the following fields
       | name       | <name>        |
@@ -70,7 +74,8 @@ Feature: Public Share
       |  Links9       |  link9   |     1       |
 
   Scenario Outline: Edit existing share on a folder, changing permissions
-    Given the folder <item> has been created in the account
+    Given the following items have been created in the account
+      | folder  | <item>  |
     And Alice has shared the folder <item> by link
     When Alice selects to share the folder <item>
     And Alice edits the link on <item> with the following fields
@@ -86,9 +91,9 @@ Feature: Public Share
       |  Links11  |  link11  |     4       |
       |  Links12  |  link12  |     1       |
 
-  @deletelink
   Scenario Outline: Delete existing link
-    Given the <type> <item> has been created in the account
+    Given the following items have been created in the account
+      | <type>   | <item>  |
     And Alice has shared the <type> <item> by link
     When Alice selects to share the <type> <item>
     And Alice deletes the link on <item>

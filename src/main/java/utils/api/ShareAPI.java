@@ -86,7 +86,7 @@ public class ShareAPI extends CommonAPI {
         Log.log(Level.FINE, "Item returned: Sharee:" + share.getShareeName() + ". Expected sharee:" + userName);
         Log.log(Level.FINE, "Owner returned:" + share.getOwner() + ". Expected owner:" + owner);
         Log.log(Level.FINE, String.valueOf(share.getShareeName().equals(userName) && share.getOwner().equals(owner)));
-        return share.getShareeName().equals(userName) && share.getOwner().equals(owner);
+        return share.getShareeName().equalsIgnoreCase(userName) && share.getOwner().equalsIgnoreCase(owner);
     }
 
     public void removeShare(String id)

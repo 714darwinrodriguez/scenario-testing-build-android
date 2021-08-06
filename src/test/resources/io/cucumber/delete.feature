@@ -9,7 +9,8 @@ Feature: Delete item
     Given user Alice is logged
 
   Scenario: Delete an existent folder
-    Given the folder deleteMe has been created in the account
+    Given the following items have been created in the account
+      | folder   | deleteMe  |
     When Alice selects to Remove the item deleteMe
     And Alice accepts the deletion
     Then Alice should not see deleteMe in the filelist anymore

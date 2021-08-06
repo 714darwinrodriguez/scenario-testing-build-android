@@ -10,8 +10,10 @@ import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.steps.StepEventBus;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -51,15 +53,34 @@ public class FileListSteps {
         fileListPage.pushFile(itemName);
     }
 
-    @Given("^the (item|file|folder) (.+) has been created in the account$")
+    /*@Given("^the (item|file|folder) (.+) has been created in the account$")
     public void item_created(String type, String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         if (!filesAPI.itemExist(itemName)) {
-            if (type.equals("folder")) {
+            if (type.equalsIgnoreCase("folder")) {
                 filesAPI.createFolder(itemName);
-            } else if (type.equals("file"))
+            } else if (type.equalsIgnoreCase("file"))
                 filesAPI.pushFile(itemName);
+        }
+    }*/
+
+    @Given("^the following items have been created in the account$")
+    public void items_created_in_account(DataTable table) throws Throwable {
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        List<List<String>> listItems = table.asLists();
+        for (List<String> rows : listItems) {
+            String type = rows.get(0);
+            String name = rows.get(1);
+            Log.log(Level.FINE, type + " " + name);
+            if (!filesAPI.itemExist(name)) {
+                if (type.equalsIgnoreCase("folder") || type.equalsIgnoreCase("item")) {
+                    filesAPI.createFolder(name);
+                } else if (type.equalsIgnoreCase("file")) {
+                    filesAPI.pushFile(name);
+                }
+            }
         }
     }
 

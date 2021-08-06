@@ -1,12 +1,10 @@
 package android;
 
-import org.openqa.selenium.By;
-
 import java.util.logging.Level;
 
 import utils.log.Log;
 
-public class KopanoPage extends CommonPage {
+public class OIDCPage extends CommonPage {
 
     private long deviceVersion;
     private boolean realDevice;
@@ -83,7 +81,7 @@ public class KopanoPage extends CommonPage {
     private String authorize_xpath_emu = "//android.widget.Button[@content-desc=\"Allow \"]";
 
 
-    public KopanoPage() {
+    public OIDCPage() {
         deviceVersion = (long) driver.getCapabilities().getCapability("deviceApiLevel");
         if (device == null) {
             device = "emulator";
@@ -98,25 +96,25 @@ public class KopanoPage extends CommonPage {
             Log.log(Level.FINE, "Android 10");
             if (!driver.findElementsByXPath(username_xpath_10).isEmpty()) {
                 Log.log(Level.FINE, "Entering credentials");
-                driver.findElement(By.xpath(username_xpath_10)).sendKeys(username);
-                driver.findElement(By.xpath(password_xpath_10)).sendKeys(password);
-                driver.findElement(By.xpath(acceptButton_xpath_10)).click();
+                findXpath(username_xpath_10).sendKeys(username);
+                findXpath(password_xpath_10).sendKeys(password);
+                findXpath(acceptButton_xpath_10).click();
             }
         } else {
             Log.log(Level.FINE, "Android < 10");
             if (realDevice) {
                 if (!driver.findElementsByXPath(username_xpath_real).isEmpty()) {
                     Log.log(Level.FINE, "Entering credentials in real device");
-                    driver.findElement(By.xpath(username_xpath_real)).sendKeys(username);
-                    driver.findElement(By.xpath(password_xpath_real)).sendKeys(password);
-                    driver.findElement(By.xpath(acceptButton_xpath_real)).click();
+                    findXpath(username_xpath_real).sendKeys(username);
+                    findXpath(password_xpath_real).sendKeys(password);
+                    findXpath(acceptButton_xpath_real).click();
                 }
             } else {  //running emulator
                 if (!driver.findElementsByXPath(username_xpath_emu).isEmpty()) {
                     Log.log(Level.FINE, "Entering credentials emulator");
-                    driver.findElement(By.xpath(username_xpath_emu)).sendKeys(username);
-                    driver.findElement(By.xpath(password_xpath_emu)).sendKeys(password);
-                    driver.findElement(By.xpath(acceptButton_xpath_emu)).click();
+                    findXpath(username_xpath_emu).sendKeys(username);
+                    findXpath(password_xpath_emu).sendKeys(password);
+                    findXpath(acceptButton_xpath_emu).click();
                 }
             }
         }
@@ -126,13 +124,13 @@ public class KopanoPage extends CommonPage {
         Log.log(Level.FINE, "Starts: Authorize OIDC");
         if (deviceVersion >= 29) {
             Log.log(Level.FINE, "Android 10");
-            driver.findElement(By.xpath(authorize_xpath_10)).click();
+            findXpath(authorize_xpath_10).click();
         } else {
             Log.log(Level.FINE, "Android < 10");
             if (realDevice) {
-                driver.findElement(By.xpath(authorize_xpath_real)).click();
+                findXpath(authorize_xpath_real).click();
             } else { //running emulator
-                driver.findElement(By.xpath(authorize_xpath_emu)).click();
+                findXpath(authorize_xpath_emu).click();
             }
         }
     }

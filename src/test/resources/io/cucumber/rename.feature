@@ -9,7 +9,8 @@ Feature: Rename an item
 
   @smoke
   Scenario: Rename an item
-    Given the folder RenameMe has been created in the account
+    Given the following items have been created in the account
+      | folder   |  RenameMe  |
     When Alice selects to Rename the item RenameMe
     And Alice sets Renamed as new name
     Then Alice should see Renamed in the filelist

@@ -77,7 +77,7 @@ public class SharesSteps {
                     break;
                 }
                 case (1): {
-                    if (type.equals("folder")) {
+                    if (type.equalsIgnoreCase("folder")) {
                         Log.log(Level.FINE, "Check Delete");
                         char status = permissionsToString.charAt(i);
                         boolean enabled = sharesPage.isDeleteSelected();
@@ -88,7 +88,7 @@ public class SharesSteps {
                     break;
                 }
                 case (2): {
-                    if (type.equals("folder")) {
+                    if (type.equalsIgnoreCase("folder")) {
                         Log.log(Level.FINE, "Check Create");
                         char status = permissionsToString.charAt(i);
                         boolean enabled = sharesPage.isCreateSelected();
@@ -101,13 +101,13 @@ public class SharesSteps {
                 case (3): {
                     Log.log(Level.FINE, "Check Change");
                     char status = permissionsToString.charAt(i);
-                    if (type.equals("folder")) {
+                    if (type.equalsIgnoreCase("folder")) {
                         boolean enabled = sharesPage.isChangeSelected();
                         Log.log(Level.FINE, "Status Folder: " + status + ". Enabled: " + enabled);
                         if (enabled != (status == '1')) {
                             sharesPage.switchChange();
                         }
-                    } else if (type.equals("file")) {
+                    } else if (type.equalsIgnoreCase("file")) {
                         boolean enabled = sharesPage.isEditFileEnabled();
                         Log.log(Level.FINE, "Status File: " + status + ". Enabled: " + enabled);
                         if (enabled != (status == '1')) {
@@ -186,9 +186,9 @@ public class SharesSteps {
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
-        if (type.equals("user")) {
+        if (type.equalsIgnoreCase("user")) {
             assertTrue(shareAPI.isSharedWithMe(itemName, shareeName, false));
-        } else if (type.equals("group")) {
+        } else if (type.equalsIgnoreCase("group")) {
             assertTrue(shareAPI.isSharedWithMe(itemName, shareeName, true));
         }
     }

@@ -234,7 +234,7 @@ public class FileListPage extends CommonPage {
             //Server returns the username as value. Here, we skip it.
             //in oCIS, id is returned instead of name in reference.
             //Shortcut: username > 15 = id (check a best method)
-            if (ocfile.getName().equals(LocProperties.getProperties().getProperty("userName1")) ||
+            if (ocfile.getName().equalsIgnoreCase(LocProperties.getProperties().getProperty("userName1")) ||
                     ocfile.getName().length() > 15) {
                 continue;
             }
