@@ -163,19 +163,19 @@ public class LinksPage extends CommonPage {
         Log.log(Level.FINE, "Starts: Check permissions: " + permissions);
         switch (permissions) {
             case ("1"): {
-                if (parseIntBool(downloadViewOption.getAttribute("checked")) == true) {
+                if (parseIntBool(downloadViewOption.getAttribute("checked"))) {
                     Log.log(Level.FINE, "Download / View is selected");
                     return true;
                 }
             }
             case ("15"): {
-                if (parseIntBool(downloadViewUploadOption.getAttribute("checked")) == true) {
+                if (parseIntBool(downloadViewUploadOption.getAttribute("checked"))) {
                     Log.log(Level.FINE, "Download / View / Upload is selected");
                     return true;
                 }
             }
             case ("4"): {
-                if (parseIntBool(uploadOnlyOption.getAttribute("checked")) == true) {
+                if (parseIntBool(uploadOnlyOption.getAttribute("checked"))) {
                     Log.log(Level.FINE, "Upload only is selected");
                     return true;
                 }
@@ -192,7 +192,7 @@ public class LinksPage extends CommonPage {
         boolean dateCorrect = false;
         int expiration = DateUtils.minExpirationDate(
                 OCCapability.getInstance().expirationDateDays(),
-                Integer.valueOf(days)
+                Integer.parseInt(days)
         );
         String shortDate = DateUtils.shortDate(Integer.toString(expiration));
         Log.log(Level.FINE, "Date to check: " + shortDate + " Expiration: " + expiration);

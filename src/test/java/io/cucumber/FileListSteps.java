@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import io.appium.java_client.MobileElement;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -52,18 +53,6 @@ public class FileListSteps {
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         fileListPage.pushFile(itemName);
     }
-
-    /*@Given("^the (item|file|folder) (.+) has been created in the account$")
-    public void item_created(String type, String itemName) throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
-        if (!filesAPI.itemExist(itemName)) {
-            if (type.equalsIgnoreCase("folder")) {
-                filesAPI.createFolder(itemName);
-            } else if (type.equalsIgnoreCase("file"))
-                filesAPI.pushFile(itemName);
-        }
-    }*/
 
     @Given("^the following items have been created in the account$")
     public void items_created_in_account(DataTable table) throws Throwable {
@@ -146,7 +135,13 @@ public class FileListSteps {
         inputNamePage.setItemName(itemName);
     }
 
-    @Then("^(?:.*?) should see (.+) in the filelist$")
+    @When ("^(?:.*?) opens the public link shortcut$")
+    public void open_links_shortcut() {
+        fileListPage.openLinkShortcut();
+        fileListPage.refreshList();
+    }
+
+    @Then("^(?:.*?) should see (.+) in the (?:.*?)$")
     public void see_the_item_filelist(String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -164,6 +159,14 @@ public class FileListSteps {
         fileListPage.waitToload("Documents");
         assertFalse(fileListPage.isItemInList(itemName));
         assertFalse(filesAPI.itemExist(itemName));
+    }
+
+    @Then("^(?:.*?) should not see (.+) in the links list$")
+    public void item_not_links_list(String itemName) throws Throwable {
+        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
+        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        assertFalse(fileListPage.isItemInList(itemName));
+        filesAPI.removeItem(itemName);
     }
 
     @Then("^(?:.*?) should see (.+) inside the folder (.+)$")
@@ -224,6 +227,7 @@ public class FileListSteps {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         assertTrue(detailsPage.itemPreviewed());
+        detailsPage.backListFiles();
     }
 
     @Then("^the list of files in (.+) folder should match with the server$")

@@ -13,4 +13,5 @@ Feature: Download a file in the account
       | file   | downloadMe.txt  |
     When Alice selects to Download the item downloadMe.txt
     Then the item downloadMe.txt should be opened and previewed
+    And the item downloadMe.txt should be marked as downloaded
     And the item downloadMe.txt should be stored in the device

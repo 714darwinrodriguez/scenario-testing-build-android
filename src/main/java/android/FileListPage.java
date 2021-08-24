@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -29,8 +30,6 @@ public class FileListPage extends CommonPage {
     private String copyoption_id = "com.owncloud.android:id/copy_file";
     private String removeoption_id = "com.owncloud.android:id/action_remove_file";
     private String avofflineoption_id = "com.owncloud.android:id/action_set_available_offline";
-    private String listcell_id = "com.owncloud.android:id/file_list_constraint_layout";
-    private String listitemname_id = "com.owncloud.android:id/Filename";
     private String footer_id = "com.owncloud.android:id/footerText";
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.owncloud.android:id/action_mode_close_button\");")
@@ -65,6 +64,9 @@ public class FileListPage extends CommonPage {
 
     @AndroidFindBy(id = "com.owncloud.android:id/Filename")
     private MobileElement fileName;
+
+    @AndroidFindBy(id = "com.owncloud.android:id/nav_shared_by_link_files")
+    private MobileElement linksShortcut;
 
     private final String listFiles_id = "com.owncloud.android:id/list_root";
     private HashMap<String, String> operationsMap = new HashMap<String, String>();
@@ -174,6 +176,11 @@ public class FileListPage extends CommonPage {
                 "new UiSelector().text(\"" + folderName + "\");")).click();
     }
 
+    public void openLinkShortcut() {
+        Log.log(Level.FINE, "Starts: open link shortcut");
+        linksShortcut.click();
+    }
+
     public void closeSelectionMode() {
         Log.log(Level.FINE, "Starts: close selection mode");
         closeSelectionMode.click();
@@ -182,10 +189,8 @@ public class FileListPage extends CommonPage {
     public boolean fileIsDownloaded(String fileName) {
         Log.log(Level.FINE, "Starts: Checking file downloaded: " + fileName);
         String urlServer = System.getProperty("server");
-        String hostName = System.getProperty("host");
-        if (hostName.isEmpty() || hostName == null) {
-            hostName = urlServer.split("//")[1];
-        }
+        String hostName = urlServer.split("//")[1];
+
         //Code below is pretty hacky and will be removed in Scope Storage.
 
         //Checking file is downloaded inside the device
@@ -204,15 +209,14 @@ public class FileListPage extends CommonPage {
     }
 
     public boolean fileIsMarkedAsDownloaded(String itemName) {
-        //Enforce this.. downloaded file must fit the itemName
-        MobileElement element = getElementFromFileList(itemName);
+        //Badge will be removed. This will be improved then.
         return downloadIndicator.isDisplayed();
     }
 
     public boolean fileIsMarkedAsAvOffline(String itemName) {
         //Wait the file to be downloaded
         waitById(30, syncFile);
-        MobileElement element = getElementFromFileList(itemName);
+        //Badge will be removed. This will be improved then.
         return avOfflineIndicator.isDisplayed();
     }
 

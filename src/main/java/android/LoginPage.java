@@ -40,6 +40,7 @@ public class LoginPage extends CommonPage {
     private final String red301URL = System.getProperty("login_red301URL");
     private final String red302URL = System.getProperty("login_red302URL");
 
+    //For the regular tests
     private final String server = System.getProperty("server");
 
     private String errorcredentialstext_xpath = "//*[@text='Wrong username or password']";

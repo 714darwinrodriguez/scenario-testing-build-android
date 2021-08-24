@@ -25,7 +25,7 @@ public class LoginSteps {
 
     //Involved pages
     @Steps
-    private LoginPage loginPage;
+    protected LoginPage loginPage;
 
     //APIs to call
     private CommonAPI commonAPI = new CommonAPI();

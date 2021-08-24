@@ -1,5 +1,5 @@
 @links
-Feature: Public Share
+Feature: Public Links
 
   As an user
   I want to create links on my files or folders
@@ -19,9 +19,9 @@ Feature: Public Share
       | name | <name> |
 
     Examples:
-      |  type     |  item              |  name    |
-      |  folder   |  Links1            |  link1   |
-      |  file     |  Links2.txt        |  link2   |
+      |  type     |  item          |  name    |
+      |  folder   |  Links1        |  link1   |
+      |  file     |  Links2.txt    |  link2   |
 
   Scenario Outline: Create a public link with password
     Given the following items have been created in the account
@@ -52,9 +52,9 @@ Feature: Public Share
       | expiration days | <expiration>  |
 
     Examples:
-      |  type    |  item         |  name    | expiration     |
-      |  folder  |  Links5       |  link5   |    7           |
-      |  file    |  Links6.txt   |  link6   |    17          |
+      |  type    |  item         |  name    | expiration    |
+      |  folder  |  Links5       |  link5   |    7          |
+      |  file    |  Links6.txt   |  link6   |    17         |
 
   Scenario Outline: Create a public link with permissions on a folder
     Given the following items have been created in the account
@@ -103,3 +103,17 @@ Feature: Public Share
       |  type   |  item         |
       |  folder |  Links13      |
       |  file   |  Links14.txt  |
+
+  Scenario: Public link shortcut shows correct links
+    Given the following items have been created in the account
+      | file     | Links15.txt  |
+      | file     | Links16.txt  |
+      | folder   | Links17      |
+      | folder   | Links18      |
+    And Alice has shared the file Links15.txt by link
+    And Alice has shared the folder Links17 by link
+    When Alice opens the public link shortcut
+    Then Alice should see Links15.txt in the list
+    And Alice should see Links17 in the list
+    But Alice should not see Links16.txt in the links list
+    And Alice should not see Links18 in the links list

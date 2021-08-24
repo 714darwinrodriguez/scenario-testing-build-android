@@ -121,8 +121,6 @@ public class SharesSteps {
             }
         }
         sharesPage.close();
-        //An ugly wait to be used till a close button is available. To improve.
-        Thread.sleep(2000);
     }
 
     @When("^(?:.*?) deletes the share$")
