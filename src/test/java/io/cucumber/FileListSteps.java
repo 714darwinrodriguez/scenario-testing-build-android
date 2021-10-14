@@ -141,7 +141,7 @@ public class FileListSteps {
         fileListPage.refreshList();
     }
 
-    @Then("^(?:.*?) should see (.+) in the (?:.*?)$")
+    @Then("^(?:.*?) should see (.+) in the (?:.*?)list$")
     public void see_the_item_filelist(String itemName) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);

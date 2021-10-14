@@ -71,11 +71,6 @@ public class LinksSteps {
                     break;
             }
         }
-        //if password is enforced, we must force to input
-        if (linksPage.isPasswordEnforced(itemName)) {
-            //Enter a fake password to fit the scenario
-            linksPage.addPassword(itemName, "a");
-        }
         linksPage.submitLink();
     }
 

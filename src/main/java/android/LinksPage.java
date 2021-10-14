@@ -216,6 +216,7 @@ public class LinksPage extends CommonPage {
 
     public void submitLink() {
         Log.log(Level.FINE, "Starts: Submit public link");
+        waitById(5, saveButton);
         saveButton.click();
     }
 

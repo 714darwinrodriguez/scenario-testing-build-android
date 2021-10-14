@@ -95,7 +95,6 @@ Feature: Private Share
       |  Share11.txt  |   Bob     |    19        |  both update and share
       |  Share12.txt  |   Bob     |    1         |  neither update nor share
 
-  @eeee
   Scenario Outline: Edit existing share on a folder, changing permissions
     Given the following items have been created in the account
       | folder   | <item>  |
