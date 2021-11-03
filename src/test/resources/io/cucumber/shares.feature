@@ -62,7 +62,7 @@ Feature: Private Share
       | file   | Share7.txt  |
     When Alice selects to share the file Share7.txt
     And Alice selects user Bob as sharee
-    And Bob shares file Share7.txt with Charles with permissions 31
+    And Bob has shared file Share7.txt with Charles with permissions 31
     Then user Bob should have access to Share7.txt
     And user Charles should have access to Share7.txt
     And share should be created on Share7.txt with the following fields
@@ -73,9 +73,9 @@ Feature: Private Share
     Given the following items have been created in the account
       | file   | Share8.txt  |
     And Alice has shared file Share8.txt with Bob with permissions 3
-    When Bob shares file Share8.txt with Charles with permissions 31
+    When Bob has shared file Share8.txt with Charles with permissions 31
     Then user Bob should have access to Share8.txt
-    But user Charles should not have access to Share8.txt
+    But Charles should not have access to Share8.txt
 
   Scenario Outline: Edit existing share on a file, changing permissions
     Given the following items have been created in the account
@@ -120,7 +120,7 @@ Feature: Private Share
     When Alice selects to share the <type> <item>
     And Alice deletes the share
     Then <item> should not be shared anymore with Bob
-    And user Bob should not have access to <item>
+    And Bob should not have access to <item>
 
     Examples:
       |  type   |  item         |

@@ -1,7 +1,10 @@
 package io.cucumber;
 
-import android.SharesPage;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import android.SearchShareePage;
+import android.SharesPage;
 import android.SharingPage;
 
 import net.thucydides.core.annotations.Steps;
@@ -11,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -18,9 +22,6 @@ import utils.api.FilesAPI;
 import utils.api.ShareAPI;
 import utils.entities.OCShare;
 import utils.log.Log;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class SharesSteps {
 
@@ -38,15 +39,20 @@ public class SharesSteps {
     protected ShareAPI shareAPI = new ShareAPI();
     protected FilesAPI filesAPI = new FilesAPI();
 
-    @Given("^(.+) (has shared|shares) (item|file|folder) (.+) with (.+) with permissions (\\d+)$")
-    public void item_already_shared(String sharingUser, String tense, String type, String itemName,
+    @ParameterType("user|group")
+    public String usertype(String type){
+        return type;
+    }
+
+    @Given("{word} has shared {itemtype} {word} with {word} with permissions {word}")
+    public void item_already_shared(String sharingUser, String type, String itemName,
                                     String recipientUser, String permissions) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         shareAPI.createShare(sharingUser, itemName, recipientUser, "0", permissions, "");
     }
 
-    @When("^(?:.*?) selects (user|group) (.+) as sharee$")
+    @When("Alice selects {usertype} {word} as sharee")
     public void select_sharee(String type, String sharee)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -55,7 +61,7 @@ public class SharesSteps {
         searchShareePage.shareWithUser(sharee);
     }
 
-    @When("^(?:.*?) edits the share on (.+) (.+) with permissions (.+)$")
+    @When("Alice edits the share on {itemtype} {word} with permissions {word}")
     public void edit_share(String type, String itemName, String permissions)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -123,7 +129,7 @@ public class SharesSteps {
         sharesPage.close();
     }
 
-    @When("^(?:.*?) deletes the share$")
+    @When("Alice deletes the share")
     public void delete_share() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -131,7 +137,7 @@ public class SharesSteps {
         sharingPage.acceptDeletion();
     }
 
-    @Then("^share should be created on (.+) with the following fields$")
+    @Then("share should be created on {word} with the following fields")
     public void share_created_with_fields(String itemName, DataTable table)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -170,7 +176,7 @@ public class SharesSteps {
         filesAPI.removeItem(itemName);
     }
 
-    @Then("^(?:.*?) (.+) should not have access to (.+)$")
+    @Then("{word} should not have access to {word}")
     public void sharee_does_not_have_access(String userName, String itemName)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -179,7 +185,7 @@ public class SharesSteps {
         filesAPI.removeItem(itemName);
     }
 
-    @Then("^(user|group) (.+) should have access to (.+)$")
+    @Then("{usertype} {word} should have access to {word}")
     public void sharee_access_the_file(String type, String shareeName, String itemName)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -191,7 +197,7 @@ public class SharesSteps {
         }
     }
 
-    @Then("^(.+) should not be shared anymore with (.+)$")
+    @Then("{word} should not be shared anymore with {word}")
     public void share_deleted(String itemName, String sharee)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();

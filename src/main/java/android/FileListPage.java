@@ -186,28 +186,6 @@ public class FileListPage extends CommonPage {
         closeSelectionMode.click();
     }
 
-    public boolean fileIsDownloaded(String fileName) {
-        Log.log(Level.FINE, "Starts: Checking file downloaded: " + fileName);
-        String urlServer = System.getProperty("server");
-        String hostName = urlServer.split("//")[1];
-
-        //Code below is pretty hacky and will be removed in Scope Storage.
-
-        //Checking file is downloaded inside the device
-        try {
-            byte[] downloadedFile = driver.pullFile("/sdcard/owncloud/" +
-                    LocProperties.getProperties().getProperty("userName1") +
-                    "@" +
-                    URLEncoder.encode(hostName, "UTF-8") + "/" + fileName);
-            Log.log(Level.FINE, "Checking file in " + downloadedFile.toString());
-            return downloadedFile != null && downloadedFile.length > 0;
-        } catch (UnsupportedEncodingException e) {
-            Log.log(Level.SEVERE, "Unsupported Encoding Exception: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public boolean fileIsMarkedAsDownloaded(String itemName) {
         //Badge will be removed. This will be improved then.
         return downloadIndicator.isDisplayed();

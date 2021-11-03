@@ -10,6 +10,7 @@ import net.thucydides.core.steps.StepEventBus;
 
 import java.util.logging.Level;
 
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -32,7 +33,12 @@ public class LoginSteps {
     private MiddlewareAPI middlewareAPI = new MiddlewareAPI();
     private FileListPage fileListPage = new FileListPage();
 
-    @Given("^app has been launched for the first time$")
+    @ParameterType("basic auth|LDAP|redirection 301|redirection 302")
+    public String authtype(String type){
+        return type;
+    }
+
+    @Given("app has been launched for the first time")
     public void first_launch()
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -41,14 +47,14 @@ public class LoginSteps {
         loginPage.reinstallApp();
     }
 
-    @Given("^user (.+) has been created with default attributes$")
+    @Given("user {word} has been created with default attributes")
     public void user_created_default(String user) throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
         middlewareAPI.postMiddlewareExecute(currentStep);
     }
 
-    @Given("^user (.+) is logged$")
+    @Given("user {word} is logged")
     public void user_logged(String user)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -85,7 +91,7 @@ public class LoginSteps {
         JSONparser.parsePublicLink();
     }
 
-    @Given("^server with (.+) is available$")
+    @Given("server with {authtype} is available")
     public void server_available(String authMethod) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -119,7 +125,7 @@ public class LoginSteps {
         }
     }
 
-    @Then("^user should see the main page$")
+    @Then("user should see the main page")
     public void main_page() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -135,7 +141,7 @@ public class LoginSteps {
         loginPage.removeApp();
     }
 
-    @Then("^user should see an error message$")
+    @Then("user should see an error message")
     public void error_message() {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);

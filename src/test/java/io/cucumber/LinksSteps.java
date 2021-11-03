@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -34,7 +35,12 @@ public class LinksSteps {
     protected ShareAPI shareAPI = new ShareAPI();
     protected FilesAPI filesAPI = new FilesAPI();
 
-    @Given("^(.+) has shared the (item|file|folder) (.+) by link$")
+    @ParameterType("item|file|folder")
+    public String itemtype(String type){
+        return type;
+    }
+
+    @Given("{word} has shared the {itemtype} {word} by link")
     public void item_already_shared_by_link(String sharingUser, String type, String itemName)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -42,7 +48,7 @@ public class LinksSteps {
         shareAPI.createShare(sharingUser, itemName, "", "3", "1", itemName);
     }
 
-    @When("^(?:.*?) creates link on (.+) (.+) with the following fields$")
+    @When("Alice creates link on {word} {word} with the following fields")
     public void create_link_with_fields(String type, String itemName, DataTable table)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -74,7 +80,7 @@ public class LinksSteps {
         linksPage.submitLink();
     }
 
-    @When("^(?:.*?) edits the link on (.+) with the following fields$")
+    @When("Alice edits the link on {word} with the following fields")
     public void edit_public_link(String itemName, DataTable table)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -120,7 +126,7 @@ public class LinksSteps {
         linksPage.submitLink();
     }
 
-    @When("^(?:.*?) deletes the link on (.+)$")
+    @When("Alice deletes the link on {word}")
     public void delete_link(String itemName) {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
         Log.log(Level.FINE, "----STEP----: " + currentStep);
@@ -128,7 +134,7 @@ public class LinksSteps {
         sharingPage.acceptDeletion();
     }
 
-    @Then("^link should be created on (.+) with the following fields$")
+    @Then("link should be created on {word} with the following fields")
     public void link_created_fields(String itemName, DataTable table)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
@@ -174,7 +180,7 @@ public class LinksSteps {
         filesAPI.removeItem(itemName);
     }
 
-    @Then("^link on (.+) should not exist anymore$")
+    @Then("link on {word} should not exist anymore")
     public void link_not_existing(String itemName)
             throws Throwable {
         String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
