@@ -10,9 +10,6 @@ import android.FolderPickerPage;
 import android.InputNamePage;
 import android.RemoveDialogPage;
 
-import net.thucydides.core.annotations.Steps;
-import net.thucydides.core.steps.StepEventBus;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,35 +26,26 @@ import utils.log.Log;
 public class FileListSteps {
 
     //Involved pages
-    @Steps
-    protected FileListPage fileListPage;
-
-    @Steps
-    protected InputNamePage inputNamePage;
-
-    @Steps
-    protected FolderPickerPage folderPickerPage;
-
-    @Steps
-    protected RemoveDialogPage removeDialogPage;
-
-    @Steps
-    protected DetailsPage detailsPage;
+    protected FileListPage fileListPage = new FileListPage();
+    protected InputNamePage inputNamePage = new InputNamePage();
+    protected FolderPickerPage folderPickerPage = new FolderPickerPage();
+    protected RemoveDialogPage removeDialogPage = new RemoveDialogPage();
+    protected DetailsPage detailsPage = new DetailsPage();
 
     //APIs to call
     protected FilesAPI filesAPI = new FilesAPI();
 
     @Given("there is an item called {word} in the folder Downloads of the device")
-    public void push_file_to_device(String itemName) {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+    public void item_in_folder_downloads(String itemName) {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.pushFile(itemName);
     }
 
     @Given("the following items have been created in the account")
-    public void items_created_in_account(DataTable table) throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+    public void items_have_been_created_in_account(DataTable table) throws Throwable {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         List<List<String>> listItems = table.asLists();
         for (List<String> rows : listItems) {
             String type = rows.get(0);
@@ -75,8 +63,8 @@ public class FileListSteps {
 
     @Given("the folder {word} contains {int} files")
     public void folder_contains_file(String folderName, int files) throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         if (!filesAPI.itemExist(folderName)) {
             filesAPI.createFolder(folderName);
         }
@@ -87,15 +75,15 @@ public class FileListSteps {
 
     @When("Alice selects the option Create Folder")
     public void select_create_folder() {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.createFolder();
     }
 
     @When("Alice selects to set as av.offline the item {word}")
     public void select_item_to_avoffline(String itemName) {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.waitToload("Documents");
         fileListPage.refreshList();
         fileListPage.executeOperation("Set as available offline", itemName);
@@ -103,8 +91,8 @@ public class FileListSteps {
 
     @When("Alice selects to {word} the {itemtype} {word}")
     public void select_item_to_some_operation(String operation, String type, String itemName) {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.waitToload("Documents");
         fileListPage.refreshList();
         if (operation.equals("Download")) {
@@ -117,43 +105,45 @@ public class FileListSteps {
 
     @When("Alice selects {word} as target folder")
     public void select_target_folder(String targetFolder) {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         folderPickerPage.selectFolder(targetFolder);
         folderPickerPage.accept();
     }
 
     @When("Alice selects the option upload")
     public void select_upload() {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.upload();
     }
 
     @When("Alice accepts the deletion")
     public void accept_deletion() {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         removeDialogPage.removeAll();
     }
 
     @When("Alice sets {word} as new name")
     public void set_new_name(String itemName) {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         inputNamePage.setItemName(itemName);
     }
 
     @When ("Alice opens the public link shortcut")
     public void open_links_shortcut() {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.openLinkShortcut();
         fileListPage.refreshList();
     }
 
     @Then("Alice should see {word} in the (file)list")
-    public void see_the_item_filelist(String itemName) throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+    public void see_the_item_in_filelist(String itemName) throws Throwable {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.waitToload("Documents");
         //Get the last token of the item path
         assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/') + 1)));
@@ -162,9 +152,9 @@ public class FileListSteps {
     }
 
     @Then("Alice should not see {word} in the filelist anymore")
-    public void item_out(String itemName) throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+    public void item_not_in_list_anymore(String itemName) throws Throwable {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.waitToload("Documents");
         assertFalse(fileListPage.isItemInList(itemName));
         assertFalse(filesAPI.itemExist(itemName));
@@ -172,24 +162,24 @@ public class FileListSteps {
 
     @Then("Alice should not see {word} in the links list")
     public void item_not_links_list(String itemName) throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         assertFalse(fileListPage.isItemInList(itemName));
         filesAPI.removeItem(itemName);
     }
 
     @Then("Alice should see {word} inside the folder {word}")
-    public void item_inside_folder(String itemName, String targetFolder) throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+    public void item_is_inside_folder(String itemName, String targetFolder) throws Throwable {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         assertTrue(filesAPI.itemExist(targetFolder + "/" + itemName));
         filesAPI.removeItem(targetFolder + "/" + itemName);
     }
 
     @Then("Alice should see {word} in the filelist as original")
-    public void original_file_in_filelist(String itemName) throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+    public void item_in_file_list_as_original(String itemName) throws Throwable {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         //Copy keeps the selection mode. To improve.
         fileListPage.closeSelectionMode();
         fileListPage.waitToload("Documents");
@@ -199,9 +189,9 @@ public class FileListSteps {
     }
 
     @Then("Alice should see the detailed information: {word}, {word}, and {word}")
-    public void preview_in_screen(String itemName, String type, String size) {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+    public void preview_detailed_information(String itemName, String type, String size) {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         detailsPage.removeShareSheet();
         assertEquals(detailsPage.getName(), itemName);
         assertEquals(detailsPage.getSize(), size);
@@ -210,35 +200,35 @@ public class FileListSteps {
     }
 
     @Then("the item {word} should be marked as downloaded")
-    public void item_as_downloaded(String itemName)
+    public void item_marked_as_downloaded(String itemName)
             throws IOException {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         assertTrue(fileListPage.fileIsMarkedAsDownloaded(itemName));
         filesAPI.removeItem(itemName);
     }
 
     @Then("Alice should see the item {word} as av.offline")
-    public void item_as_avOffline(String itemName)
+    public void item_marked_as_avOffline(String itemName)
             throws IOException {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         assertTrue(fileListPage.fileIsMarkedAsAvOffline(itemName));
         filesAPI.removeItem(itemName);
     }
 
     @Then("the item {word} should be opened and previewed")
-    public void item_opened_previewed(String itemName) {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+    public void item_opened_and_previewed(String itemName) {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         assertTrue(detailsPage.itemPreviewed());
         detailsPage.backListFiles();
     }
 
     @Then("the list of files in {word} folder should match with the server")
-    public void list_matches_server(String path) throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+    public void list_matches_server_list(String path) throws Throwable {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.waitToload("Documents");
         fileListPage.refreshList();
         ArrayList<OCFile> listServer = filesAPI.listItems(path);

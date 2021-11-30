@@ -2,21 +2,20 @@ package io.cucumber;
 
 import android.AppiumManager;
 
-import net.serenitybdd.cucumber.CucumberWithSerenity;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 import java.util.logging.Level;
 
+import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import utils.log.Log;
 
 //Login tests will not be lauched by default. Only in specific situations.
 
-@RunWith(CucumberWithSerenity.class)
-@CucumberOptions(plugin = {"pretty"}, tags = {"not @login"})
+@RunWith(Cucumber.class)
+@CucumberOptions(plugin = {"pretty"})
 
 public class RunCucumberTest {
 

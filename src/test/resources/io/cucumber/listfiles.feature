@@ -20,5 +20,5 @@ Feature: List of files is correctly retrieved from server.
   Scenario: Check items in the list of files of an created folder
     Given the following items have been created in the account
       | folder   | Many  |
-    And the folder Many contains 20 files
+    And the folder Many contains 10 files
     Then the list of files in /Many folder should match with the server

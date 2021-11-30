@@ -1,10 +1,10 @@
 package io.cucumber;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import android.LinksPage;
 import android.SharingPage;
-
-import net.thucydides.core.annotations.Steps;
-import net.thucydides.core.steps.StepEventBus;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -19,17 +19,11 @@ import utils.api.ShareAPI;
 import utils.entities.OCShare;
 import utils.log.Log;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 public class LinksSteps {
 
     //Involved pages
-    @Steps
-    protected SharingPage sharingPage;
-
-    @Steps
-    protected LinksPage linksPage;
+    protected SharingPage sharingPage = new SharingPage();
+    protected LinksPage linksPage = new LinksPage();
 
     //APIs to call
     protected ShareAPI shareAPI = new ShareAPI();
@@ -43,16 +37,16 @@ public class LinksSteps {
     @Given("{word} has shared the {itemtype} {word} by link")
     public void item_already_shared_by_link(String sharingUser, String type, String itemName)
             throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         shareAPI.createShare(sharingUser, itemName, "", "3", "1", itemName);
     }
 
     @When("Alice creates link on {word} {word} with the following fields")
-    public void create_link_with_fields(String type, String itemName, DataTable table)
+    public void create_link_with_some_fields(String type, String itemName, DataTable table)
             throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         sharingPage.addPublicLink();
         List<List<String>> listItems = table.asLists();
         for (List<String> rows : listItems) {
@@ -83,8 +77,8 @@ public class LinksSteps {
     @When("Alice edits the link on {word} with the following fields")
     public void edit_public_link(String itemName, DataTable table)
             throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         List<List<String>> listItems = table.asLists();
         sharingPage.openPublicLink(itemName);
         for (List<String> rows : listItems) {
@@ -128,8 +122,8 @@ public class LinksSteps {
 
     @When("Alice deletes the link on {word}")
     public void delete_link(String itemName) {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         sharingPage.deletePublicShare();
         sharingPage.acceptDeletion();
     }
@@ -137,8 +131,8 @@ public class LinksSteps {
     @Then("link should be created on {word} with the following fields")
     public void link_created_fields(String itemName, DataTable table)
             throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         //Asserts in UI
         List<List<String>> listItems = table.asLists();
         for (List<String> rows : listItems) {
@@ -183,8 +177,8 @@ public class LinksSteps {
     @Then("link on {word} should not exist anymore")
     public void link_not_existing(String itemName)
             throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         assertFalse(sharingPage.isItemInListPublicShares(itemName + " link"));
         assertTrue(shareAPI.getShare(itemName) == null);
         filesAPI.removeItem(itemName);

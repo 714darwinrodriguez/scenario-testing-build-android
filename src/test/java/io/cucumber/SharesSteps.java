@@ -7,9 +7,6 @@ import android.SearchShareePage;
 import android.SharesPage;
 import android.SharingPage;
 
-import net.thucydides.core.annotations.Steps;
-import net.thucydides.core.steps.StepEventBus;
-
 import java.util.List;
 import java.util.logging.Level;
 
@@ -26,14 +23,9 @@ import utils.log.Log;
 public class SharesSteps {
 
     //Involved pages
-    @Steps
-    protected SharingPage sharingPage;
-
-    @Steps
-    protected SearchShareePage searchShareePage;
-
-    @Steps
-    protected SharesPage sharesPage;
+    protected SharingPage sharingPage = new SharingPage();
+    protected SearchShareePage searchShareePage = new SearchShareePage();
+    protected SharesPage sharesPage = new SharesPage();
 
     //APIs to call
     protected ShareAPI shareAPI = new ShareAPI();
@@ -45,27 +37,26 @@ public class SharesSteps {
     }
 
     @Given("{word} has shared {itemtype} {word} with {word} with permissions {word}")
-    public void item_already_shared(String sharingUser, String type, String itemName,
+    public void item_already_shared_with_permissions(String sharingUser, String type, String itemName,
                                     String recipientUser, String permissions) throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         shareAPI.createShare(sharingUser, itemName, recipientUser, "0", permissions, "");
     }
 
     @When("Alice selects {usertype} {word} as sharee")
     public void select_sharee(String type, String sharee)
             throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         sharingPage.addPrivateShare();
         searchShareePage.shareWithUser(sharee);
     }
 
     @When("Alice edits the share on {itemtype} {word} with permissions {word}")
-    public void edit_share(String type, String itemName, String permissions)
-            throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+    public void edit_share_with_permissions(String type, String itemName, String permissions) {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         sharingPage.openPrivateShare(itemName);
         int permissionsToInt = Integer.parseInt(permissions);
         String permissionsToString = String.format("%5s", Integer.toBinaryString(permissionsToInt))
@@ -131,8 +122,8 @@ public class SharesSteps {
 
     @When("Alice deletes the share")
     public void delete_share() {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         sharingPage.deletePrivateShare();
         sharingPage.acceptDeletion();
     }
@@ -140,8 +131,8 @@ public class SharesSteps {
     @Then("share should be created on {word} with the following fields")
     public void share_created_with_fields(String itemName, DataTable table)
             throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         //Asserts in UI
         String groupName = null;
         List<List<String>> listItems = table.asLists();
@@ -179,8 +170,8 @@ public class SharesSteps {
     @Then("{word} should not have access to {word}")
     public void sharee_does_not_have_access(String userName, String itemName)
             throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         assertFalse(shareAPI.isSharedWithMe(itemName, userName, false));
         filesAPI.removeItem(itemName);
     }
@@ -188,8 +179,8 @@ public class SharesSteps {
     @Then("{usertype} {word} should have access to {word}")
     public void sharee_access_the_file(String type, String shareeName, String itemName)
             throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         if (type.equalsIgnoreCase("user")) {
             assertTrue(shareAPI.isSharedWithMe(itemName, shareeName, false));
         } else if (type.equalsIgnoreCase("group")) {
@@ -200,8 +191,8 @@ public class SharesSteps {
     @Then("{word} should not be shared anymore with {word}")
     public void share_deleted(String itemName, String sharee)
             throws Throwable {
-        String currentStep = StepEventBus.getEventBus().getCurrentStep().get().toString();
-        Log.log(Level.FINE, "----STEP----: " + currentStep);
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
         assertFalse(sharingPage.isItemInListPrivateShares(sharee));
         filesAPI.removeItem(itemName);
     }

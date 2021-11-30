@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# ownCloud iOS scenario tests
+# ownCloud Android scenario tests
 #
 # @author Jesus Recio (@jesmrec)
 # Copyright (C) 2021 ownCloud GmbH.
@@ -28,11 +28,11 @@ help()
    echo -e ""
    echo -e "Examples:"
    echo -e ""
-   echo -e "\t\t ./executeTests -t \"@createfolder\" -> This will execute only tests with the tag @createfolder"
+   echo -e "\t\t ./executeTests -t @createfolder -> This will execute only tests with the tag @createfolder"
    echo -e ""
-   echo -e "\t\t ./executeTests -t \"'@createfolder and @copy'\" -> This will execute tests tagged with both @createfolder and @copy"
+   echo -e "\t\t ./executeTests -t '@createfolder and @copy' -> This will execute tests tagged with both @createfolder and @copy"
    echo -e ""
-   echo -e "\t\t ./executeTests -t \"'@createfolder or @copy'\" -> This will execute tests tagged with @createfolder or @copy"
+   echo -e "\t\t ./executeTests -t '@createfolder or @copy' -> This will execute tests tagged with @createfolder or @copy"
    echo -e ""
    echo -e "\t\t ./executeTests  -> This will execute all the tests"
    echo -e ""
@@ -74,14 +74,14 @@ echo "tags: $tags"
 
 if [ -z "$tags" ]
 then
- ./gradlew clean test aggregate \
+ ./gradlew clean test \
   --info \
   -Dappium=$appium \
   -Dserver=$oc
 else
-  ./gradlew clean test aggregate \
+  ./gradlew clean test \
   --info \
-  -Dcucumber.options="--tags $tags" \
+  -Dcucumber.filter.tags="$tags" \
   -Dappium=$appium \
   -Dserver=$oc
 fi
