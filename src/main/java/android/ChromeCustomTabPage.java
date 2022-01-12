@@ -10,11 +10,11 @@ import utils.log.Log;
 
 public class ChromeCustomTabPage extends CommonPage {
 
-    private String username_chrome_xpath = "//input[@name='user']";
-    private String password_chrome_xpath = "//input[@name='password']";
-    private String submit_chrome_xpath = "//input[@id='submit']";
-    private String authorize_chrome_xpath = "//body[@id=\"body-login\"]/div[1]/div/span/form/button";
-    private String switch_chrome_xpath = "//body[@id=\"body-login\"]/div[1]/div/span/a/button";
+    private String username_chrome_xpath = "//*[@id=\"user\"]";
+    private String password_chrome_xpath = "//*[@id=\"password\"]";
+    private String submit_chrome_xpath = "//*[@id=\"submit\"]";
+    private String authorize_chrome_xpath = "//*[@id=\"body-login\"]/div[1]/div/span/form/button";
+    private String switch_chrome_xpath = "//*[@id=\"body-login\"]/div[1]/div/span/a/button";
     private String icon_chrome_xpath = "//android.webkit.WebView[@content-desc=\"ownCloud\"]/" +
             "android.view.View[1]/android.view.View";
 
@@ -75,8 +75,11 @@ public class ChromeCustomTabPage extends CommonPage {
         }
 
         //switch button to go back to credentials
-        if (!driver.findElements(By.xpath((String) fieldsSelected.get("switcher"))).isEmpty())
+
+        if (!driver.findElements(By.xpath((String) fieldsSelected.get("switcher"))).isEmpty()) {
+            Log.log(Level.FINE, "Switch user view");
             driver.findElementByXPath((String) fieldsSelected.get("switcher")).click();
+        }
 
         waitByXpath(5, (String) fieldsSelected.get("username"));
         findXpath((String) fieldsSelected.get("username")).sendKeys(username);

@@ -83,7 +83,7 @@ public class CommonPage {
     }
 
     public MobileElement findXpath(String xpath){
-        return (MobileElement) driver.findElement(MobileBy.xpath(xpath));
+        return (MobileElement) driver.findElementByXPath(xpath);
     }
 
     public static void swipe(double startx, double starty, double endx, double endy) {

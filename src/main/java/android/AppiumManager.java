@@ -1,15 +1,10 @@
 package android;
 
-import com.google.common.collect.Lists;
-
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -25,6 +20,7 @@ public class AppiumManager {
     private static AndroidDriver driver;
     private static final String driverDefect = LocProperties.getProperties().getProperty("appiumURL");
     private static final String driverURL = System.getProperty("appium");
+    private static File app;
 
     private AppiumManager() {
         init();
@@ -34,34 +30,17 @@ public class AppiumManager {
 
         File rootPath = new File(System.getProperty("user.dir"));
         File appDir = new File(rootPath, "src/test/resources");
-        File app = new File(appDir, LocProperties.getProperties().getProperty("apkName"));
+        app = new File(appDir, LocProperties.getProperties().getProperty("apkName"));
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "test");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability("appPackage",
-                LocProperties.getProperties().getProperty("appPackage"));
-        capabilities.setCapability("appActivity",
-                "com.owncloud.android.ui.activity.SplashActivity");
-        capabilities.setCapability("appWaitPackage",
-                LocProperties.getProperties().getProperty("appPackage"));
-        capabilities.setCapability("autoGrantPermissions", true);
-        capabilities.setCapability("unicodeKeyboard", true);
-        capabilities.setCapability("resetKeyboard", true);
-        //capabilities.setCapability ("appWaitActivity",
-        //"com.owncloud.android.ui.activity.WhatsNewActivity");
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
-        capabilities.setCapability("uiautomator2ServerInstallTimeout", 60000);
-        if (System.getProperty("device") != null) {
-            capabilities.setCapability(MobileCapabilityType.UDID, System.getProperty("device"));
-        }
+        setCapabilities(capabilities);
 
         try {
-            if (driverURL.equals(null)) {
+            if (!driverURL.isEmpty()) {
+                Log.log(Level.FINE,"Appium driver located in: " + driverURL);
                 driver = new AndroidDriver(new URL(driverURL), capabilities);
             } else {
+                Log.log(Level.FINE,"Appium driver located in: " + driverDefect);
                 driver = new AndroidDriver(new URL(driverDefect), capabilities);
             }
         } catch (MalformedURLException e) {
@@ -81,6 +60,7 @@ public class AppiumManager {
 
     }
 
+    //Singletonize
     public static AppiumManager getManager() {
         if (appiumManager == null) {
             appiumManager = new AppiumManager();
@@ -92,25 +72,36 @@ public class AppiumManager {
         return driver;
     }
 
-    public void cleanFolder() {
-        //needed Appium with option --allow-insecure=adb_shell
-        //cleaning only if folder exists
-        if (folderExists("/sdcard/owncloud/")) {
-            Map<String, Object> args = new HashMap<>();
-            args.put("command", "rm -r");
-            args.put("args", Lists.newArrayList("/sdcard/owncloud/"));
-            getDriver().executeScript("mobile:shell", args);
-        }
-    }
+    //Check https://appium.io/docs/en/writing-running-appium/caps/
+    private static void setCapabilities(DesiredCapabilities capabilities){
 
-    private boolean folderExists(String folderLocation) {
-        Map<String, Object> args = new HashMap<>();
-        args.put("command", "[ ! -d \"" + folderLocation + "\" ] && echo 1 || echo 0");
-        String response = (String) getDriver().executeScript("mobile:shell", args);
-        if (response.contains("0")) {
-            return true;
-        } else {
-            return false;
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "test");
+
+        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
+
+        capabilities.setCapability("appPackage",
+                LocProperties.getProperties().getProperty("appPackage"));
+
+        capabilities.setCapability("appActivity",
+                "com.owncloud.android.ui.activity.SplashActivity");
+
+        capabilities.setCapability("appWaitPackage",
+                LocProperties.getProperties().getProperty("appPackage"));
+
+        capabilities.setCapability("autoGrantPermissions", true);
+
+        capabilities.setCapability("unicodeKeyboard", true);
+
+        capabilities.setCapability("resetKeyboard", true);
+
+        capabilities.setCapability("uiautomator2ServerInstallTimeout", 60000);
+
+        if (System.getProperty("device") != null) {
+            capabilities.setCapability(MobileCapabilityType.UDID, System.getProperty("device"));
         }
     }
 }
