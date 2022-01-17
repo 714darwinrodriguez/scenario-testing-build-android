@@ -84,7 +84,9 @@ public class LoginSteps {
         //Fill capabilities object
         String capabilityJSON = commonAPI.getCapabilities();
         CapabilityJSONHandler JSONparser = new CapabilityJSONHandler(capabilityJSON);
-        JSONparser.parsePublicLink();
+        // Capabilities are not used ftm. But this could be useful if a programmatic way to
+        // modify them is found
+        //JSONparser.parsePublicLink();
     }
 
     @Given("server with {authtype} is available")

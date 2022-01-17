@@ -123,10 +123,8 @@ public class OIDCPage extends CommonPage {
     public void authorize() {
         Log.log(Level.FINE, "Starts: Authorize OIDC");
         if (deviceVersion >= 29) {
-            Log.log(Level.FINE, "Android 10");
             findXpath(authorize_xpath_10).click();
         } else {
-            Log.log(Level.FINE, "Android < 10");
             if (realDevice) {
                 findXpath(authorize_xpath_real).click();
             } else { //running emulator
