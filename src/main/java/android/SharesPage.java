@@ -23,22 +23,16 @@ public class SharesPage extends CommonPage {
 
     public void switchCreate() {
         Log.log(Level.FINE, "Starts: Click create checkbox");
-        waitById(5, createbox_id);
-        boolean status = isCreateSelected();
         driver.findElementById(createbox_id).click();
     }
 
     public void switchChange() {
         Log.log(Level.FINE, "Starts: Click change checkbox");
-        waitById(5, changebox_id);
-        boolean status = isChangeSelected();
         driver.findElementById(changebox_id).click();
     }
 
     public void switchDelete() {
         Log.log(Level.FINE, "Starts: Click delete checkbox:");
-        waitById(5, deletebox_id);
-        boolean status = isDeleteSelected();
         driver.findElementById(deletebox_id).click();
     }
 

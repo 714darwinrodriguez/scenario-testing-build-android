@@ -27,7 +27,6 @@ public class SearchShareePage extends CommonPage {
     public void shareWithUser(String sharee)
             throws InterruptedException {
         Log.log(Level.FINE, "Starts: Share with user: " + sharee);
-        waitById(10, shareeUsername);
         shareeUsername.sendKeys(sharee);
         selectShareeFromList(sharee);
         //Go back to Share Page

@@ -66,10 +66,6 @@ public class DetailsPage extends CommonPage {
         return textPreview.isDisplayed();
     }
 
-    public void waitFinishedDownload(int seconds) {
-        //waitByIdInvisible(seconds, downloading);
-    }
-
     public void removeShareSheet() {
         if (toolbar.isEmpty()) {
             driver.navigate().back();

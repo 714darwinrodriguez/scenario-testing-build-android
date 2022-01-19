@@ -97,7 +97,6 @@ public class FileListSteps {
         fileListPage.refreshList();
         if (operation.equals("Download")) {
             fileListPage.downloadAction(itemName);
-            detailsPage.waitFinishedDownload(30);
         } else {
             fileListPage.executeOperation(operation, itemName);
         }

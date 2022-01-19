@@ -3,7 +3,6 @@ package android;
 import org.openqa.selenium.By;
 
 import java.util.HashMap;
-import java.util.Set;
 import java.util.logging.Level;
 
 import utils.log.Log;
@@ -16,16 +15,6 @@ public class ChromeCustomTabPage extends CommonPage {
     private String authorize_chrome_xpath = "//*[@id=\"body-login\"]/div[1]/div/span/form/button";
     private String switch_chrome_xpath = "//*[@id=\"body-login\"]/div[1]/div/span/a/button";
     private String icon_chrome_xpath = "//android.webkit.WebView[@content-desc=\"ownCloud\"]/" +
-            "android.view.View[1]/android.view.View";
-
-    private String username_chromium_xpath = "//android.webkit.WebView[@content-desc=\"ownCloud\"]/" +
-            "android.view.View[2]/android.view.View/android.view.View[1]/android.widget.EditText";
-    private String password_chromium_xpath = "//android.webkit.WebView[@content-desc=\"ownCloud\"]/" +
-            "android.view.View[2]/android.view.View/android.view.View[2]/android.widget.EditText";
-    private String submit_chromium_xpath = "//android.widget.Button[@content-desc=\"Login\"]";
-    private String authorize_chromium_xpath = "//android.widget.Button[@content-desc=\"Authorize\"]";
-    private String switch_chromium_xpath = "//android.widget.Button[@content-desc=\"Switch users to continue\"]";
-    private String icon_chromium_xpath = "//android.webkit.WebView[@content-desc=\"ownCloud\"]/" +
             "android.view.View[1]/android.view.View";
 
     private HashMap fields;
@@ -55,15 +44,7 @@ public class ChromeCustomTabPage extends CommonPage {
         fieldsChrome.put("switcher", switch_chrome_xpath);
         fieldsChrome.put("icon", icon_chrome_xpath);
 
-        fieldsChromium.put("username", username_chromium_xpath);
-        fieldsChromium.put("password", password_chromium_xpath);
-        fieldsChromium.put("submit", submit_chromium_xpath);
-        fieldsChromium.put("authorize", authorize_chromium_xpath);
-        fieldsChromium.put("switcher", switch_chromium_xpath);
-        fieldsChromium.put("icon", icon_chromium_xpath);
-
         fields.put("chrome", fieldsChrome);
-        fields.put("chromium", fieldsChromium);
     }
 
     public void enterCredentials(String username, String password) {
@@ -91,37 +72,6 @@ public class ChromeCustomTabPage extends CommonPage {
         Log.log(Level.FINE, "Starts: Authorize OAuth2");
         waitByXpath(5, (String) fieldsSelected.get("authorize"));
         findXpath((String) fieldsSelected.get("authorize")).click();
-        //in case we use chrome, returning control to the app
-        if (browser.equalsIgnoreCase("chrome")) {
-            driver.context("NATIVE_APP");
-        }
-    }
-
-    protected Set getContexts() {
-        Set contextNames = driver.getContextHandles();
-        for (Object contextName : contextNames) {
-            Log.log(Level.FINE, "Context found: " + contextName);
-        }
-        return contextNames;
-    }
-
-    protected void waitForWebContext() {
-        Log.log(Level.FINE, "Waiting for browser");
-        //The only way found to wait till browser loads, that is valid for all browsers,
-        //emulators, devices etc... ugly
-        wait(5);
-    }
-
-    //ftm, supporting chrome and chromium (android built-in browser)
-    public String getBrowser() {
-        Log.log(Level.FINE, "Getting browser");
-        Set contexts = getContexts();
-        for (Object contextName : contexts) {
-            Log.log(Level.FINE, "Context found: " + contextName);
-            if (((String) contextName).contains("chrome")) {
-                return "chrome";
-            }
-        }
-        return "chromium";
+        driver.context("NATIVE_APP");
     }
 }

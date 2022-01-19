@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Set;
 import java.util.logging.Level;
 
 import io.appium.java_client.MobileBy;
@@ -131,6 +132,35 @@ public class CommonPage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /* Some methods for web authentication */
+
+    protected void waitForWebContext() {
+        Log.log(Level.FINE, "Waiting for browser");
+        //The only way found to wait till browser loads, that is valid for all browsers,
+        //emulators, devices etc... ugly
+        wait(5);
+    }
+
+    public String getBrowser() {
+        Log.log(Level.FINE, "Getting browser");
+        Set contexts = getContexts();
+        for (Object contextName : contexts) {
+            Log.log(Level.FINE, "Context found: " + contextName);
+            if (((String) contextName).contains("chrome")) {
+                return "chrome";
+            }
+        }
+        return "chromium";
+    }
+
+    protected Set getContexts() {
+        Set contextNames = driver.getContextHandles();
+        for (Object contextName : contextNames) {
+            Log.log(Level.FINE, "Context found: " + contextName);
+        }
+        return contextNames;
     }
 
     public void removeApp() {

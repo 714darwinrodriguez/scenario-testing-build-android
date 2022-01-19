@@ -78,7 +78,6 @@ public class LinksPage extends CommonPage {
             switchPassword = (MobileElement) driver.findElement(By.id(switchPasswordId));
             switchPassword.click();
         }
-        waitById(5, textPassword);
         textPassword.sendKeys(password);
         swipe(0.50, 0.45, 0.50, 0.30);
     }
@@ -137,7 +136,6 @@ public class LinksPage extends CommonPage {
         boolean passVisible;
         if (!isPasswordEnforced(itemName)) {
             switchPassword = (MobileElement) driver.findElement(By.id(switchPasswordId));
-            waitById(5, switchPassword);
             switchEnabled = parseIntBool(switchPassword.getAttribute("checked"));
         }
         passVisible = textPassword.isDisplayed();
@@ -216,7 +214,6 @@ public class LinksPage extends CommonPage {
 
     public void submitLink() {
         Log.log(Level.FINE, "Starts: Submit public link");
-        waitById(5, saveButton);
         saveButton.click();
     }
 
