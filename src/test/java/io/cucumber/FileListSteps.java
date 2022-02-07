@@ -73,6 +73,13 @@ public class FileListSteps {
         }
     }
 
+    @Given ("a file {word} exists in the device")
+    public void file_exists(String fileName) {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        fileListPage.pushFile(fileName);
+    }
+
     @When("Alice selects the option Create Folder")
     public void select_create_folder() {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
@@ -114,7 +121,21 @@ public class FileListSteps {
     public void select_upload() {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
-        fileListPage.upload();
+        fileListPage.uploadFiles();
+    }
+
+    @When("Alice selects {word} to upload")
+    public void select_file_to_upload(String fileName) {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        fileListPage.selectFileToUpload(fileName);
+    }
+
+    @When ("Alice refreshes the list")
+    public void refresh_list() {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        fileListPage.refreshList();
     }
 
     @When("Alice accepts the deletion")
@@ -122,6 +143,13 @@ public class FileListSteps {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
         removeDialogPage.removeAll();
+    }
+
+    @When("the {word} has been deleted")
+    public void item_is_deleted(String fileName) throws IOException {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        filesAPI.removeItem(fileName);
     }
 
     @When("Alice sets {word} as new name")

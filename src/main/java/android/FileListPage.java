@@ -44,6 +44,12 @@ public class FileListPage extends CommonPage {
     @AndroidFindBy(id = "com.owncloud.android:id/fab_upload")
     private MobileElement uploadOption;
 
+    @AndroidFindBy(xpath = "//android.widget.ImageButton[@content-desc=\"Show roots\"]")
+    private MobileElement hamburger;
+
+    @AndroidFindBy(id = "com.owncloud.android:id/upload_from_files_item_view")
+    private MobileElement uploadFiles;
+
     @AndroidFindBy(id = "com.owncloud.android:id/localFileIndicator")
     private MobileElement downloadIndicator;
 
@@ -85,6 +91,7 @@ public class FileListPage extends CommonPage {
 
     public void refreshList() {
         Log.log(Level.FINE, "Refresh list");
+        waitById(5, (MobileElement)(toolbar.get(0)));
         swipe(0.50, 0.35, 0.50, 0.90);
     }
 
@@ -107,19 +114,21 @@ public class FileListPage extends CommonPage {
         createFolder.click();
     }
 
-    public void upload() {
+    public void uploadFiles() {
         Log.log(Level.FINE, "Starts: upload");
         fabButton.click();
         uploadOption.click();
+        uploadFiles.click();
     }
 
     public void pushFile(String itemName) {
         Log.log(Level.FINE, "Starts: push file: " + itemName);
         File rootPath = new File(System.getProperty("user.dir"));
-        File appDir = new File(rootPath, LocProperties.getProperties().getProperty("testResourcesPath"));
-        File app = new File(appDir, "io/cucumber/example-files/AAA.txt");
+        File appDir = new File(rootPath,"src/test/resources");
+        File app = new File(appDir, "io/cucumber/example-files/AAAA.txt");
         try {
-            driver.pushFile("/mnt/sdcard/Download/aaa.txt", app);
+            driver.pushFile("/sdcard/Download/AAAA.txt", app);
+            Log.log(Level.FINE, "File " + itemName + " pushed");
         } catch (IOException e) {
             Log.log(Level.SEVERE, "IO Exception: " + e.getMessage());
             e.printStackTrace();
@@ -264,5 +273,14 @@ public class FileListPage extends CommonPage {
             Log.log(Level.FINE, "Item not found: " + itemName);
             return null;
         }
+    }
+
+    public void selectFileToUpload(String fileName){
+        Log.log(Level.FINE, "Starts: Select File to Upload: " + fileName);
+        hamburger.click();
+        waitByTextVisible(2, "Downloads");
+        driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().text(\"Downloads\");")).click();
+        waitByTextVisible(2, fileName);
+        driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().text(\"" + fileName + "\");")).click();
     }
 }

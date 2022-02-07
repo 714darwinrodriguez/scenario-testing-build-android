@@ -95,7 +95,7 @@ public class CommonPage {
         int endX = (int) (size.height * endx);
         TouchAction ts = new TouchAction(driver);
         ts.longPress(PointOption.point(startX, startY))
-                .moveTo(PointOption.point(startX, endY)).release().perform();
+                .moveTo(PointOption.point(endX, endY)).release().perform();
     }
 
     public static void longPress(MobileElement element) {
