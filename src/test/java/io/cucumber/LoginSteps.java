@@ -29,7 +29,7 @@ public class LoginSteps {
     private MiddlewareAPI middlewareAPI = new MiddlewareAPI();
     private FileListPage fileListPage = new FileListPage();
 
-    @ParameterType("basic auth|LDAP|redirection 301|redirection 302")
+    @ParameterType("basic auth|LDAP|redirection 301|redirection 302|OAuth2|OIDC")
     public String authtype(String type){
         return type;
     }

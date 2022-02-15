@@ -32,9 +32,9 @@ Feature: List of files is correctly retrieved from server.
         When Alice refreshes the list
         Then Alice should see newFile.txt in the filelist
 
-      Scenario: Item removed remotely
+      Scenario: Item deleted remotely
         Given the following items have been created in the account
           | file   | newFile2.txt  |
         When Alice refreshes the list
-        And the newFile2.txt has been deleted
+        And the newFile2.txt has been deleted remotely
         Then Alice should not see newFile2.txt in the filelist anymore

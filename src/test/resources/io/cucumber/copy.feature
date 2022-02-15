@@ -8,10 +8,15 @@ Feature: Copy item
   Background: User is logged in
     Given user Alice is logged
 
-  Scenario: Copy an existent folder to another location
+  Scenario Outline: Copy an existent folder to another location
     Given the following items have been created in the account
-      | folder   | copyMe  |
-    When Alice selects to Copy the item copyMe
-    And Alice selects Documents as target folder
-    Then Alice should see copyMe in the filelist as original
-    And Alice should see copyMe inside the folder Documents
+      | <type>   | <name>  |
+    When Alice selects to Copy the <type> <name>
+    And Alice selects <target> as target folder
+    Then Alice should see <name> in the filelist as original
+    And Alice should see <name> inside the folder <target>
+
+    Examples:
+      | type     |  name          | target     |
+      | folder   |  Copyfolder    | Documents  |
+      | file     |  Copyfile.txt  | Documents  |

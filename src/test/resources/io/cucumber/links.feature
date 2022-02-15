@@ -70,10 +70,10 @@ Feature: Public Links
           | permission | <permissions> |
 
         Examples:
-          |  item         |  name    | permissions |
-          |  Links7       |  link7   |    15       |
-          |  Links8       |  link8   |     4       |
-          |  Links9       |  link9   |     1       |
+          |  item         |  name    | permissions | description
+          |  Links7       |  link7   |    15       | Download / View / Upload
+          |  Links8       |  link8   |     4       | Upload Only (File drop)
+          |  Links9       |  link9   |     1       | Download / View
 
 
     @editlink
@@ -92,10 +92,10 @@ Feature: Public Links
           | name        | <name>        |
 
         Examples:
-          |  item     |  name    | permissions |
-          |  Links10  |  link10  |     15      |
-          |  Links11  |  link11  |     4       |
-          |  Links12  |  link12  |     1       |
+          |  item     |  name    | permissions | description
+          |  Links10  |  link10  |     15      | Download / View / Upload
+          |  Links11  |  link11  |     4       | Upload Only (File drop)
+          |  Links12  |  link12  |     1       | Download / View
 
     @deletelink
     Rule: Delete a public link

@@ -8,10 +8,15 @@ Feature: Move item
   Background: User is logged in
     Given user Alice is logged
 
-  Scenario: Move an existent folder to another location
+  Scenario Outline: Move an existent folder to another location
     Given the following items have been created in the account
-      | folder   | folderMove  |
-    When Alice selects to Move the item folderMove
-    And Alice selects Documents as target folder
-    Then Alice should not see folderMove in the filelist anymore
-    But Alice should see folderMove inside the folder Documents
+      | <type>   | <name>  |
+    When Alice selects to Move the <type> <name>
+    And Alice selects <target> as target folder
+    Then Alice should not see <name> in the filelist anymore
+    But Alice should see <name> inside the folder <target>
+
+    Examples:
+      | type     |  name          | target     |
+      | folder   |  Movefolder    | Documents  |
+      | file     |  Movefile.txt  | Documents  |

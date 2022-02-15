@@ -199,8 +199,7 @@ public class FileListPage extends CommonPage {
     }
 
     public boolean fileIsMarkedAsAvOffline(String itemName) {
-        //Wait the file to be downloaded
-        waitById(30, syncFile);
+        browsePath(itemName);
         //Badge will be removed. This will be improved then.
         return avOfflineIndicator.isDisplayed();
     }
@@ -215,7 +214,7 @@ public class FileListPage extends CommonPage {
 
     public boolean displayedList(String path, ArrayList<OCFile> listServer) {
         boolean found = true;
-        parsePath(path); //moving to the folder
+        browsePath(path); //moving to the folder
         Iterator iterator = listServer.iterator();
         while (iterator.hasNext()) {
             OCFile ocfile = (OCFile) iterator.next();
@@ -250,10 +249,11 @@ public class FileListPage extends CommonPage {
         return !driver.findElements(By.id(footer_id)).isEmpty();
     }
 
-    private void parsePath(String path) {
+    public void browsePath(String path) {
         String[] route = path.split("/");
         if (route.length > 0) { //we have to browse
             for (int i = 1; i < route.length; i++) {
+                Log.log(Level.FINE, "browsing to " + route[i]);
                 browse(route[i]);
             }
         }

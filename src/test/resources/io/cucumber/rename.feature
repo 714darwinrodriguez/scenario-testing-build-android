@@ -8,10 +8,15 @@ Feature: Rename an item
     Given user Alice is logged
 
   @smoke
-  Scenario: Rename an item
+  Scenario Outline: Rename an item
     Given the following items have been created in the account
-      | folder   |  RenameMe  |
-    When Alice selects to Rename the item RenameMe
-    And Alice sets Renamed as new name
-    Then Alice should see Renamed in the filelist
-    But Alice should not see Rename in the filelist anymore
+      | <type>   |  <name>  |
+    When Alice selects to Rename the <type> <name>
+    And Alice sets <newName> as new name
+    Then Alice should see <newName> in the filelist
+    But Alice should not see <name> in the filelist anymore
+
+    Examples:
+      | type     |  name            |  newName           |
+      | folder   |  Renamefolder    |  Renamefolder2     |
+      | file     |  Renamefile.txt  |  Renamefile2.txt   |

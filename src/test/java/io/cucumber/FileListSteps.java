@@ -94,6 +94,7 @@ public class FileListSteps {
         fileListPage.waitToload("Documents");
         fileListPage.refreshList();
         fileListPage.executeOperation("Set as available offline", itemName);
+        fileListPage.closeSelectionMode();
     }
 
     @When("Alice selects to {word} the {itemtype} {word}")
@@ -145,7 +146,7 @@ public class FileListSteps {
         removeDialogPage.removeAll();
     }
 
-    @When("the {word} has been deleted")
+    @When("the {word} has been deleted remotely")
     public void item_is_deleted(String fileName) throws IOException {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
@@ -165,6 +166,14 @@ public class FileListSteps {
         Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.openLinkShortcut();
         fileListPage.refreshList();
+    }
+
+    @When ("Alice browses into {word}")
+    public void browse_into(String path) {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        fileListPage.browsePath(path);
+        //fileListPage.refreshList();
     }
 
     @Then("Alice should see {word} in the (file)list")
@@ -199,6 +208,8 @@ public class FileListSteps {
     public void item_is_inside_folder(String itemName, String targetFolder) throws Throwable {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
+        fileListPage.browse(targetFolder);
+        fileListPage.isItemInList(itemName);
         assertTrue(filesAPI.itemExist(targetFolder + "/" + itemName));
         filesAPI.removeItem(targetFolder + "/" + itemName);
     }
