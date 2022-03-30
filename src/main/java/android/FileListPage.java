@@ -74,6 +74,9 @@ public class FileListPage extends CommonPage {
     @AndroidFindBy(id = "com.owncloud.android:id/nav_shared_by_link_files")
     private MobileElement linksShortcut;
 
+    @AndroidFindBy(id = "com.owncloud.android:id/nav_available_offline_files")
+    private MobileElement avOffShortcut;
+
     private final String listFiles_id = "com.owncloud.android:id/list_root";
     private HashMap<String, String> operationsMap = new HashMap<String, String>();
 
@@ -186,6 +189,11 @@ public class FileListPage extends CommonPage {
     public void openLinkShortcut() {
         Log.log(Level.FINE, "Starts: open link shortcut");
         linksShortcut.click();
+    }
+
+    public void openAvOffhortcut() {
+        Log.log(Level.FINE, "Starts: open av offline shortcut");
+        avOffShortcut.click();
     }
 
     public void closeSelectionMode() {

@@ -23,3 +23,17 @@ Feature: Set items as available offline (downloaded and synced)
     When Alice selects to set as av.offline the item avOffFolder
     And Alice browses into /avOffFolder
     Then Alice should see the item example.txt as av.offline
+
+  Scenario: Available offline shortcut
+    Given the following items have been created in the account
+      | file     | avOff1.txt  |
+      | file     | avOff2.txt  |
+      | folder   | avOff3      |
+      | folder   | avOff4      |
+    And Alice selects to set as av.offline the item avOff1.txt
+    And Alice selects to set as av.offline the item avOff3
+    When Alice opens the available offline shortcut
+    Then Alice should see avOff1.txt in the list
+    And Alice should see avOff3 in the list
+    But Alice should not see avOff2.txt in the links list
+    And Alice should not see avOff4 in the links list

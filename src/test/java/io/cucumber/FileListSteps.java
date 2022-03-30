@@ -168,6 +168,14 @@ public class FileListSteps {
         fileListPage.refreshList();
     }
 
+    @When ("Alice opens the available offline shortcut")
+    public void open_av_offline_shortcut() {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        fileListPage.openAvOffhortcut();
+        fileListPage.refreshList();
+    }
+
     @When ("Alice browses into {word}")
     public void browse_into(String path) {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
