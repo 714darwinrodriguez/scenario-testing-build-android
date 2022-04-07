@@ -100,6 +100,8 @@ public class AppiumManager {
 
         capabilities.setCapability("uiautomator2ServerInstallTimeout", 60000);
 
+        capabilities.setCapability("disableWindowAnimation", true);
+
         if (System.getProperty("device") != null) {
             capabilities.setCapability(MobileCapabilityType.UDID, System.getProperty("device"));
         }

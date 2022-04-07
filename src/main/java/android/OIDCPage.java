@@ -6,8 +6,6 @@ import utils.log.Log;
 
 public class OIDCPage extends CommonPage {
 
-    //private long deviceVersion;
-    //private String device = System.getProperty("device");
     private String browser;
 
     private String username_xpath = "//*[@id=\"oc-login-username\"]";
@@ -15,20 +13,12 @@ public class OIDCPage extends CommonPage {
     private String submit_xpath = "//*[@id=\"root\"]/div/div/div/div/form/div[3]/button";
     private String authorize_xpath = "//*[@id=\"root\"]/div/div/div/div/form/div/div[2]/button";
 
-
-
     public OIDCPage() {
-        //deviceVersion = (long) driver.getCapabilities().getCapability("deviceApiLevel");
-        /*if (device == null) {
-            device = "emulator";
-        }*/
-        //realDevice = device.contains("emulator") ? false : true;
         waitForWebContext();
         Log.log(Level.FINE, "Browser charged");
         String browser = getBrowser();
         Log.log(Level.FINE, "Selected browser: " + browser);
         this.browser = browser;
-        //Log.log(Level.FINE, "Real device?: " + realDevice);
     }
 
     public void enterCredentials(String username, String password) {
@@ -38,7 +28,7 @@ public class OIDCPage extends CommonPage {
         }
 
         Log.log(Level.FINE, "Starts: enter OIDC credentials");
-        if (!driver.findElementsByXPath(username_xpath).isEmpty()) {
+        if (!findListXpath(username_xpath).isEmpty()){
             Log.log(Level.FINE, "Entering credentials");
             findXpath(username_xpath).sendKeys(username);
             findXpath(password_xpath).sendKeys(password);

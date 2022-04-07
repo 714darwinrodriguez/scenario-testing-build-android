@@ -2,10 +2,8 @@ package android;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -17,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -68,8 +67,8 @@ public class CommonPage {
     public static void waitByTextVisible(int timeToWait, String text) {
         WebDriverWait wait = new WebDriverWait(driver, timeToWait);
         MobileElement mobileElement = (MobileElement)
-                driver.findElementByAndroidUIAutomator
-                        ("new UiSelector().text(\"" + text + "\");");
+                driver.findElement(MobileBy.AndroidUIAutomator
+                        ("new UiSelector().text(\"" + text + "\");"));
         wait.until(ExpectedConditions.textToBePresentInElement(mobileElement, text));
     }
 
@@ -84,7 +83,19 @@ public class CommonPage {
     }
 
     public MobileElement findXpath(String xpath){
-        return (MobileElement) driver.findElementByXPath(xpath);
+        return (MobileElement) driver.findElement(MobileBy.xpath(xpath));
+    }
+
+    public List<MobileElement> findListXpath(String xpath){
+        return (List<MobileElement>) driver.findElements(MobileBy.xpath(xpath));
+    }
+
+    public MobileElement findUIAutomator(String finder){
+        return (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator(finder));
+    }
+
+    public List<MobileElement> findListUIAutomator(String finder){
+        return (List<MobileElement>) driver.findElements(MobileBy.AndroidUIAutomator(finder));
     }
 
     public static void swipe(double startx, double starty, double endx, double endy) {
@@ -105,7 +116,7 @@ public class CommonPage {
     public static void takeScreenshot(String name) {
         try {
             String sd = sdf.format(new Timestamp(System.currentTimeMillis()).getTime());
-            File screenShotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            File screenShotFile = (driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(screenShotFile, new File("screenshots/" + name + "_" + sd + ".png"));
             Log.log(Level.FINE, "Take screenshot " + name + " at: " + sd);
         } catch (IOException e) {
@@ -145,7 +156,7 @@ public class CommonPage {
 
     public String getBrowser() {
         Log.log(Level.FINE, "Getting browser");
-        Set contexts = getContexts();
+        Set<String> contexts = getContexts();
         for (Object contextName : contexts) {
             Log.log(Level.FINE, "Context found: " + contextName);
             if (((String) contextName).contains("chrome")) {
@@ -155,8 +166,8 @@ public class CommonPage {
         return "chromium";
     }
 
-    protected Set getContexts() {
-        Set contextNames = driver.getContextHandles();
+    protected Set<String> getContexts() {
+        Set<String> contextNames = driver.getContextHandles();
         for (Object contextName : contextNames) {
             Log.log(Level.FINE, "Context found: " + contextName);
         }

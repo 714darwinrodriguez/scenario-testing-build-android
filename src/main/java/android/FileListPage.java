@@ -150,14 +150,12 @@ public class FileListPage extends CommonPage {
             Log.log(Level.FINE, "Searching item... swiping: " + itemName);
             swipe(0.50, 0.90, 0.50, 0.20);
         }
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().text(\"" + itemName + "\");")).click();
+        findUIAutomator("new UiSelector().text(\"" + itemName + "\");").click();
     }
 
     public boolean isItemInList(String itemName) {
         Log.log(Level.FINE, "Starts: Check if item is in list: " + itemName);
-        return !driver.findElementsByAndroidUIAutomator(
-                "new UiSelector().text(\"" + itemName + "\");").isEmpty();
+        return !findListUIAutomator("new UiSelector().text(\"" + itemName + "\");").isEmpty();
     }
 
     public boolean isHeader() {
@@ -172,7 +170,6 @@ public class FileListPage extends CommonPage {
 
     public void selectOperation(String operationName) {
         if (operationName.equals("share")) {  //placed in toolbar
-            //driver.findElement(By.id(shareoption_id)).click();
             actions.click(driver.findElement(By.id(shareoption_id))).perform();
         } else {
             Log.log(Level.FINE, "Operation: " + operationName + " placed in menu");
@@ -182,8 +179,7 @@ public class FileListPage extends CommonPage {
 
     public void browse(String folderName) {
         Log.log(Level.FINE, "Starts: browse to " + folderName);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().text(\"" + folderName + "\");")).click();
+        findUIAutomator("new UiSelector().text(\"" + folderName + "\");").click();
     }
 
     public void openLinkShortcut() {
@@ -214,10 +210,8 @@ public class FileListPage extends CommonPage {
 
     private void selectOperationMenu(String operationName) {
         Log.log(Level.FINE, "Starts: Select operation from the menu: " + operationName);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().description(\"More options\");")).click();
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().text(\"" + operationName + "\");")).click();
+        findUIAutomator("new UiSelector().description(\"More options\");").click();
+        findUIAutomator("new UiSelector().text(\"" + operationName + "\");").click();
     }
 
     public boolean displayedList(String path, ArrayList<OCFile> listServer) {
@@ -248,9 +242,8 @@ public class FileListPage extends CommonPage {
     }
 
     private boolean endList(int numberItems) {
-        return !driver.findElements(MobileBy.AndroidUIAutomator(
-                "new UiSelector().text(\"" + Integer.toString(numberItems - 1)
-                        + " files\");")).isEmpty();
+        return !findListUIAutomator("new UiSelector().text(\"" + Integer.toString(numberItems - 1)
+                + " files\");").isEmpty();
     }
 
     private boolean endList() {
@@ -275,8 +268,7 @@ public class FileListPage extends CommonPage {
         }
         if (isItemInList(itemName)) {
             Log.log(Level.FINE, "Item found: " + itemName);
-            return (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator(
-                    "new UiSelector().text(\"" + itemName + "\");"));
+            return findUIAutomator("new UiSelector().text(\"" + itemName + "\");");
         } else {
             Log.log(Level.FINE, "Item not found: " + itemName);
             return null;
@@ -287,8 +279,8 @@ public class FileListPage extends CommonPage {
         Log.log(Level.FINE, "Starts: Select File to Upload: " + fileName);
         hamburger.click();
         waitByTextVisible(2, "Downloads");
-        driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().text(\"Downloads\");")).click();
+        findUIAutomator("new UiSelector().text(\"Downloads\");").click();
         waitByTextVisible(2, fileName);
-        driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().text(\"" + fileName + "\");")).click();
+        findUIAutomator("new UiSelector().text(\"" + fileName + "\");").click();
     }
 }

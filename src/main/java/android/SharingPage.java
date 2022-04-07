@@ -30,7 +30,7 @@ public class SharingPage extends CommonPage {
     }
 
     public boolean isHeader() {
-        return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"Share\");").isEmpty();
+        return !findListUIAutomator("new UiSelector().text(\"Share\");").isEmpty();
     }
 
     public void addPrivateShare() {
@@ -57,13 +57,11 @@ public class SharingPage extends CommonPage {
     }
 
     public boolean isItemInListPrivateShares(String sharee) {
-        return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + sharee + "\");")
-                .isEmpty();
+        return !findListUIAutomator("new UiSelector().text(\"" + sharee + "\");").isEmpty();
     }
 
     public boolean isItemInListPublicShares(String itemName) {
-        return !driver.findElementsByAndroidUIAutomator("new UiSelector().text(\"" + itemName + "\");")
-                .isEmpty();
+        return !findListUIAutomator("new UiSelector().text(\"" + itemName + "\");").isEmpty();
     }
 
     public void deletePrivateShare() {

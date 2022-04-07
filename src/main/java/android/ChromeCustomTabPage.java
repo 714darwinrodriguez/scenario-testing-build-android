@@ -1,7 +1,5 @@
 package android;
 
-import org.openqa.selenium.By;
-
 import java.util.HashMap;
 import java.util.logging.Level;
 
@@ -57,9 +55,11 @@ public class ChromeCustomTabPage extends CommonPage {
 
         //switch button to go back to credentials
 
-        if (!driver.findElements(By.xpath((String) fieldsSelected.get("switcher"))).isEmpty()) {
+        if (findListXpath((String) fieldsSelected.get("switcher")).isEmpty()){
+        //if (!driver.findElements(By.xpath((String) fieldsSelected.get("switcher"))).isEmpty()) {
             Log.log(Level.FINE, "Switch user view");
-            driver.findElementByXPath((String) fieldsSelected.get("switcher")).click();
+            findXpath((String)fieldsSelected.get("switcher")).click();
+            //driver.findElement(By.xpath((String)fieldsSelected.get("switcher"))).click();
         }
 
         waitByXpath(5, (String) fieldsSelected.get("username"));
