@@ -20,3 +20,12 @@ Feature: Rename an item
       | type     |  name            |  newName           |
       | folder   |  Renamefolder    |  Renamefolder2     |
       | file     |  Renamefile.txt  |  Renamefile2.txt   |
+
+  Scenario: Rename an item with an existing name
+    Given the following items have been created in the account
+      | folder   | Photos     |
+      | folder   | Documents  |
+    When Alice selects to Rename the folder Photos
+    And Alice sets Documents as new name
+    Then Alice should see the following error
+      | An error occurred while trying to move this file or folder |

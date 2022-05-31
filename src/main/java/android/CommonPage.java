@@ -111,6 +111,7 @@ public class CommonPage {
 
     public static void longPress(MobileElement element) {
         actions.clickAndHold(element).perform();
+        actions.clickAndHold(element).perform();
     }
 
     public static void takeScreenshot(String name) {

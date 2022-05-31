@@ -1,4 +1,4 @@
-@avoffline @ignore
+@avoffline
 Feature: Set items as available offline (downloaded and synced)
 
   As a user
@@ -13,7 +13,7 @@ Feature: Set items as available offline (downloaded and synced)
     Given the following items have been created in the account
       | file   | av.offline.pdf  |
     When Alice selects to set as av.offline the item av.offline.pdf
-    Then Alice should see the item av.offline.pdf as av.offline
+    Then Alice should see the file av.offline.pdf as av.offline
 
   @smoke
   Scenario: Set a folder as available offline
@@ -21,8 +21,28 @@ Feature: Set items as available offline (downloaded and synced)
       | folder   | avOffFolder              |
       | file     | avOffFolder/example.txt  |
     When Alice selects to set as av.offline the item avOffFolder
-    And Alice browses into /avOffFolder
-    Then Alice should see the item example.txt as av.offline
+    And Alice browses into avOffFolder
+    Then Alice should see the file example.txt as av.offline
+
+  Scenario: Inserting a file inside an av.offline folder, turns the file av.offline
+    Given the following items have been created in the account
+      | file   | avoff3.pdf   |
+      | folder | avOffFolder |
+    When Alice selects to set as av.offline the item avOffFolder
+    And Alice selects to Move the file avoff3.pdf
+    And Alice selects avOffFolder as target folder
+    Then Alice browses into avOffFolder
+    And Alice should see the item avoff3.pdf as av.offline
+
+  Scenario: Moving a file inside an av.offline folder to a non av.offline folder, it turns not av.offline
+    Given the following items have been created in the account
+      | folder | avOffFolder2              |
+      | file   | avOffFolder2/avoff4.txt   |
+    When Alice selects to set as av.offline the item avOffFolder2
+    And Alice selects to Move the file avOffFolder2/avoff4.txt
+    And Alice selects / as target folder
+    And Alice browses to root folder
+    Then Alice should not see the file avoff4.txt as av.offline
 
   Scenario: Available offline shortcut
     Given the following items have been created in the account

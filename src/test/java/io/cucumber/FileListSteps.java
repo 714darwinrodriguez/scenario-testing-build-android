@@ -114,7 +114,13 @@ public class FileListSteps {
     public void select_target_folder(String targetFolder) {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
-        folderPickerPage.selectFolder(targetFolder);
+        if (!targetFolder.equals("/")) { //if it is root, nothing to do
+            if (!targetFolder.contains("/")) { //if does not contain "/", is a folder in root
+                folderPickerPage.selectFolder(targetFolder);
+            } else { //must browse to the file's location
+                fileListPage.browseToFolder(targetFolder);
+            }
+        }
         folderPickerPage.accept();
     }
 
@@ -180,8 +186,14 @@ public class FileListSteps {
     public void browse_into(String path) {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
-        fileListPage.browsePath(path);
-        //fileListPage.refreshList();
+        fileListPage.browseToFolder(path);
+    }
+
+    @When("Alice browses to root folder")
+    public void browse_root() {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        fileListPage.browseRoot();
     }
 
     @Then("Alice should see {word} in the (file)list")
@@ -192,7 +204,6 @@ public class FileListSteps {
         //Get the last token of the item path
         assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/') + 1)));
         assertTrue(filesAPI.itemExist(itemName));
-        filesAPI.removeItem(itemName);
     }
 
     @Then("Alice should not see {word} in the filelist anymore")
@@ -209,17 +220,15 @@ public class FileListSteps {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
         assertFalse(fileListPage.isItemInList(itemName));
-        filesAPI.removeItem(itemName);
     }
 
     @Then("Alice should see {word} inside the folder {word}")
     public void item_is_inside_folder(String itemName, String targetFolder) throws Throwable {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
-        fileListPage.browse(targetFolder);
+        fileListPage.browseInto(targetFolder);
         fileListPage.isItemInList(itemName);
         assertTrue(filesAPI.itemExist(targetFolder + "/" + itemName));
-        filesAPI.removeItem(targetFolder + "/" + itemName);
     }
 
     @Then("Alice should see {word} in the filelist as original")
@@ -231,7 +240,6 @@ public class FileListSteps {
         fileListPage.waitToload("Documents");
         assertTrue(fileListPage.isItemInList(itemName.substring(itemName.lastIndexOf('/') + 1)));
         assertTrue(filesAPI.itemExist(itemName));
-        filesAPI.removeItem(itemName);
     }
 
     @Then("Alice should see the detailed information: {word}, {word}, and {word}")
@@ -246,21 +254,24 @@ public class FileListSteps {
     }
 
     @Then("the item {word} should be marked as downloaded")
-    public void item_marked_as_downloaded(String itemName)
-            throws IOException {
+    public void item_marked_as_downloaded(String itemName) {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
         assertTrue(fileListPage.fileIsMarkedAsDownloaded(itemName));
-        filesAPI.removeItem(itemName);
     }
 
-    @Then("Alice should see the item {word} as av.offline")
-    public void item_marked_as_avOffline(String itemName)
-            throws IOException {
+    @Then("Alice should see the {itemtype} {word} as av.offline")
+    public void item_marked_as_avOffline(String type, String itemName) {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
-        assertTrue(fileListPage.fileIsMarkedAsAvOffline(itemName));
-        filesAPI.removeItem(itemName);
+        assertTrue(fileListPage.itemIsMarkedAsAvOffline(itemName));
+    }
+
+    @Then("Alice should not see the {itemtype} {word} as av.offline")
+    public void item_not_marked_as_avOffline(String type, String itemName) {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        assertTrue(fileListPage.itemIsMarkedAsUnAvOffline(itemName));
     }
 
     @Then("the item {word} should be opened and previewed")
@@ -279,5 +290,15 @@ public class FileListSteps {
         fileListPage.refreshList();
         ArrayList<OCFile> listServer = filesAPI.listItems(path);
         assertTrue(fileListPage.displayedList(path, listServer));
+    }
+
+    @Then("Alice should see the following error")
+    public void duplicated_item_error(DataTable table){
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        List<List<String>> listItems = table.asLists();
+        String error = listItems.get(0).get(0);
+        Log.log(Level.FINE, "Error message to check: " + error);
+        assertTrue(fileListPage.errorDisplayed(error));
     }
 }

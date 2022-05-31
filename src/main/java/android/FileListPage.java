@@ -5,16 +5,12 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
-import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -30,6 +26,7 @@ public class FileListPage extends CommonPage {
     private String copyoption_id = "com.owncloud.android:id/copy_file";
     private String removeoption_id = "com.owncloud.android:id/action_remove_file";
     private String avofflineoption_id = "com.owncloud.android:id/action_set_available_offline";
+    private String unavofflineoption_id = "com.owncloud.android:id/action_set_unavailable_offline";
     private String footer_id = "com.owncloud.android:id/footerText";
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.owncloud.android:id/action_mode_close_button\");")
@@ -71,6 +68,9 @@ public class FileListPage extends CommonPage {
     @AndroidFindBy(id = "com.owncloud.android:id/Filename")
     private MobileElement fileName;
 
+    @AndroidFindBy(id = "com.owncloud.android:id/nav_all_files")
+    private MobileElement toRoot;
+
     @AndroidFindBy(id = "com.owncloud.android:id/nav_shared_by_link_files")
     private MobileElement linksShortcut;
 
@@ -95,7 +95,7 @@ public class FileListPage extends CommonPage {
     public void refreshList() {
         Log.log(Level.FINE, "Refresh list");
         waitById(5, (MobileElement)(toolbar.get(0)));
-        swipe(0.50, 0.35, 0.50, 0.90);
+        swipe(0.50, 0.20, 0.50, 0.90);
     }
 
     public void waitToload(String itemName) {
@@ -105,7 +105,7 @@ public class FileListPage extends CommonPage {
             waitById(15, listFiles_id);
         } catch (Exception e) {
             Log.log(Level.FINE, "Swipe needed to get the list");
-            swipe(0.50, 0.20, 0.50, 0.90);
+            refreshList();
             waitByTextVisible(10, itemName);
         }
         Log.log(Level.FINE, "Loaded");
@@ -148,7 +148,7 @@ public class FileListPage extends CommonPage {
         Log.log(Level.FINE, "Starts: download action: " + itemName);
         if (!isItemInList(itemName)) {
             Log.log(Level.FINE, "Searching item... swiping: " + itemName);
-            swipe(0.50, 0.90, 0.50, 0.20);
+            refreshList();
         }
         findUIAutomator("new UiSelector().text(\"" + itemName + "\");").click();
     }
@@ -158,13 +158,27 @@ public class FileListPage extends CommonPage {
         return !findListUIAutomator("new UiSelector().text(\"" + itemName + "\");").isEmpty();
     }
 
+    public boolean errorDisplayed(String error) {
+        Log.log(Level.FINE, "Starts: Error displayed: " + error);
+        return findUIAutomator("new UiSelector().text(\"" + error + "\");").isDisplayed();
+    }
+
     public boolean isHeader() {
         return !toolbar.isEmpty();
     }
 
-    public void selectItemList(String itemName) {
-        Log.log(Level.FINE, "Starts: select item from list: " + itemName);
-        MobileElement element = getElementFromFileList(itemName);
+    /*
+     * Receives: Path of the item to be selected by long pressing,
+     * in order to display the operations menu.
+     */
+    public void selectItemList(String path) {
+        Log.log(Level.FINE, "Starts: select item from list: " + path);
+        String fileName;
+        fileName = path;
+        if (path.contains("/")) { //Brwose through
+            fileName = browseToFile(path);
+        }
+        MobileElement element = getElementFromFileList(fileName);
         longPress(element);
     }
 
@@ -177,10 +191,6 @@ public class FileListPage extends CommonPage {
         }
     }
 
-    public void browse(String folderName) {
-        Log.log(Level.FINE, "Starts: browse to " + folderName);
-        findUIAutomator("new UiSelector().text(\"" + folderName + "\");").click();
-    }
 
     public void openLinkShortcut() {
         Log.log(Level.FINE, "Starts: open link shortcut");
@@ -202,10 +212,26 @@ public class FileListPage extends CommonPage {
         return downloadIndicator.isDisplayed();
     }
 
-    public boolean fileIsMarkedAsAvOffline(String itemName) {
-        browsePath(itemName);
-        //Badge will be removed. This will be improved then.
-        return avOfflineIndicator.isDisplayed();
+    /*
+     * Receives: path of the item
+     * Returns: true if "Set as available offline" is displayed after selecting the item
+     * by long pressing (checked in menu options - need improvement)
+     */
+    public boolean itemIsMarkedAsAvOffline(String path) {
+        selectItemList(path);
+        findUIAutomator("new UiSelector().description(\"More options\");").click();
+        return driver.findElements(By.id(avofflineoption_id)).isEmpty();
+    }
+
+    /*
+     * Receives: path of the item
+     * Returns: true if "Unset as available offline" is displayed after selecting the item
+     * by long pressing (checked in menu options - need improvement)
+     */
+    public boolean itemIsMarkedAsUnAvOffline(String path) {
+        selectItemList(path);
+        findUIAutomator("new UiSelector().description(\"More options\");").click();
+        return driver.findElements(By.id(unavofflineoption_id)).isEmpty();
     }
 
     private void selectOperationMenu(String operationName) {
@@ -216,7 +242,7 @@ public class FileListPage extends CommonPage {
 
     public boolean displayedList(String path, ArrayList<OCFile> listServer) {
         boolean found = true;
-        browsePath(path); //moving to the folder
+        browseToFolder(path); //moving to the folder
         Iterator iterator = listServer.iterator();
         while (iterator.hasNext()) {
             OCFile ocfile = (OCFile) iterator.next();
@@ -230,7 +256,7 @@ public class FileListPage extends CommonPage {
             }
             while (!isItemInList(ocfile.getName()) && !endList(listServer.size())) {
                 Log.log(Level.FINE, "Item " + ocfile.getName() + " not found yet. Swiping");
-                swipe(0.50, 0.90, 0.50, 0.20);
+                refreshList();
             }
             if (!isItemInList(ocfile.getName())) {
                 Log.log(Level.FINE, "Item " + ocfile.getName() + " is not in the list");
@@ -250,21 +276,69 @@ public class FileListPage extends CommonPage {
         return !driver.findElements(By.id(footer_id)).isEmpty();
     }
 
-    public void browsePath(String path) {
-        String[] route = path.split("/");
-        if (route.length > 0) { //we have to browse
-            for (int i = 1; i < route.length; i++) {
+    /*
+     * Receives: name of the folder in the current list to browse into
+     */
+    public void browseInto(String folderName) {
+        Log.log(Level.FINE, "Starts: browse to " + folderName);
+        findUIAutomator("new UiSelector().text(\"" + folderName + "\");").click();
+    }
+
+    /*
+     * Browses to root folder using the shortcut in the bottom bar
+     */
+    public void browseRoot() {
+        Log.log(Level.FINE, "Starts: browse to root");
+        toRoot.click();
+    }
+
+    /*
+     * Receives: path to a folder. If path does not contain "/", folder is in root.
+     * Otherwise browsing to.
+     */
+    public void browseToFolder(String path){
+        if (path.equals("/")) { //Go to Root
+            browseRoot();
+        } else if (path.contains("/")) { //browsing to the folder
+            int i = 0;
+            String[] route = path.split("/");
+            for (i = 0; i < route.length ; i++) {
                 Log.log(Level.FINE, "browsing to " + route[i]);
-                browse(route[i]);
+                browseInto(route[i]);
             }
+        } else { //no path to browse, just clicking
+            browseInto(path);
         }
     }
 
+    /*
+     * Receives: path to a file. If path does not contain "/", file is in the root folder,
+     * otherwise browsing to
+     * Returns: File name (last chunk of the path), after browsing to reach it.
+     */
+    public String browseToFile(String path) {
+        String[] route = path.split("/");
+        int i = 0;
+        if (route.length > 0) { //browse
+            for (i = 0; i < route.length -1 ; i++) {
+                Log.log(Level.FINE, "browsing to " + route[i]);
+                browseInto(route[i]);
+            }
+            Log.log(Level.FINE, "Returning: " + route[i]);
+            return route[i];
+        }
+        return path;
+    }
+
+    /*
+     * Receives: An item name
+     * Returns: MobileElement object correspondent with the given item name in the current list
+     */
     private MobileElement getElementFromFileList(String itemName) {
         Log.log(Level.FINE, "Starts: searching item in list: " + itemName);
         while (!isItemInList(itemName) && !endList()) {
             Log.log(Level.FINE, "Item " + itemName + " not found yet. Swiping");
-            swipe(0.50, 0.90, 0.50, 0.20);
+            refreshList();
         }
         if (isItemInList(itemName)) {
             Log.log(Level.FINE, "Item found: " + itemName);
