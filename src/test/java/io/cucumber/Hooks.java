@@ -20,6 +20,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import utils.api.FilesAPI;
+import utils.api.TrashbinAPI;
 import utils.entities.OCFile;
 import utils.log.Log;
 
@@ -42,6 +43,7 @@ public class Hooks {
     private void cleanUp()
             throws IOException, ParserConfigurationException, SAXException {
         FilesAPI filesAPI = new FilesAPI();
+        TrashbinAPI trashbinAPI = new TrashbinAPI();
         //First, remove leftovers in root folder. Just keeping the skeleton items
         ArrayList<OCFile> filesRoot = filesAPI.listItems("");
         for (OCFile iterator: filesRoot){
@@ -57,10 +59,13 @@ public class Hooks {
         //Second, remove leftovers in "Documents" folder, where some stuff is created inside
         ArrayList<OCFile> filesDocuments = filesAPI.listItems("/Documents");
         for (OCFile iterator: filesDocuments){
-            if (!iterator.getName().equals("Example.odt")) {
+            if (!iterator.getName().equals("Example.odt") &&
+                    !iterator.getName().equals("Documents"))  {
                 Log.log(Level.FINE, "CLEANUP: removing " + iterator.getName());
                 filesAPI.removeItem("/Documents/"+iterator.getName());
             }
         }
+        //Third, empty trashbin
+        trashbinAPI.emptyTrashbin();
     }
 }

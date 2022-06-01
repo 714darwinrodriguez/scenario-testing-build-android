@@ -95,7 +95,7 @@ public class FileListPage extends CommonPage {
     public void refreshList() {
         Log.log(Level.FINE, "Refresh list");
         waitById(5, (MobileElement)(toolbar.get(0)));
-        swipe(0.50, 0.20, 0.50, 0.90);
+        swipe(0.50, 0.40, 0.50, 0.90);
     }
 
     public void waitToload(String itemName) {
