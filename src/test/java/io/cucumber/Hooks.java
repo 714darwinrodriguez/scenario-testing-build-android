@@ -62,7 +62,7 @@ public class Hooks {
             if (!iterator.getName().equals("Example.odt") &&
                     !iterator.getName().equals("Documents"))  {
                 Log.log(Level.FINE, "CLEANUP: removing " + iterator.getName());
-                filesAPI.removeItem("/Documents/"+iterator.getName());
+                filesAPI.removeItem("Documents/"+iterator.getName());
             }
         }
         //Third, empty trashbin

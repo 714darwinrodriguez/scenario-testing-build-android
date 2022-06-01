@@ -79,7 +79,6 @@ public class LinksPage extends CommonPage {
             switchPassword.click();
         }
         textPassword.sendKeys(password);
-        swipe(0.50, 0.45, 0.50, 0.30);
     }
 
     public void setPermission(String permission) {
