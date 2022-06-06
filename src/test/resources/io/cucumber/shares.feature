@@ -83,6 +83,15 @@ Feature: Private Share
         Then user Bob should have access to Share8.txt
         But Charles should not have access to Share8.txt
 
+      Scenario: Reshare reflected
+        Given the following items have been created in the account
+          | file   | Share9.txt  |
+        And Alice has shared file Share9.txt with Bob with permissions 31
+        And Bob has shared file Share9.txt with Charles with permissions 31
+        And Alice selects to share the file Share9.txt
+        Then Alice should see Bob as recipient
+        And Alice should see Charles as recipient
+
     @editshare
     Rule: Edit an existing share
 
@@ -99,10 +108,10 @@ Feature: Private Share
 
         Examples:
           |  item         |   user    |  permissions | Description
-          |  Share9.txt   |   Bob     |    3         |  only update
-          |  Share10.txt  |   Bob     |    17        |  only share
-          |  Share11.txt  |   Bob     |    19        |  both update and share
-          |  Share12.txt  |   Bob     |    1         |  neither update nor share
+          |  Share10.txt  |   Bob     |    3         |  only update
+          |  Share11.txt  |   Bob     |    17        |  only share
+          |  Share12.txt  |   Bob     |    19        |  both update and share
+          |  Share13.txt  |   Bob     |    1         |  neither update nor share
 
       Scenario Outline: Edit existing share on a folder, changing permissions
         Given the following items have been created in the account
@@ -117,10 +126,10 @@ Feature: Private Share
 
         Examples:
           |  item      |   user    | permissions |
-          |  Share13   |   Bob     |   1         |
-          |  Share14   |   Bob     |   9         |
-          |  Share15   |   Bob     |   13        |
-          |  Share16   |   Bob     |   17        |
+          |  Share14   |   Bob     |   1         |
+          |  Share15   |   Bob     |   9         |
+          |  Share16   |   Bob     |   13        |
+          |  Share17   |   Bob     |   17        |
 
     @deleteshare
     Rule: Delete a share
@@ -136,5 +145,5 @@ Feature: Private Share
 
         Examples:
           |  type   |  item         |
-          |  file   |  Share17.txt  |
-          |  folder |  Share18      |
+          |  file   |  Share18.txt  |
+          |  folder |  Share19      |

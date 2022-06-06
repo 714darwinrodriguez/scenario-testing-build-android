@@ -58,6 +58,18 @@ public class FilesAPI extends CommonAPI {
         response.close();
     }
 
+    public void pushFile(String fileName, String content)
+            throws IOException {
+        String url = urlServer + davEndpoint + user + "/" + fileName + "/";
+        Log.log(Level.FINE, "Starts: Request modification file");
+        Log.log(Level.FINE, "URL: " + url);
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"),
+                content);
+        Request request = davRequest(url, "PUT", body);
+        Response response = httpClient.newCall(request).execute();
+        response.close();
+    }
+
     public boolean itemExist(String itemName)
             throws IOException {
         String url = urlServer + davEndpoint + user + "/" + itemName;

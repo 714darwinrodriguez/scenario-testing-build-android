@@ -22,6 +22,11 @@ public class SharesPage extends CommonPage {
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
+    public boolean isSharee(String user) {
+        Log.log(Level.FINE, "Starts: Sharee in list: " + user);
+        return findUIAutomator("new UiSelector().text(\"" + user + "\");").isDisplayed();
+    }
+
     public void switchCreate() {
         Log.log(Level.FINE, "Starts: Click create checkbox");
         driver.findElement(MobileBy.id(createbox_id)).click();

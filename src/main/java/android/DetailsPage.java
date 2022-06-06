@@ -14,6 +14,9 @@ import utils.log.Log;
 
 public class DetailsPage extends CommonPage {
 
+    @AndroidFindBy(id = "com.owncloud.android:id/fdIcon")
+    private MobileElement thumbnail;
+
     @AndroidFindBy(id = "com.owncloud.android:id/fdFilename")
     private MobileElement itemName;
 
@@ -70,5 +73,13 @@ public class DetailsPage extends CommonPage {
         if (toolbar.isEmpty()) {
             driver.navigate().back();
         }
+    }
+
+    public void downloadFromThumbnail(){
+        thumbnail.click();
+    }
+
+    public boolean textInFile(String text){
+        return findUIAutomator("new UiSelector().text(\"" + text + "\");").isDisplayed();
     }
 }

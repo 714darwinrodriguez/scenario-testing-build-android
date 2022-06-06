@@ -6,7 +6,6 @@ import org.openqa.selenium.support.PageFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,6 +26,8 @@ public class FileListPage extends CommonPage {
     private String removeoption_id = "com.owncloud.android:id/action_remove_file";
     private String avofflineoption_id = "com.owncloud.android:id/action_set_available_offline";
     private String unavofflineoption_id = "com.owncloud.android:id/action_set_unavailable_offline";
+    private String downloadoption_id = "com.owncloud.android:id/action_download_file";
+    private String syncoption_id = "com.owncloud.android:id/action_sync_file";
     private String footer_id = "com.owncloud.android:id/footerText";
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.owncloud.android:id/action_mode_close_button\");")
@@ -46,15 +47,6 @@ public class FileListPage extends CommonPage {
 
     @AndroidFindBy(id = "com.owncloud.android:id/upload_from_files_item_view")
     private MobileElement uploadFiles;
-
-    @AndroidFindBy(id = "com.owncloud.android:id/localFileIndicator")
-    private MobileElement downloadIndicator;
-
-    @AndroidFindBy(id = "com.owncloud.android:id/localFileIndicator")
-    private MobileElement avOfflineIndicator;
-
-    @AndroidFindBy(id = "com.owncloud.android:id/action_sync_file")
-    private MobileElement syncFile;
 
     @AndroidFindBy(id = "com.owncloud.android:id/root_toolbar")
     private List<MobileElement> toolbar;
@@ -78,18 +70,10 @@ public class FileListPage extends CommonPage {
     private MobileElement avOffShortcut;
 
     private final String listFiles_id = "com.owncloud.android:id/list_root";
-    private HashMap<String, String> operationsMap = new HashMap<String, String>();
 
     public FileListPage() {
         super();
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-        //Filling up the operations to have the key-value with name and id
-        operationsMap.put("share", shareoption_id);
-        operationsMap.put("Rename", renameoption_id);
-        operationsMap.put("Move", moveoption_id);
-        operationsMap.put("Copy", copyoption_id);
-        operationsMap.put("Remove", removeoption_id);
-        operationsMap.put("Set as available offline", avofflineoption_id);
     }
 
     public void refreshList() {
@@ -191,7 +175,6 @@ public class FileListPage extends CommonPage {
         }
     }
 
-
     public void openLinkShortcut() {
         Log.log(Level.FINE, "Starts: open link shortcut");
         linksShortcut.click();
@@ -207,9 +190,16 @@ public class FileListPage extends CommonPage {
         closeSelectionMode.click();
     }
 
-    public boolean fileIsMarkedAsDownloaded(String itemName) {
-        //Badge will be removed. This will be improved then.
-        return downloadIndicator.isDisplayed();
+    /*
+     * Receives: path of the item
+     * Returns: true if "Download" action is not displayed after selecting the item
+     * by long pressing, and sync action is displayed (already dowloaded)
+     */
+    public boolean fileIsMarkedAsDownloaded(String path) {
+        Log.log(Level.FINE, "Check if file is downloaded: " + path);
+        selectItemList(path);
+        return driver.findElements(By.id(downloadoption_id)).isEmpty() &&
+                !driver.findElements(By.id(syncoption_id)).isEmpty();
     }
 
     /*

@@ -196,4 +196,11 @@ public class SharesSteps {
         assertFalse(sharingPage.isItemInListPrivateShares(sharee));
         filesAPI.removeItem(itemName);
     }
+
+    @Then("Alice should see {word} as recipient")
+    public void recipient_list(String sharee) {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        assertTrue(sharesPage.isSharee(sharee));
+    }
 }

@@ -97,13 +97,23 @@ public class FileListSteps {
         fileListPage.closeSelectionMode();
     }
 
+    @When("Alice selects to unset as av.offline the item {word}")
+    public void select_item_to_unavoffline(String itemName) {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        fileListPage.waitToload("Documents");
+        fileListPage.refreshList();
+        fileListPage.executeOperation("Unset as available offline", itemName);
+        fileListPage.closeSelectionMode();
+    }
+
     @When("Alice selects to {word} the {itemtype} {word}")
     public void select_item_to_some_operation(String operation, String type, String itemName) {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.waitToload("Documents");
         fileListPage.refreshList();
-        if (operation.equals("Download")) {
+        if (operation.equals("Download") || operation.equals("open")) {
             fileListPage.downloadAction(itemName);
         } else {
             fileListPage.executeOperation(operation, itemName);
@@ -194,6 +204,28 @@ public class FileListSteps {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
         fileListPage.browseRoot();
+    }
+
+    @When("Alice clicks on the thumbnail")
+    public void click_on_thumbnail(){
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        detailsPage.downloadFromThumbnail();
+    }
+
+    @When("file {word} is modified externally adding {word}")
+    public void item_modified(String itemName, String text)
+            throws IOException {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        filesAPI.pushFile(itemName, text);
+    }
+
+    @When("Alice closes the preview")
+    public void closes_preview() {
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        detailsPage.backListFiles();
     }
 
     @Then("Alice should see {word} in the (file)list")
@@ -300,5 +332,13 @@ public class FileListSteps {
         String error = listItems.get(0).get(0);
         Log.log(Level.FINE, "Error message to check: " + error);
         assertTrue(fileListPage.errorDisplayed(error));
+    }
+
+    @Then("Alice should see the file {word} with {word}")
+    public void file_updated(String itemName, String text){
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        fileListPage.downloadAction(itemName);
+        assertTrue(detailsPage.itemPreviewed() && detailsPage.textInFile(text));
     }
 }
