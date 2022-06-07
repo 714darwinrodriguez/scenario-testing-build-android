@@ -35,6 +35,9 @@ public class DetailsPage extends CommonPage {
     @AndroidFindBy(id = "toolbar")
     private List<MobileElement> toolbar;
 
+    @AndroidFindBy(id = "android:id/contentPanel")
+    private MobileElement contentPanel;
+
     @AndroidFindBy(xpath = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]")
     private MobileElement navigateUp;
 
@@ -81,5 +84,9 @@ public class DetailsPage extends CommonPage {
 
     public boolean textInFile(String text){
         return findUIAutomator("new UiSelector().text(\"" + text + "\");").isDisplayed();
+    }
+
+    public boolean shareSheetDisplayed(String itemName){
+        return contentPanel.isDisplayed();
     }
 }

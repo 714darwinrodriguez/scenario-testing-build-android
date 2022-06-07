@@ -8,7 +8,7 @@ Feature: Copy item
   Background: User is logged in
     Given user Alice is logged
 
-  Scenario Outline: Copy an existent folder to another location
+  Scenario Outline: Copy an existent item to another location
     Given the following items have been created in the account
       | <type>   | <name>  |
     When Alice selects to Copy the <type> <name>

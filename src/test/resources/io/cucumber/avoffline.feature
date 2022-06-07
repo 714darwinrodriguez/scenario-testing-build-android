@@ -9,7 +9,7 @@ Feature: Set items as available offline (downloaded and synced)
     Given user Alice is logged
 
     @setasavoffline
-    Rule: Set as av. offline
+    Rule: Set as av.offline
 
       @smoke
       Scenario: Set a file as available offline
@@ -28,9 +28,9 @@ Feature: Set items as available offline (downloaded and synced)
         Then Alice should see the file example.txt as av.offline
 
     @moveavoffline
-    Rule: Moving av. offline items
+    Rule: Moving av.offline items
 
-      Scenario: Moving an av. offline item to other location does not lose the av.offline condition
+      Scenario: Moving an av.offline item to other location does not lose the av.offline condition
         Given the following items have been created in the account
           | file     | avOff1.txt     |
           | folder   | avOfffolder1   |
@@ -40,7 +40,7 @@ Feature: Set items as available offline (downloaded and synced)
         And Alice browses into avOfffolder1
         Then Alice should see the file avOff1.txt as av.offline
 
-      Scenario: Inserting a file inside an av.offline folder, turns the file av.offline
+      Scenario: Moving a file inside an av.offline folder, turns the file av.offline
         Given the following items have been created in the account
           | file   | avoff2.pdf   |
           | folder | avOffFolder2 |
@@ -50,7 +50,7 @@ Feature: Set items as available offline (downloaded and synced)
         Then Alice browses into avOffFolder2
         And Alice should see the item avoff2.pdf as av.offline
 
-      Scenario: Moving a file inside an av.offline folder to a non av.offline folder, it turns not av.offline
+      Scenario: Moving a file that is inside an av.offline folder to a non av.offline folder, turns not av.offline
         Given the following items have been created in the account
           | folder | avOffFolder3              |
           | file   | avOffFolder3/avoff3.txt   |
@@ -71,7 +71,7 @@ Feature: Set items as available offline (downloaded and synced)
         And Alice should see the file avoff4.txt with "updated"
 
     @unsetavoffline
-    Rule: Unset as av. offline
+    Rule: Unset as av.offline
 
       Scenario Outline: Unset a file as available offline
         Given the following items have been created in the account

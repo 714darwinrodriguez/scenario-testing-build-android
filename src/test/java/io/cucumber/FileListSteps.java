@@ -341,4 +341,11 @@ public class FileListSteps {
         fileListPage.downloadAction(itemName);
         assertTrue(detailsPage.itemPreviewed() && detailsPage.textInFile(text));
     }
+
+    @Then("share sheet for the item {word} is displayed")
+    public void share_sheet_displayed(String itemName){
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        assertTrue(detailsPage.shareSheetDisplayed(itemName));
+    }
 }

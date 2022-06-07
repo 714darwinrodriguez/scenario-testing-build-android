@@ -15,6 +15,12 @@ Feature: Download a file in the account
     Then the item downloadMe.txt should be opened and previewed
     And the item downloadMe.txt should be marked as downloaded
 
+  Scenario: Download a file that is not previewable
+    Given the following items have been created in the account
+      | file   | downloadMe.zip  |
+    When Alice selects to Download the item downloadMe.zip
+    Then share sheet for the item downloadMe.zip is displayed
+
   Scenario: Download a file from Details view
     Given the following items have been created in the account
       | file   | downloadMe2.txt  |
