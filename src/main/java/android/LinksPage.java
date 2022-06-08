@@ -1,6 +1,5 @@
 package android;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 import org.xml.sax.SAXException;
 
@@ -10,7 +9,6 @@ import java.util.logging.Level;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -75,7 +73,7 @@ public class LinksPage extends CommonPage {
         //To avoid password keyboard to appear
         driver.hideKeyboard();
         if (!isPasswordEnforced(itemName)) {
-            switchPassword = (MobileElement) driver.findElement(By.id(switchPasswordId));
+            switchPassword = findId(switchPasswordId);
             switchPassword.click();
         }
         textPassword.sendKeys(password);
@@ -102,7 +100,7 @@ public class LinksPage extends CommonPage {
     public void setExpiration(String days) {
         Log.log(Level.FINE, "Starts: Set Expiration date in days: " + days);
         List<MobileElement> switchExpiration =
-                (List<MobileElement>) driver.findElements(By.id(switchExpirationId));
+                (List<MobileElement>) findListId(switchExpirationId);
         if (!switchExpiration.isEmpty()) {
             if (parseIntBool(switchExpiration.get(0).getAttribute("checked"))) {
                 //if it's enforced, only default
@@ -121,11 +119,11 @@ public class LinksPage extends CommonPage {
         String dateToSet = DateUtils.dateInDaysAndroidFormat(Integer.toString(defaultExpiration));
         Log.log(Level.FINE, "default: " + OCCapability.getInstance().expirationDateDays()
                 + ". Days: " + days + ". Days to set: " + defaultExpiration + " Date to set: " + dateToSet);
-        if (driver.findElements(new MobileBy.ByAccessibilityId(dateToSet)).isEmpty()) {
+        if (findListAccesibility(dateToSet).isEmpty()) {
             Log.log(Level.FINE, "Date not found, next page");
             nextButton.click();
         }
-        driver.findElement(new MobileBy.ByAccessibilityId(dateToSet)).click();
+        findAccesibility(dateToSet).click();
         okButton.click();
     }
 
@@ -134,7 +132,7 @@ public class LinksPage extends CommonPage {
         boolean switchEnabled = true;
         boolean passVisible;
         if (!isPasswordEnforced(itemName)) {
-            switchPassword = (MobileElement) driver.findElement(By.id(switchPasswordId));
+            switchPassword = findId(switchPasswordId);
             switchEnabled = parseIntBool(switchPassword.getAttribute("checked"));
         }
         passVisible = textPassword.isDisplayed();
@@ -184,7 +182,7 @@ public class LinksPage extends CommonPage {
     public boolean checkExpiration(String days) {
         Log.log(Level.FINE, "Starts: Check expiration in days: " + days);
         List<MobileElement> switchExpiration =
-                (List<MobileElement>) driver.findElements(By.id(switchExpirationId));
+                (List<MobileElement>) findListId(switchExpirationId);
         boolean switchEnabled = false;
         boolean dateCorrect = false;
         int expiration = DateUtils.minExpirationDate(

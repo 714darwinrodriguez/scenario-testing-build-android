@@ -83,7 +83,7 @@ public class DetailsPage extends CommonPage {
     }
 
     public boolean textInFile(String text){
-        return findUIAutomator("new UiSelector().text(\"" + text + "\");").isDisplayed();
+        return findUIAutomatorText(text).isDisplayed();
     }
 
     public boolean shareSheetDisplayed(String itemName){

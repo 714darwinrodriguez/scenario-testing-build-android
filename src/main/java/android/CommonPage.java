@@ -90,12 +90,35 @@ public class CommonPage {
         return (List<MobileElement>) driver.findElements(MobileBy.xpath(xpath));
     }
 
-    public MobileElement findUIAutomator(String finder){
-        return (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator(finder));
+    public MobileElement findUIAutomatorText(String text){
+        return (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator(
+                "new UiSelector().text(\"" + text + "\");"));
     }
 
-    public List<MobileElement> findListUIAutomator(String finder){
-        return (List<MobileElement>) driver.findElements(MobileBy.AndroidUIAutomator(finder));
+    public MobileElement findUIAutomatorDescription(String description){
+        return (MobileElement) driver.findElement(MobileBy.AndroidUIAutomator(
+                "new UiSelector().description(\"" + description + "\");"));
+    }
+
+    public List<MobileElement> findListUIAutomatorText(String finder){
+        return (List<MobileElement>) driver.findElements(MobileBy.AndroidUIAutomator(
+                "new UiSelector().text(\"" + finder + "\");"));
+    }
+
+    public MobileElement findId(String id){
+        return (MobileElement) driver.findElement(MobileBy.id(id));
+    }
+
+    public List<MobileElement> findListId(String id){
+        return (List<MobileElement>) driver.findElements(MobileBy.id(id));
+    }
+
+    public MobileElement findAccesibility(String id){
+        return (MobileElement) driver.findElement(new MobileBy.ByAccessibilityId(id));
+    }
+
+    public List<MobileElement> findListAccesibility(String id){
+        return (List<MobileElement>) driver.findElements(new MobileBy.ByAccessibilityId(id));
     }
 
     public static void swipe(double startx, double starty, double endx, double endy) {

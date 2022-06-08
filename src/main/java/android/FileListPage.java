@@ -1,6 +1,5 @@
 package android;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
@@ -20,10 +19,6 @@ import utils.log.Log;
 public class FileListPage extends CommonPage {
 
     private String shareoption_id = "com.owncloud.android:id/action_share_file";
-    private String renameoption_id = "com.owncloud.android:id/action_rename_file";
-    private String moveoption_id = "com.owncloud.android:id/action_move";
-    private String copyoption_id = "com.owncloud.android:id/copy_file";
-    private String removeoption_id = "com.owncloud.android:id/action_remove_file";
     private String avofflineoption_id = "com.owncloud.android:id/action_set_available_offline";
     private String unavofflineoption_id = "com.owncloud.android:id/action_set_unavailable_offline";
     private String downloadoption_id = "com.owncloud.android:id/action_download_file";
@@ -134,17 +129,17 @@ public class FileListPage extends CommonPage {
             Log.log(Level.FINE, "Searching item... swiping: " + itemName);
             refreshList();
         }
-        findUIAutomator("new UiSelector().text(\"" + itemName + "\");").click();
+        findUIAutomatorText(itemName).click();
     }
 
     public boolean isItemInList(String itemName) {
         Log.log(Level.FINE, "Starts: Check if item is in list: " + itemName);
-        return !findListUIAutomator("new UiSelector().text(\"" + itemName + "\");").isEmpty();
+        return !findListUIAutomatorText(itemName).isEmpty();
     }
 
     public boolean errorDisplayed(String error) {
         Log.log(Level.FINE, "Starts: Error displayed: " + error);
-        return findUIAutomator("new UiSelector().text(\"" + error + "\");").isDisplayed();
+        return findUIAutomatorText(error).isDisplayed();
     }
 
     public boolean isHeader() {
@@ -168,7 +163,7 @@ public class FileListPage extends CommonPage {
 
     public void selectOperation(String operationName) {
         if (operationName.equals("share")) {  //placed in toolbar
-            actions.click(driver.findElement(By.id(shareoption_id))).perform();
+            actions.click(findId(shareoption_id)).perform();
         } else {
             Log.log(Level.FINE, "Operation: " + operationName + " placed in menu");
             selectOperationMenu(operationName);
@@ -198,8 +193,8 @@ public class FileListPage extends CommonPage {
     public boolean fileIsMarkedAsDownloaded(String path) {
         Log.log(Level.FINE, "Check if file is downloaded: " + path);
         selectItemList(path);
-        return driver.findElements(By.id(downloadoption_id)).isEmpty() &&
-                !driver.findElements(By.id(syncoption_id)).isEmpty();
+        return findListId(downloadoption_id).isEmpty() &&
+                !findListId(syncoption_id).isEmpty();
     }
 
     /*
@@ -209,8 +204,8 @@ public class FileListPage extends CommonPage {
      */
     public boolean itemIsMarkedAsAvOffline(String path) {
         selectItemList(path);
-        findUIAutomator("new UiSelector().description(\"More options\");").click();
-        return driver.findElements(By.id(avofflineoption_id)).isEmpty();
+        findUIAutomatorDescription("More options").click();
+        return findListId(avofflineoption_id).isEmpty();
     }
 
     /*
@@ -220,14 +215,14 @@ public class FileListPage extends CommonPage {
      */
     public boolean itemIsMarkedAsUnAvOffline(String path) {
         selectItemList(path);
-        findUIAutomator("new UiSelector().description(\"More options\");").click();
-        return driver.findElements(By.id(unavofflineoption_id)).isEmpty();
+        findUIAutomatorDescription("More options").click();
+        return findListId(unavofflineoption_id).isEmpty();
     }
 
     private void selectOperationMenu(String operationName) {
         Log.log(Level.FINE, "Starts: Select operation from the menu: " + operationName);
-        findUIAutomator("new UiSelector().description(\"More options\");").click();
-        findUIAutomator("new UiSelector().text(\"" + operationName + "\");").click();
+        findUIAutomatorDescription("More options").click();
+        findUIAutomatorText(operationName).click();
     }
 
     public boolean displayedList(String path, ArrayList<OCFile> listServer) {
@@ -258,12 +253,13 @@ public class FileListPage extends CommonPage {
     }
 
     private boolean endList(int numberItems) {
-        return !findListUIAutomator("new UiSelector().text(\"" + Integer.toString(numberItems - 1)
-                + " files\");").isEmpty();
+
+        return !findListUIAutomatorText(Integer.toString(numberItems - 1) + " files")
+                .isEmpty();
     }
 
     private boolean endList() {
-        return !driver.findElements(By.id(footer_id)).isEmpty();
+        return !findListId(footer_id).isEmpty();
     }
 
     /*
@@ -271,7 +267,7 @@ public class FileListPage extends CommonPage {
      */
     public void browseInto(String folderName) {
         Log.log(Level.FINE, "Starts: browse to " + folderName);
-        findUIAutomator("new UiSelector().text(\"" + folderName + "\");").click();
+        findUIAutomatorText(folderName).click();
     }
 
     /*
@@ -332,7 +328,7 @@ public class FileListPage extends CommonPage {
         }
         if (isItemInList(itemName)) {
             Log.log(Level.FINE, "Item found: " + itemName);
-            return findUIAutomator("new UiSelector().text(\"" + itemName + "\");");
+            return findUIAutomatorText(itemName);
         } else {
             Log.log(Level.FINE, "Item not found: " + itemName);
             return null;
@@ -343,8 +339,8 @@ public class FileListPage extends CommonPage {
         Log.log(Level.FINE, "Starts: Select File to Upload: " + fileName);
         hamburger.click();
         waitByTextVisible(2, "Downloads");
-        findUIAutomator("new UiSelector().text(\"Downloads\");").click();
+        findUIAutomatorText("Downloads");
         waitByTextVisible(2, fileName);
-        findUIAutomator("new UiSelector().text(\"" + fileName + "\");").click();
+        findUIAutomatorText(fileName);
     }
 }

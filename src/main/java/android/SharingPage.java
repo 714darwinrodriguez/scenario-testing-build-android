@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import io.appium.java_client.MobileBy;
 import utils.date.DateUtils;
 import utils.entities.OCCapability;
 import utils.entities.OCShare;
@@ -30,46 +29,46 @@ public class SharingPage extends CommonPage {
     }
 
     public boolean isHeader() {
-        return !findListUIAutomator("new UiSelector().text(\"Share\");").isEmpty();
+        return !findListUIAutomatorText("Share").isEmpty();
     }
 
     public void addPrivateShare() {
         Log.log(Level.FINE, "Starts: add private share");
         waitById(15, sharefilename_id);
-        driver.findElement(MobileBy.id(addshareebutton_id)).click();
+        findId(addshareebutton_id).click();
     }
 
     public void addPublicLink() {
         Log.log(Level.FINE, "Starts: add public link");
         waitById(15, sharefilename_id);
-        driver.findElement(MobileBy.id(addpubliclinkbutton_id)).click();
+        findId(addpubliclinkbutton_id).click();
     }
 
     public void openPrivateShare(String itemName) {
         Log.log(Level.FINE, "Starts: edit private share: " + itemName);
         waitById(15, editprivateshare_id);
-        driver.findElement(MobileBy.id(editprivateshare_id)).click();
+        findId(editprivateshare_id).click();
     }
 
     public void openPublicLink(String itemName) {
         Log.log(Level.FINE, "Starts: open public link: " + itemName);
-        driver.findElement(MobileBy.id(editpubliclink_id)).click();
+        findId(editpubliclink_id).click();
     }
 
     public boolean isItemInListPrivateShares(String sharee) {
-        return !findListUIAutomator("new UiSelector().text(\"" + sharee + "\");").isEmpty();
+        return !findListUIAutomatorText(sharee).isEmpty();
     }
 
     public boolean isItemInListPublicShares(String itemName) {
-        return !findListUIAutomator("new UiSelector().text(\"" + itemName + "\");").isEmpty();
+        return !findListUIAutomatorText(itemName).isEmpty();
     }
 
     public void deletePrivateShare() {
-        driver.findElement(MobileBy.id(unshareprivate_id)).click();
+        findId(unshareprivate_id).click();
     }
 
     public void deletePublicShare() {
-        driver.findElement(MobileBy.id(deleteprivatelink_id)).click();
+        findId(deleteprivatelink_id).click();
     }
 
     public boolean checkCorrectShare(OCShare remoteShare, List<List<String>> dataList) {
@@ -160,11 +159,11 @@ public class SharingPage extends CommonPage {
     }
 
     public void acceptDeletion() {
-        driver.findElement(MobileBy.id(acceptdeletion_id)).click();
+        findId(acceptdeletion_id).click();
     }
 
     public void cancelDeletion() {
-        driver.findElement(MobileBy.id(canceldeletion_id)).click();
+        findId(canceldeletion_id).click();
     }
 
     private HashMap turnListToHashmap(List<List<String>> dataList) {

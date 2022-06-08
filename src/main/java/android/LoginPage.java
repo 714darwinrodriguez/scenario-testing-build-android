@@ -83,7 +83,7 @@ public class LoginPage extends CommonPage {
     }
 
     public boolean isCredentialsErrorMessage() {
-        return driver.findElements(MobileBy.xpath(errorcredentialstext_xpath)).size() > 0;
+        return findListXpath(errorcredentialstext_xpath).size() > 0;
     }
 
     private String selectURL(String authMehod) {

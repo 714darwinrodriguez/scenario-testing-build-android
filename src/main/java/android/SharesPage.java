@@ -24,32 +24,32 @@ public class SharesPage extends CommonPage {
 
     public boolean isSharee(String user) {
         Log.log(Level.FINE, "Starts: Sharee in list: " + user);
-        return findUIAutomator("new UiSelector().text(\"" + user + "\");").isDisplayed();
+        return findUIAutomatorText(user).isDisplayed();
     }
 
     public void switchCreate() {
         Log.log(Level.FINE, "Starts: Click create checkbox");
-        driver.findElement(MobileBy.id(createbox_id)).click();
+        findId(createbox_id).click();
     }
 
     public void switchChange() {
         Log.log(Level.FINE, "Starts: Click change checkbox");
-        driver.findElement(MobileBy.id(changebox_id)).click();
+        findId(changebox_id).click();
     }
 
     public void switchDelete() {
         Log.log(Level.FINE, "Starts: Click delete checkbox:");
-        driver.findElement(MobileBy.id(deletebox_id)).click();
+        findId(deletebox_id).click();
     }
 
     public void switchShare() {
         Log.log(Level.FINE, "Starts: Switch share button");
-        driver.findElement(MobileBy.id(sharebox_id)).click();
+        findId(sharebox_id).click();
     }
 
     public void switchEditFile() {
         Log.log(Level.FINE, "Starts: Switch edit file button");
-        driver.findElement(MobileBy.id(editbox_id)).click();
+        findId(editbox_id).click();
     }
 
     public boolean isCreateSelected() {
@@ -69,8 +69,8 @@ public class SharesPage extends CommonPage {
     }
 
     private boolean checkSwitch(String id) {
-        if (!driver.findElements(MobileBy.id(id)).isEmpty()) {
-            return driver.findElement(MobileBy.id(id)).isEnabled();
+        if (!findListId(id).isEmpty()) {
+            return findId(id).isEnabled();
         } else {
             return false;
         }
@@ -85,11 +85,11 @@ public class SharesPage extends CommonPage {
     }
 
     public boolean isShareEnabled() {
-        return driver.findElement(MobileBy.id(sharebox_id)).isEnabled();
+        return findId(sharebox_id).isEnabled();
     }
 
     public boolean isEditEnabled() {
-        return driver.findElement(MobileBy.id(changebox_id)).isEnabled();
+        return findId(changebox_id).isEnabled();
     }
 
     public boolean isPasswordEnabled() {
@@ -97,6 +97,6 @@ public class SharesPage extends CommonPage {
     }
 
     public void close() {
-        driver.findElement(MobileBy.id(closeButtonid)).click();
+        findId(closeButtonid).click();
     }
 }

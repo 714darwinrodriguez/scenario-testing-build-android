@@ -40,6 +40,7 @@ Feature: Private Share
           |  file   |  Share3.txt  |
           |  folder |  Share4      |
 
+      @federated
       Scenario Outline: Correct federated share
         Given the following items have been created in the account
           | <type>   | <item>  |
