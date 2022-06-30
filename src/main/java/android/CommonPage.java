@@ -178,16 +178,17 @@ public class CommonPage {
         wait(5);
     }
 
-    public String getBrowser() {
+    public String getContext() {
         Log.log(Level.FINE, "Getting browser");
         Set<String> contexts = getContexts();
         for (Object contextName : contexts) {
             Log.log(Level.FINE, "Context found: " + contextName);
             if (((String) contextName).contains("chrome")) {
+                driver.context("WEBVIEW_chrome");
                 return "chrome";
             }
         }
-        return "chromium";
+        return "";
     }
 
     protected Set<String> getContexts() {

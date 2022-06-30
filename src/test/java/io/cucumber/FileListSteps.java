@@ -35,6 +35,9 @@ public class FileListSteps {
     //APIs to call
     protected FilesAPI filesAPI = new FilesAPI();
 
+    public FileListSteps() throws IOException {
+    }
+
     @Given("there is an item called {word} in the folder Downloads of the device")
     public void item_in_folder_downloads(String itemName) {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();

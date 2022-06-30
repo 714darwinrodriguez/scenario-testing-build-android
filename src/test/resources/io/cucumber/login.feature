@@ -8,7 +8,6 @@ Feature: Login
   Background: App has been installed from scratch
     Given app has been launched for the first time
 
-  @smoke
   Scenario Outline: A valid login in basic auth
     Given server with basic auth is available
     And user logins as <username> with password <password> as basic auth credentials
@@ -40,8 +39,6 @@ Feature: Login
     When user logins as admin with password admin as basic auth credentials
     Then user should see the main page
 
-
-  @smoke
   Scenario: An invalid login, with wrong credentials
     Given server with basic auth is available
     When user logins as user1 with password as as basic auth credentials

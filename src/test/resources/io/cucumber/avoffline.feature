@@ -18,7 +18,6 @@ Feature: Set items as available offline (downloaded and synced)
         When Alice selects to set as av.offline the item av.offline.pdf
         Then Alice should see the file av.offline.pdf as av.offline
 
-      @smoke
       Scenario: Set a folder as available offline
         Given the following items have been created in the account
           | folder   | avOffFolder              |

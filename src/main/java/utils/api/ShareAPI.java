@@ -16,8 +16,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import utils.LocProperties;
-import utils.date.DateUtils;
-import utils.entities.OCCapability;
 import utils.entities.OCShare;
 import utils.log.Log;
 import utils.parser.ShareSAXHandler;
@@ -29,7 +27,7 @@ public class ShareAPI extends CommonAPI {
     private final String shareeU = LocProperties.getProperties().getProperty("userToShare");
     private final String shareeG = LocProperties.getProperties().getProperty("groupToShare");
 
-    public ShareAPI() {
+    public ShareAPI() throws IOException {
         super();
     }
 
@@ -38,12 +36,12 @@ public class ShareAPI extends CommonAPI {
             throws IOException {
         String url = urlServer + sharingEndpoint;
         Log.log(Level.FINE, "Starts: Create Share - " + sharingUser + " " + sharee + " "
-                + itemPath + " " + type);
+                + itemPath + " " + type + " " + permissions);
         Log.log(Level.FINE, "URL: " + url);
         Request request = postRequest(url, createBodyShare(itemPath, sharee, type, permissions, name), sharingUser);
         Response response = httpClient.newCall(request).execute();
-        Log.log(Level.FINE, String.valueOf(response.code()));
-        Log.log(Level.FINE, response.body().string());
+        Log.log(Level.FINE, "Response Code: " + response.code());
+        Log.log(Level.FINE, "Response Body: " + response.body().string());
         response.close();
     }
 
@@ -53,7 +51,6 @@ public class ShareAPI extends CommonAPI {
         Log.log(Level.FINE, "Starts: Request Share from server - " + itemPath);
         Log.log(Level.FINE, "URL: " + url);
         Request request = getRequest(url);
-        Log.log(Level.FINE, "Request done");
         Response response = httpClient.newCall(request).execute();
         Log.log(Level.FINE, "Request sent");
         OCShare share = getId(response);
@@ -100,22 +97,12 @@ public class ShareAPI extends CommonAPI {
 
     private RequestBody createBodyShare(String itemPath, String sharee, String type,
                                         String permissions, String name) {
-        //Boolean passwordEnforced = OCCapability.getInstance().isPasswordEnforced();
-        //Boolean expirationEnforced = OCCapability.getInstance().isExpirationDateEnforced();
         FormBody.Builder body = new FormBody.Builder();
-        body.add("path", "\\" + itemPath + "\\");
+        body.add("path", itemPath);
         body.add("shareType", type);
         body.add("shareWith", sharee);
         body.add("permissions", permissions);
         body.add("name", name);
-        //Password and expiration in body in case of enforcement
-        /*if (passwordEnforced) {
-            body.add("password", "a");
-        }
-        if (expirationEnforced) {
-            //Add 7 days in the future as default...
-            body.add("expirationDate", DateUtils.dateInDaysShareRequestFormat("7"));
-        }*/
         return body.build();
     }
 

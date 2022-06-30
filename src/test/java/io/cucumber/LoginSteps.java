@@ -7,6 +7,7 @@ import android.FileListPage;
 import android.LoginPage;
 import android.OIDCPage;
 
+import java.io.IOException;
 import java.util.logging.Level;
 
 import io.cucumber.java.ParameterType;
@@ -14,10 +15,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import utils.LocProperties;
-import utils.api.CommonAPI;
+import utils.api.AuthAPI;
 import utils.api.MiddlewareAPI;
 import utils.log.Log;
-import utils.parser.CapabilityJSONHandler;
 
 public class LoginSteps {
 
@@ -25,9 +25,12 @@ public class LoginSteps {
     protected LoginPage loginPage = new LoginPage();
 
     //APIs to call
-    private CommonAPI commonAPI = new CommonAPI();
     private MiddlewareAPI middlewareAPI = new MiddlewareAPI();
     private FileListPage fileListPage = new FileListPage();
+    private AuthAPI authAPI = new AuthAPI();
+
+    public LoginSteps() throws IOException {
+    }
 
     @ParameterType("basic auth|LDAP|redirection 301|redirection 302|OAuth2|OIDC")
     public String authtype(String type){
@@ -56,7 +59,7 @@ public class LoginSteps {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
         if (loginPage.notLoggedIn()) {
-            String authMethod = commonAPI.checkAuthMethod();
+            String authMethod = authAPI.checkAuthMethod();
             String username = LocProperties.getProperties().getProperty("userName1");
             String password = LocProperties.getProperties().getProperty("passw1");
             loginPage.typeURL();
@@ -81,12 +84,7 @@ public class LoginSteps {
                     break;
             }
         }
-        //Fill capabilities object
-        String capabilityJSON = commonAPI.getCapabilities();
-        CapabilityJSONHandler JSONparser = new CapabilityJSONHandler(capabilityJSON);
-        // Capabilities are not used ftm. But this could be useful if a programmatic way to
-        // modify them is found
-        //JSONparser.parsePublicLink();
+        loginPage.acceptCertificate();
     }
 
     @Given("server with {authtype} is available")

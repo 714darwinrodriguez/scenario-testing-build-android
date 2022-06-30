@@ -8,6 +8,7 @@ Feature: Move item
   Background: User is logged in
     Given user Alice is logged
 
+  @smoke
   Scenario Outline: Move an existent folder to another location
     Given the following items have been created in the account
       | <type>   | <name>  |

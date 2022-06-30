@@ -8,6 +8,7 @@ Feature: Download a file in the account
   Background: User is logged in
     Given user Alice is logged
 
+  @smoke
   Scenario: Download a file that is previewable
     Given the following items have been created in the account
       | file   | downloadMe.txt  |
@@ -15,6 +16,7 @@ Feature: Download a file in the account
     Then the item downloadMe.txt should be opened and previewed
     And the item downloadMe.txt should be marked as downloaded
 
+  @smoke
   Scenario: Download a file that is not previewable
     Given the following items have been created in the account
       | file   | downloadMe.zip  |
@@ -29,6 +31,7 @@ Feature: Download a file in the account
     Then the item downloadMe2.txt should be opened and previewed
     And the item downloadMe2.txt should be marked as downloaded
 
+  @smoke
   Scenario: Download an updated file
     Given the following items have been created in the account
       | file   | downloadMe3.txt   |

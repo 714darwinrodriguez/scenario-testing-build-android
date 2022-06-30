@@ -5,7 +5,6 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 import java.util.logging.Level;
 
-import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -71,15 +70,22 @@ public class LoginPage extends CommonPage {
     public void typeCredentials(String username, String password) {
         Log.log(Level.FINE, "Starts: Type credentials: username: "
                 + username + " - password: " + password);
-        waitById(15, userNameText);
+        acceptCertificate();
         userNameText.sendKeys(username);
         passwordText.sendKeys(password);
     }
 
     public void submitLogin() {
         Log.log(Level.FINE, "Starts: Submit login");
-        waitById(15, loginButton);
+        Log.log(Level.FINE, "Starts: enter OIDC credentials");
+        acceptCertificate();
         loginButton.click();
+    }
+
+    public void acceptCertificate(){
+        if (!findListUIAutomatorText("YES").isEmpty()){
+            findListUIAutomatorText("YES").get(0).click();
+        }
     }
 
     public boolean isCredentialsErrorMessage() {

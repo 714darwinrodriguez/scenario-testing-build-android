@@ -7,6 +7,7 @@ import android.SearchShareePage;
 import android.SharesPage;
 import android.SharingPage;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -30,6 +31,9 @@ public class SharesSteps {
     //APIs to call
     protected ShareAPI shareAPI = new ShareAPI();
     protected FilesAPI filesAPI = new FilesAPI();
+
+    public SharesSteps() throws IOException {
+    }
 
     @ParameterType("user|group")
     public String usertype(String type){

@@ -8,6 +8,7 @@ Feature: Copy item
   Background: User is logged in
     Given user Alice is logged
 
+  @smoke
   Scenario Outline: Copy an existent item to another location
     Given the following items have been created in the account
       | <type>   | <name>  |

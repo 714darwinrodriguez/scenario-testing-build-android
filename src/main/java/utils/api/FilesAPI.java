@@ -22,13 +22,13 @@ import utils.parser.FileSAXHandler;
 
 public class FilesAPI extends CommonAPI {
 
-    public FilesAPI() {
+    public FilesAPI() throws IOException {
         super();
     }
 
     public void removeItem(String itemName)
             throws IOException {
-        String url = urlServer + davEndpoint + user + "/" + itemName + "/";
+        String url = urlServer + getEndpoint() + "/" + itemName + "/";
         Log.log(Level.FINE, "Starts: Request remove item from server");
         Log.log(Level.FINE, "URL: " + url);
         Request request = deleteRequest(url);
@@ -38,7 +38,7 @@ public class FilesAPI extends CommonAPI {
 
     public void createFolder(String folderName)
             throws IOException {
-        String url = urlServer + davEndpoint + user + "/" + folderName + "/";
+        String url = urlServer + getEndpoint() + "/" + folderName + "/";
         Log.log(Level.FINE, "Starts: Request create folder");
         Log.log(Level.FINE, "URL: " + url);
         Request request = davRequest(url, "MKCOL", null);
@@ -48,7 +48,7 @@ public class FilesAPI extends CommonAPI {
 
     public void pushFile(String fileName)
             throws IOException {
-        String url = urlServer + davEndpoint + user + "/" + fileName + "/";
+        String url = urlServer + getEndpoint() + "/" + fileName + "/";
         Log.log(Level.FINE, "Starts: Request create file");
         Log.log(Level.FINE, "URL: " + url);
         RequestBody body = RequestBody.create(MediaType.parse("text/plain"),
@@ -60,7 +60,7 @@ public class FilesAPI extends CommonAPI {
 
     public void pushFile(String fileName, String content)
             throws IOException {
-        String url = urlServer + davEndpoint + user + "/" + fileName + "/";
+        String url = urlServer + getEndpoint() + "/" + fileName + "/";
         Log.log(Level.FINE, "Starts: Request modification file");
         Log.log(Level.FINE, "URL: " + url);
         RequestBody body = RequestBody.create(MediaType.parse("text/plain"),
@@ -72,7 +72,7 @@ public class FilesAPI extends CommonAPI {
 
     public boolean itemExist(String itemName)
             throws IOException {
-        String url = urlServer + davEndpoint + user + "/" + itemName;
+        String url = urlServer + getEndpoint() + "/" + itemName;
         Log.log(Level.FINE, "Starts: Request check if item exists in server");
         Log.log(Level.FINE, "URL: " + url);
         Response response;
@@ -99,7 +99,7 @@ public class FilesAPI extends CommonAPI {
 
     public boolean isFolder(String itemName)
             throws IOException, SAXException, ParserConfigurationException {
-        String url = urlServer + davEndpoint + user + "/" + itemName;
+        String url = urlServer + getEndpoint() + "/" + itemName;
         Log.log(Level.FINE, "Starts: Request check if item is file or folder");
         Log.log(Level.FINE, "URL: " + url);
         Response response;
@@ -113,7 +113,7 @@ public class FilesAPI extends CommonAPI {
     public ArrayList<OCFile> listItems(String path)
             throws IOException, SAXException, ParserConfigurationException {
         Response response;
-        String url = urlServer + davEndpoint + user + path;
+        String url = urlServer + getEndpoint() + path;
         Log.log(Level.FINE, "Starts: Request to fetch list of items from server");
         Log.log(Level.FINE, "URL: " + url);
         RequestBody body = RequestBody.create(MediaType.parse("application/xml; charset=utf-8"),

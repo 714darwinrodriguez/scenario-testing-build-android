@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import android.LinksPage;
 import android.SharingPage;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -28,6 +29,9 @@ public class LinksSteps {
     //APIs to call
     protected ShareAPI shareAPI = new ShareAPI();
     protected FilesAPI filesAPI = new FilesAPI();
+
+    public LinksSteps() throws IOException {
+    }
 
     @ParameterType("item|file|folder")
     public String itemtype(String type){
@@ -134,10 +138,12 @@ public class LinksSteps {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
         //Asserts in UI
+        Log.log(Level.FINE, "Checking UI asserts");
         List<List<String>> listItems = table.asLists();
         for (List<String> rows : listItems) {
             switch (rows.get(0)) {
                 case "name": {
+                    Log.log(Level.FINE, "Checking name: " + rows.get(1));
                     assertTrue(sharingPage.isItemInListPublicShares(rows.get(1)));
                     break;
                 }
@@ -148,17 +154,19 @@ public class LinksSteps {
                     break;
                 }
                 case "user": {
+                    Log.log(Level.FINE, "checking user: " + itemName);
                     assertTrue(sharingPage.isItemInListPublicShares(itemName));
                     break;
                 }
                 case "permission": {
-                    Log.log(Level.FINE, "checking permissions");
+                    Log.log(Level.FINE, "checking permissions: " + rows.get(1));
                     sharingPage.openPublicLink(itemName);
                     assertTrue(linksPage.checkPermissions(rows.get(1)));
                     linksPage.close();
                     break;
                 }
                 case "expiration days": {
+                    Log.log(Level.FINE, "checking expirations day: " + rows.get(1));
                     sharingPage.openPublicLink(itemName);
                     assertTrue(linksPage.checkExpiration(rows.get(1)));
                     linksPage.close();
@@ -169,6 +177,7 @@ public class LinksSteps {
             }
         }
         //Asserts in server via API
+        Log.log(Level.FINE, "Checking API/server asserts");
         OCShare share = shareAPI.getShare(itemName);
         assertTrue(sharingPage.checkCorrectShare(share, listItems));
         filesAPI.removeItem(itemName);
@@ -179,6 +188,7 @@ public class LinksSteps {
             throws Throwable {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
+        Log.log(Level.FINE, "Checking if item exists: " + itemName);
         assertFalse(sharingPage.isItemInListPublicShares(itemName + " link"));
         assertTrue(shareAPI.getShare(itemName) == null);
         filesAPI.removeItem(itemName);

@@ -6,39 +6,31 @@ import utils.log.Log;
 
 public class OIDCPage extends CommonPage {
 
-    private String browser;
-
-    private String username_xpath = "//*[@id=\"oc-login-username\"]";
-    private String password_xpath = "//*[@id=\"oc-login-password\"]";
-    private String submit_xpath = "//*[@id=\"root\"]/div/div/div/div/form/div[3]/button";
-    private String authorize_xpath = "//*[@id=\"root\"]/div/div/div/div/form/div/div[2]/button";
+    //Xpaths... ids not working
+    private final String username_xpath = "/html/body/main/div/div/div/div/form/div[1]/input";
+    private final String password_xpath = "/html/body/main/div/div/div/div/form/div[2]/input";
+    private final String login_xpath = "/html/body/main/div/div/div/div/form/div[3]/button/span[1]";
+    private final String allow_xpath = "/html/body/main/div/div/div/div/form/div/div[2]/button/span[1]";
 
     public OIDCPage() {
+        super();
         waitForWebContext();
-        Log.log(Level.FINE, "Browser charged");
-        String browser = getBrowser();
-        Log.log(Level.FINE, "Selected browser: " + browser);
-        this.browser = browser;
+        String context = getContext();
+        Log.log(Level.FINE, "Selected context: " + context);
     }
 
-    public void enterCredentials(String username, String password) {
-
-        if (browser.equalsIgnoreCase("chrome")) {
-            driver.context("WEBVIEW_chrome");
-        }
-
-        Log.log(Level.FINE, "Starts: enter OIDC credentials");
-        if (!findListXpath(username_xpath).isEmpty()){
-            Log.log(Level.FINE, "Entering credentials");
-            findXpath(username_xpath).sendKeys(username);
+    public void enterCredentials(String userName, String password) {
+        if (!findListXpath(username_xpath).isEmpty()) {
+            findXpath(username_xpath).sendKeys(userName);
             findXpath(password_xpath).sendKeys(password);
-            findXpath(submit_xpath).click();
+            findXpath(login_xpath).click();
         }
     }
 
-    public void authorize() {
+    public void authorize(){
         Log.log(Level.FINE, "Starts: Authorize OIDC");
-        findXpath(authorize_xpath).click();
+        waitByXpath(5, allow_xpath);
+        findXpath(allow_xpath).click();
         driver.context("NATIVE_APP");
     }
 }

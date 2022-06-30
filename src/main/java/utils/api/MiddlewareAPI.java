@@ -20,7 +20,8 @@ public class MiddlewareAPI extends CommonAPI {
     protected String executeEndpoint = "\\execute";
     protected String cleanupEndpoint = "\\cleanup";
 
-    public MiddlewareAPI() {
+    public MiddlewareAPI() throws IOException {
+        super();
     }
 
     public void postMiddlewareInit() throws IOException {
