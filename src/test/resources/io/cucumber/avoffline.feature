@@ -72,7 +72,7 @@ Feature: Set items as available offline (downloaded and synced)
     @unsetavoffline
     Rule: Unset as av.offline
 
-      Scenario Outline: Unset a file as available offline
+      Scenario Outline: Unset an item as available offline
         Given the following items have been created in the account
           | <type>   | <item>  |
         And Alice selects to set as av.offline the item <item>

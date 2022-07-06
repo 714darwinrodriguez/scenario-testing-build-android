@@ -21,3 +21,11 @@ Feature: Move item
       | type     |  name          | target     |
       | folder   |  Movefolder    | Documents  |
       | file     |  Movefile.txt  | Documents  |
+
+  Scenario: Move a folder to itself
+    Given the following items have been created in the account
+      | folder   | move2  |
+    When Alice selects to Move the folder move2
+    And Alice selects move2 as target folder
+    Then Alice should see the following error
+      | It is not possible to move a folder into a descendant |

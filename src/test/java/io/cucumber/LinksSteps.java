@@ -43,7 +43,7 @@ public class LinksSteps {
             throws Throwable {
         String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
         Log.log(Level.FINE, "----STEP----: " + stepName);
-        shareAPI.createShare(sharingUser, itemName, "", "3", "1", itemName);
+        shareAPI.createShare(sharingUser, itemName, "", "3", "1", itemName + " link");
     }
 
     @When("Alice creates link on {word} {word} with the following fields")

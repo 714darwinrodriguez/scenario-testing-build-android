@@ -40,7 +40,7 @@ Feature: Private Share
           |  file   |  Share3.txt  |
           |  folder |  Share4      |
 
-      @federated
+      @federated @ignore
       Scenario Outline: Correct federated share
         Given the following items have been created in the account
           | <type>   | <item>  |
@@ -114,6 +114,7 @@ Feature: Private Share
           |  Share12.txt  |   Bob     |    19        |  both update and share
           |  Share13.txt  |   Bob     |    1         |  neither update nor share
 
+        @edit2
       Scenario Outline: Edit existing share on a folder, changing permissions
         Given the following items have been created in the account
           | folder   | <item>  |

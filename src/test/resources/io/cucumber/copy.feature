@@ -21,3 +21,11 @@ Feature: Copy item
       | type     |  name          | target     |
       | folder   |  Copyfolder    | Documents  |
       | file     |  Copyfile.txt  | Documents  |
+
+  Scenario: Copy a folder to itself
+    Given the following items have been created in the account
+      | folder   | copy2  |
+    When Alice selects to Copy the folder copy2
+    And Alice selects copy2 as target folder
+    Then Alice should see the following error
+      | It is not possible to copy a folder into a descendant |

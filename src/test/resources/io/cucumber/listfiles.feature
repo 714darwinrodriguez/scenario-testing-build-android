@@ -18,7 +18,7 @@ Feature: List of files is correctly retrieved from server.
           | /          |
           | Photos     |
 
-      Scenario: Check items in the list of files of an created folder
+      Scenario: Check items in the list of files of a created folder
         Given the following items have been created in the account
           | folder   | Many  |
         And the folder Many contains 10 files
