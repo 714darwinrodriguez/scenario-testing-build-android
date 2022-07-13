@@ -109,12 +109,11 @@ Feature: Private Share
 
         Examples:
           |  item         |   user    |  permissions | Description
-          |  Share10.txt  |   Bob     |    3         |  only update
-          |  Share11.txt  |   Bob     |    17        |  only share
-          |  Share12.txt  |   Bob     |    19        |  both update and share
-          |  Share13.txt  |   Bob     |    1         |  neither update nor share
+          |  Share10.txt  |   Bob     |    3         |  update and read
+          |  Share11.txt  |   Bob     |    17        |  share and read
+          |  Share12.txt  |   Bob     |    19        |  update, share and read
+          |  Share13.txt  |   Bob     |    1         |  only read
 
-        @edit2
       Scenario Outline: Edit existing share on a folder, changing permissions
         Given the following items have been created in the account
           | folder   | <item>  |
@@ -127,11 +126,11 @@ Feature: Private Share
           | permissions   |  <permissions> |
 
         Examples:
-          |  item      |   user    | permissions |
-          |  Share14   |   Bob     |   1         |
-          |  Share15   |   Bob     |   9         |
-          |  Share16   |   Bob     |   13        |
-          |  Share17   |   Bob     |   17        |
+          |  item      |   user    | permissions | Description
+          |  Share14   |   Bob     |   1         | only read
+          |  Share15   |   Bob     |   9         | delete and read
+          |  Share16   |   Bob     |   13        | delete, create and read
+          |  Share17   |   Bob     |   17        | share and read
 
     @deleteshare
     Rule: Delete a share

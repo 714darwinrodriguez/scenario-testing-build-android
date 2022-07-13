@@ -351,4 +351,12 @@ public class FileListSteps {
         Log.log(Level.FINE, "----STEP----: " + stepName);
         assertTrue(detailsPage.shareSheetDisplayed(itemName));
     }
+
+    @Then("Alice cannot unset as av.offline the item {word}")
+    public void cannot_unset_avoffline(String itemName){
+        String stepName = new Object(){}.getClass().getEnclosingMethod().getName();
+        Log.log(Level.FINE, "----STEP----: " + stepName);
+        fileListPage.selectItemList(itemName);
+        assertFalse(fileListPage.operationAvailable("Unset as available offline"));
+    }
 }

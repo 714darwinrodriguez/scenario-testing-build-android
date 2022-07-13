@@ -219,10 +219,20 @@ public class FileListPage extends CommonPage {
         return findListId(unavofflineoption_id).isEmpty();
     }
 
+    private void openMenuActions(){
+        findUIAutomatorDescription("More options").click();
+    }
+
     private void selectOperationMenu(String operationName) {
         Log.log(Level.FINE, "Starts: Select operation from the menu: " + operationName);
-        findUIAutomatorDescription("More options").click();
+        openMenuActions();
         findUIAutomatorText(operationName).click();
+    }
+
+    public boolean operationAvailable(String operationName){
+        Log.log(Level.FINE, "Starts: Check if operation is available: " + operationName);
+        openMenuActions();
+        return !findListUIAutomatorText(operationName).isEmpty();
     }
 
     public boolean displayedList(String path, ArrayList<OCFile> listServer) {

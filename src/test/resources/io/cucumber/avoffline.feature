@@ -67,7 +67,7 @@ Feature: Set items as available offline (downloaded and synced)
           | file   | avoff4.txt   |
         When Alice selects to set as av.offline the item avoff4.txt
         And file avoff4.txt is modified externally adding "updated"
-        And Alice should see the file avoff4.txt with "updated"
+        Then Alice should see the file avoff4.txt with "updated"
 
     @unsetavoffline
     Rule: Unset as av.offline
@@ -83,6 +83,14 @@ Feature: Set items as available offline (downloaded and synced)
           | type   | item       |
           | file   | avOff5.txt |
           | folder | avOff6     |
+
+      Scenario: Not posible to unset an item as available offline if parent is av. offline
+        Given the following items have been created in the account
+          | folder  | avOff7            |
+          | file    | avOff7/avOff8.txt |
+        When Alice selects to set as av.offline the item avOff7
+        And Alice browses into avOff7
+        Then Alice cannot unset as av.offline the item avOff8.txt
 
     @avofflineshortcut
     Rule: Av. offline shortcut

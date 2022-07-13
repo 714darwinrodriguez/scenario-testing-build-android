@@ -9,7 +9,7 @@ Feature: Delete item
     Given user Alice is logged
 
   @smoke
-  Scenario Outline: Delete an existent folder
+  Scenario Outline: Delete an existent item
     Given the following items have been created in the account
       | <type>   | <name>  |
     When Alice selects to Remove the <type> <name>
